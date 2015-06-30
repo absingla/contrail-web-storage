@@ -13,9 +13,18 @@ define([
         this.MONITOR_STORAGENODE_LIST_VIEW_ID = "monitor-storagenode-list-view";
         this.MONITOR_STORAGENODES_ID = "monitor-storagenodes";
 
+        this.MONITOR_DISKS_ID = "monitor-disks";
+        this.MONITOR_DISK_LIST_PAGE_ID = "monitor-disk-list-page"
+        this.MONITOR_DISK_LIST_VIEW_ID = "monitor-disk-list-view";
+        this.MONITOR_DISK_LIST_ID = "monitor-disk-list";
+        this.MONITOR_DISK_GRID_ID = "monitor-disk-grid";
+
         this.TITLE_STORAGENODES = "Storage Nodes";
         this.TITLE_STORAGENODES_SUMMARY = "Storage Nodes Summary";
         this.TITLE_STORAGENODE_DETAILS = "Storage Node Details";
+
+        this.TITLE_DISKS = "Disks";
+        this.TITLE_DISKS_SUMMARY = "Disks Summary";
 
         this.TITLE_GRAPH_ELEMENT_STORAGENODE = "storage node";
 

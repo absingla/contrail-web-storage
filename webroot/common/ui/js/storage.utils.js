@@ -6,46 +6,48 @@ define([
     'underscore',
     'contrail-view-model',
     'monitor/infrastructure/ui/js/views/StoragenodeGridView',
-    'monitor/infrastructure/ui/js/views/StoragenodeListView'
-], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView) {
+    'monitor/infrastructure/ui/js/views/StoragenodeListView',
+    'monitor/storage/ui/js/views/DiskListView',
+    'monitor/storage/ui/js/views/DiskGridView'
+], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, DiskListView, DiskGridView) {
     var SUtils = function () {
         var self = this;
 
-        self.getDownNodeCnt = function(data) {
-            var downNodes = $.grep(data, function(obj, idx) {
+        self.getDownNodeCnt = function (data) {
+            var downNodes = $.grep(data, function (obj, idx) {
                 return obj['color'] == d3Colors['red'];
             });
             return downNodes.length;
         };
 
-        self.clearTimers = function() {
-            $.each(storageConsoleTimer, function(idx, value) {
+        self.clearTimers = function () {
+            $.each(storageConsoleTimer, function (idx, value) {
                 logMessage("clearing timer:", value);
                 clearTimeout(value)
             });
             storageConsoleTimer = [];
         };
 
-        self.getHealthSevLevelLbl = function(obj) {
-            if(obj == 'HEALTH_OK' || obj == 'OK' || obj == 'up')
+        self.getHealthSevLevelLbl = function (obj) {
+            if (obj == 'HEALTH_OK' || obj == 'OK' || obj == 'up')
                 return 'INFO';
             else if (obj == 'HEALTH_WARN' || obj == 'warn')
                 return 'WARNING';
-            else if(obj == 'HEALTH_ERR' || obj == 'HEALTH_CRIT' || obj == 'down')
+            else if (obj == 'HEALTH_ERR' || obj == 'HEALTH_CRIT' || obj == 'down')
                 return 'ERROR';
             else
                 return 'NOTICE';
         };
 
-        self.byteToGB = function(bytes) {
+        self.byteToGB = function (bytes) {
             return (bytes / 1073741824).toFixed(2);
         };
 
-        self.calcPercent = function(val1, val2) {
+        self.calcPercent = function (val1, val2) {
             return ((val1 / val2) * 100).toFixed(2);
         };
 
-        self.getStorageNodeColor = function(d, obj) {
+        self.getStorageNodeColor = function (d, obj) {
             obj = ifNull(obj, {});
             if (obj['status'] == "down")
                 return d3Colors['red'];
@@ -54,7 +56,7 @@ define([
             return d3Colors['blue'];
         };
 
-        self.getStorageNodeStatusTmpl = function(obj) {
+        self.getStorageNodeStatusTmpl = function (obj) {
             var statusTmpl = contrail.getTemplate4Id('storage-status-template');
             if (obj == "up")
                 return "<span> " + statusTmpl({
@@ -78,7 +80,7 @@ define([
                     }) + " N/A</span>";
         };
 
-        self.processStorageNodeAlerts = function(obj) {
+        self.processStorageNodeAlerts = function (obj) {
             var alertsList = [];
             var infoObj = {
                 name: obj['name'],
@@ -86,7 +88,7 @@ define([
                 ip: obj['ip']
             };
 
-            $.each(obj['osds'], function(idx, osd) {
+            $.each(obj['osds'], function (idx, osd) {
                 if (osd['status'] == 'down') {
                     alertsList.push($.extend({}, {
                         ip: osd['public_addr'],
@@ -111,7 +113,7 @@ define([
                 }, infoObj));
 
             if (obj['errorStrings'] != null && obj['errorStrings'].length > 0) {
-                $.each(obj['errorStrings'], function(idx, errorString) {
+                $.each(obj['errorStrings'], function (idx, errorString) {
                     alertsList.push($.extend({}, {
                         sevLevel: sevLevels['WARNING'],
                         msg: errorString
@@ -121,7 +123,7 @@ define([
             return alertsList.sort(dashboardUtils.sortInfraAlerts);
         };
 
-        self.processStorageHealthAlerts = function(obj) {
+        self.processStorageHealthAlerts = function (obj) {
             var alertsList = [];
             var _this = self;
             var timeStamp = new Date(obj['last_updated_time']).getTime() * 1000;
@@ -132,9 +134,9 @@ define([
                 timeStamp: timeStamp
             };
 
-            $.each(obj['health']['details'], function(idx, msg) {
+            $.each(obj['health']['details'], function (idx, msg) {
                 var msgArr = msg.split(" ");
-                if (msgArr.slice(0,1)[0].indexOf("mon") > -1) {
+                if (msgArr.slice(0, 1)[0].indexOf("mon") > -1) {
                     alertsList.push({
                         name: msgArr[0].split(".")[1],
                         type: 'Storage Monitor',
@@ -151,7 +153,7 @@ define([
                 }
             });
 
-            $.each(obj['health']['summary'], function(idx, msg) {
+            $.each(obj['health']['summary'], function (idx, msg) {
                 alertsList.push($.extend({}, {
                     sevLevel: sevLevels[_this.getHealthSevLevelLbl(msg['severity'])],
                     msg: msg['summary']
@@ -161,25 +163,53 @@ define([
             return alertsList.sort(dashboardUtils.sortInfraAlerts);
         };
 
-        self.renderView = function(viewName, parentElement, model, viewAttributes, modelMap) {
+        self.byteToGB = function (bytes) {
+            var gb = (bytes / 1073741824).toFixed(2);
+            return gb;
+        }
+
+        self.kiloByteToGB = function (kbytes) {
+            var gb = (kbytes / 1048576).toFixed(2);
+            return gb;
+        }
+
+        self.renderView = function (viewName, parentElement, model, viewAttributes, modelMap) {
             var elementView;
 
             switch (viewName) {
                 case "StoragenodeListView" :
-                    elementView = new StoragenodeListView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new StoragenodeListView({
+                        el: parentElement,
+                        model: model,
+                        attributes: viewAttributes
+                    });
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;
 
                 case "StoragenodeGridView" :
-                    elementView = new StoragenodeGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new StoragenodeGridView({
+                        el: parentElement,
+                        model: model,
+                        attributes: viewAttributes
+                    });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DiskListView" :
+                    elementView = new DiskListView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DiskGridView" :
+                    elementView = new DiskGridView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;
             }
         }
-
-
     };
 
     return SUtils;

@@ -6,7 +6,7 @@ define([
     'underscore'
 ], function (_) {
     var SParsers = function () {
-        this.storagenodeDataParser = function(response) {
+        this.storagenodeDataParser = function (response) {
             var retArr = [],
                 def_topology = {};
 
@@ -14,7 +14,7 @@ define([
              * with multi-backend support, there are different topology output in response.
              * currently only using 'default' type which is the common pool.
              */
-            $.each(response.topology, function(idx, topology) {
+            $.each(response.topology, function (idx, topology) {
                 if (topology['name'] == 'default') {
                     def_topology = topology;
                 } else {
@@ -22,7 +22,7 @@ define([
                 }
             });
 
-            $.each(def_topology.hosts, function(idx, host) {
+            $.each(def_topology.hosts, function (idx, host) {
                 var obj = {};
                 obj['available_perc'] = $.isNumeric(host['avail_percent']) ? host['avail_percent'].toFixed(2) : '-';
                 obj['total'] = formatBytes(host['kb_total'] * 1024);
@@ -38,13 +38,13 @@ define([
                 obj['tot_avg_bw'] = 0;
                 obj['tot_avg_read_kb'] = 0;
                 obj['tot_avg_write_kb'] = 0;
-                $.each(host.osds, function(idx, osd) {
+                $.each(host.osds, function (idx, osd) {
                     if (osd.hasOwnProperty('kb') && osd.hasOwnProperty('kb_used')) {
                         obj['osds_total'] += osd['kb'] * 1024;
                         obj['osds_used'] += osd['kb_used'] * 1024;
                     }
-                    if (!isEmptyObject(osd['avg_bw'])){
-                        if($.isNumeric(osd['avg_bw']['reads_kbytes']) && $.isNumeric(osd['avg_bw']['writes_kbytes'])){
+                    if (!isEmptyObject(osd['avg_bw'])) {
+                        if ($.isNumeric(osd['avg_bw']['reads_kbytes']) && $.isNumeric(osd['avg_bw']['writes_kbytes'])) {
                             obj['tot_avg_bw'] += osd['avg_bw']['reads_kbytes'] + osd['avg_bw']['writes_kbytes'];
                             obj['tot_avg_read_kb'] += osd['avg_bw']['reads_kbytes'];
                             obj['tot_avg_write_kb'] += osd['avg_bw']['writes_kbytes'];
@@ -109,6 +109,145 @@ define([
             return retArr;
         };
 
+        this.disksDataParser = function (response) {
+            var formattedResponse = [],
+                osdErrArr = [],
+                osdChartArr = [],
+                osdArr = [],
+                osdUpInArr = [],
+                osdDownArr = [],
+                osdUpOutArr = [],
+                skip_osd_bubble = new Boolean(),
+                statusTemplate = contrail.getTemplate4Id("disk-status-template");
+
+            if (response != null) {
+                var osds = response.osds;
+                $.each(osds, function (idx, osd) {
+                    skip_osd_bubble = false;
+
+                    if (osd.kb) {
+                        osd.available_perc = swu.calcPercent(osd.kb_avail, osd.kb);
+                        osd.x = parseFloat(100 - osd.available_perc);
+                        osd.gb = swu.kiloByteToGB(osd.kb);
+                        //osd.y = parseFloat(osd.gb);
+                        osd.total = formatBytes(osd.kb * 1024);
+                        osd.used = formatBytes(osd.kb_used * 1024);
+                        osd.gb_avail = swu.kiloByteToGB(osd.kb_avail);
+                        osd.gb_used = swu.kiloByteToGB(osd.kb_used);
+                        osd.color = getOSDColor(osd);
+                        osd.shape = 'circle';
+                        osd.size = 1;
+                    } else {
+                        skip_osd_bubble = true;
+                        osd.gb = 'N/A';
+                        osd.total = 'N/A';
+                        osd.used = 'N/A';
+                        osd.gb_used = 'N/A';
+                        osd.gb_avail = 'N/A';
+                        osd.available_perc = 'N/A';
+                        osd.x = 'N/A';
+                    }
+                    if (!isEmptyObject(osd.avg_bw)) {
+                        if ($.isNumeric(osd.avg_bw.reads_kbytes) && $.isNumeric(osd.avg_bw.writes_kbytes)) {
+                            osd.y = (osd.avg_bw.reads_kbytes + osd.avg_bw.writes_kbytes) * 1024;
+                            osd.tot_avg_bw = formatBytes(osd.y);
+                            osd.avg_bw.read = formatBytes(osd.avg_bw.reads_kbytes * 1024);
+                            osd.avg_bw.write = formatBytes(osd.avg_bw.writes_kbytes * 1024);
+                        } else {
+                            osd.tot_avg_bw = 'N/A';
+                            osd.y = 0;
+                            osd.avg_bw.read = 'N/A';
+                            osd.avg_bw.write = 'N/A';
+                        }
+                    }
+                    /**
+                     * osd status template UP?DOWN
+                     */
+                    osd.status_tmpl = "<span> " + statusTemplate({
+                            sevLevel: sevLevels['NOTICE'],
+                            sevLevels: sevLevels
+                        }) + " up</span>";
+                    if (osd.status == 'down')
+                        osd.status_tmpl = "<span> " + statusTemplate({
+                                sevLevel: sevLevels['ERROR'],
+                                sevLevels: sevLevels
+                            }) + " down</span>";
+                    /**
+                     * osd cluster membership template IN?OUT
+                     */
+                    osd.cluster_status_tmpl = "<span> " + statusTemplate({
+                            sevLevel: sevLevels['INFO'],
+                            sevLevels: sevLevels
+                        }) + " in</span>";
+                    if (osd.cluster_status == 'out')
+                        osd.cluster_status_tmpl = "<span> " + statusTemplate({
+                                sevLevel: sevLevels['WARNING'],
+                                sevLevels: sevLevels
+                            }) + " out</span>";
+
+                    // Add to OSD scatter chart data of flag is not set
+                    if (!skip_osd_bubble) {
+                        if (osd.status == "up") {
+                            if (osd.cluster_status == "in") {
+                                osdUpInArr.push(osd);
+                            } else if (osd.cluster_status == "out") {
+                                osdUpOutArr.push(osd);
+                            } else {
+                            }
+                        } else if (osd.status == "down") {
+                            osdDownArr.push(osd);
+                        } else {
+                        }
+                    } else {
+                        osdErrArr.push(osd.name);
+                    }
+                    // All OSDs data should be pushed here for List grid
+                    osdArr.push(osd);
+                });
+
+                var upInGroup = {}, upOutGroup = {}, downGroup = {};
+                //UP & IN OSDs
+                upInGroup.key = "UP & IN ";
+                upInGroup.values = osdUpInArr;
+                upInGroup.color = swc.color_success;
+                osdChartArr.push(upInGroup);
+                //UP & OUT OSDs
+                upOutGroup.key = "UP & OUT";
+                upOutGroup.values = osdUpOutArr;
+                upOutGroup.color = swc.color_warn;
+                osdChartArr.push(upOutGroup);
+                //Down OSDs
+                downGroup.key = "Down";
+                downGroup.values = osdDownArr;
+                downGroup.color = swc.color_imp;
+                osdChartArr.push(downGroup);
+            }
+
+            formattedResponse.push({
+                disksGrid: osdArr,
+                disksChart: osdChartArr,
+                disksError: osdErrArr
+            });
+
+            console.log(osdArr);
+
+            return osdArr;
+        };
     };
+
+
+    function getOSDColor(d, obj) {
+        if (d['status'] == 'up') {
+            if (d['cluster_status'] == 'in')
+                return d3Colors['green'];
+            else if (d['cluster_status'] == 'out')
+                return d3Colors['orange']
+            else
+                return d3Colors['blue']
+        } else if (d['status'] == 'down')
+            return d3Colors['red']
+        else {}
+    };
+
     return SParsers;
 });

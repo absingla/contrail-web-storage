@@ -24,7 +24,6 @@ define([
         renderStoragenodeList: function () {
             cowu.renderView4Config(this.$el, null, getStoragenodeListConfig());
         }
-
     });
 
     function getStoragenodeListConfig() {

@@ -2,20 +2,20 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-var msPageLoader = new MonitorStoragenodesLoader();
+var infraStoragePageLoader = new MonitorInfraStorageLoader();
 
-function MonitorStoragenodesLoader() {
+function MonitorInfraStorageLoader() {
     this.load = function (paramObject) {
         var self = this, currMenuObj = globalObj.currMenuObj,
             hashParams = paramObject['hashParams'],
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathMSView = rootDir + '/js/views/MonitorStorageView.js',
+            pathMSView = rootDir + '/js/views/MonitorInfraStorageView.js',
             renderFn = paramObject['function'];
 
         check4StorageInit(function () {
-            if (self.msView == null) {
-                requirejs([pathMSView], function (MonitorStorageView) {
-                    self.msView = new MonitorStorageView();
+            if (self.infraStorageView == null) {
+                requirejs([pathMSView], function (MonitorInfraStorageView) {
+                    self.infraStorageView = new MonitorInfraStorageView();
                     self.renderView(renderFn, hashParams);
                 });
             } else {
@@ -24,21 +24,31 @@ function MonitorStoragenodesLoader() {
         });
     };
     this.renderView = function (renderFn, hashParams) {
+        console.log("I am in render view");
+
         $(contentContainer).html("");
         switch (renderFn) {
             case 'renderStoragenodes':
                 if (hashParams.type == "storagenode") {
                     if (hashParams.view == "details") {
-                        this.msView.renderStoragenode({hashParams: hashParams});
+                        this.infraStorageView.renderStoragenode({hashParams: hashParams});
                     } else {
-                        this.msView.renderStoragenodeList({hashParams: hashParams});
+                        this.infraStorageView.renderStoragenodeList({hashParams: hashParams});
                     }
+                }
+                break;
+
+            case 'renderDisks':
+                if (hashParams.type == "disk") {
+                    this.infraStorageView.renderDiskList({hashParams: hashParams});
                 }
                 break;
         }
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
         var renderFn;
+
+        console.log(hashObj);
 
         if(hashObj.type == "storagenode"){
             renderFn = "renderStoragenodes";
