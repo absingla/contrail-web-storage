@@ -26,6 +26,17 @@ and need to add the iconClass tag wherever we need to show some icons
               <css>contrail.storage.infra.css</css>
               <view>monitor_infra_storage_common.view</view>
             </resource>
+            <resource>
+                <rootDir>/common/ui</rootDir>
+                <js>storage.app.js</js>
+                <template>storage.tmpl</template>
+                <class>msPageLoader</class>
+            </resource>
+            <resource>
+                <rootDir>/monitor/infrastructure/ui</rootDir>
+                <js>storage.main.js</js>
+                <class>msPageLoader</class>
+            </resource>
           </resources>
           <access>
             <roles>
@@ -64,6 +75,23 @@ and need to add the iconClass tag wherever we need to show some icons
                   <class>storNodesView</class>
                 </resource>
               </resources>
+              <searchStrings>Monitor Storage Nodes</searchStrings>
+            </item>
+            <item>
+              <hash>mon_infra_storagemvc</hash>
+              <label>Storage Nodes (MVC)</label>
+              <resources>
+                  <resource>
+                      <rootDir>/monitor/infrastructure/ui</rootDir>
+                      <class>msPageLoader</class>
+                      <function>renderStoragenodes</function>
+                  </resource>
+              </resources>
+              <queryParams>
+                  <view>list</view>
+                  <type>storagenode</type>
+                  <source>uve</source>
+              </queryParams>
               <searchStrings>Monitor Storage Nodes</searchStrings>
             </item>
           </items>
@@ -132,6 +160,81 @@ and need to add the iconClass tag wherever we need to show some icons
               <searchStrings>Storage Monitor</searchStrings>
             </item>
           </items>
+        </item>
+        <item>
+            <label>Storage (MVC)</label>
+            <iconClass>icon-tasks</iconClass>
+            <resources></resources>
+            <items>
+                <item>
+                    <hash>mon_storage_dashboardmvc</hash>
+                    <label>Dashboard</label>
+                    <resources>
+                        <resource>
+                            <rootDir>/monitor/storage/ui</rootDir>
+                            <class>msPageLoader</class>
+                            <function>renderStorageDashboard</function>
+                        </resource>
+                    </resources>
+                    <queryParams>
+                        <view>dashboard</view>
+                        <type>storage</type>
+                        <source>uve</source>
+                    </queryParams>
+                    <searchStrings>Storage Dashboard</searchStrings>
+                </item>
+                <item>
+                    <hash>mon_storage_disksmvc</hash>
+                    <label>Disks</label>
+                    <resources>
+                        <resource>
+                            <rootDir>/monitor/storage/ui</rootDir>
+                            <class>msPageLoader</class>
+                            <function>renderDisks</function>
+                        </resource>
+                    </resources>
+                    <queryParams>
+                        <view>list</view>
+                        <type>disk</type>
+                        <source>uve</source>
+                    </queryParams>
+                    <searchStrings>Monitor Disks</searchStrings>
+                </item>
+                <item>
+                    <hash>mon_storage_monitorsmvc</hash>
+                    <label>Monitors</label>
+                    <resources>
+                        <resource>
+                            <rootDir>/monitor/storage/ui</rootDir>
+                            <class>msPageLoader</class>
+                            <function>renderMonitors</function>
+                        </resource>
+                    </resources>
+                    <queryParams>
+                        <view>list</view>
+                        <type>monitor</type>
+                        <source>uve</source>
+                    </queryParams>
+                    <searchStrings>Monitor Storage Monitors</searchStrings>
+                </item>
+                <item>
+                    <label>Pools</label>
+                    <hash>mon_storage_poolsmvc</hash>
+                    <resources>
+                        <resource>
+                            <rootDir>/monitor/storage/ui</rootDir>
+                            <class>msPageLoader</class>
+                            <function>renderPools</function>
+                        </resource>
+                    </resources>
+                    <queryParams>
+                        <view>list</view>
+                        <type>pool</type>
+                        <source>uve</source>
+                    </queryParams>
+                    <searchStrings>Monitor Pools</searchStrings>
+                </item>
+            </items>
         </item>
       </items>
     </item>
