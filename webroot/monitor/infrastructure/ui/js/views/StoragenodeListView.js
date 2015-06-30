@@ -83,7 +83,7 @@ define([
 
     var onScatterChartClick = function(chartConfig) {
         var storagenodeFQN = chartConfig['name'];
-        swgrc.setStorageURLHashParams(null, storagenodeFQN, true);
+        swcc.setStoragenodeURLHashParams(null, storagenodeFQN, true);
     };
 
     var getStoragenodeTooltipConfig = function(data) {

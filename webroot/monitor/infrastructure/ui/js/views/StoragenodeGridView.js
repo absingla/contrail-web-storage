@@ -61,8 +61,7 @@ define([
                     exportable: true,
                     refreshable: true,
                     searchable: true
-                },
-                customControls: []
+                }
             },
             body: {
                 options: {
@@ -92,10 +91,12 @@ define([
                     }
                 }
             },
+            columnHeader: {
+                columns: swgc.storagenodesColumns
+            },
             footer: {
                 pager:  contrail.handleIfNull(pagerOptions, { options: { pageSize: 5, pageSizeSelect: [5, 10, 50, 100] } })
-            },
-            columnHeader: swgc.storagenodesColumns
+            }
         };
         return gridElementConfig;
     }

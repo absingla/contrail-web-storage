@@ -26,7 +26,7 @@ define([
                 field: "status",
                 name: "Status",
                 formatter: function(r, c, v, cd, dc) {
-                    return getStorageNodeStatusTmpl(dc['status'])
+                    return swu.getStorageNodeStatusTmpl(dc['status'])
                 },
                 minWidth: 50
             }, {

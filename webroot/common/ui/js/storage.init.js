@@ -6,15 +6,15 @@ define([
     'underscore',
     'storage-constants',
     'storage-grid-config',
-    'storage-graph-config',
+    'storage-chart-config',
     'storage-labels',
     'storage-utils',
     'storage-messages',
     'storage-parsers'
-], function (_, Constants, GridConfig, GraphConfig, Labels, Utils, Messages, Parsers) {
+], function (_, Constants, GridConfig, ChartConfig, Labels, Utils, Messages, Parsers) {
     swc = new Constants();
     swgc = new GridConfig();
-    swgrc = new GraphConfig();
+    swcc = new ChartConfig();
     swl = new Labels();
     swu = new Utils();
     swm = new Messages();

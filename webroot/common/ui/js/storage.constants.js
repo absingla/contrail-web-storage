@@ -28,7 +28,7 @@ define([
 
         this.UCID_ALL_STORAGENODE_LIST = 'all-storagenodes';
 
-        this.GRAPH_ELEMENT_STORAGENODE = 'storagenode';
+        this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 
     };
     return SConstants;
