@@ -24,8 +24,6 @@ function MonitorInfraStorageLoader() {
         });
     };
     this.renderView = function (renderFn, hashParams) {
-        console.log("I am in render view");
-
         $(contentContainer).html("");
         switch (renderFn) {
             case 'renderStoragenodes':
@@ -47,8 +45,6 @@ function MonitorInfraStorageLoader() {
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
         var renderFn;
-
-        console.log(hashObj);
 
         if(hashObj.type == "storagenode"){
             renderFn = "renderStoragenodes";

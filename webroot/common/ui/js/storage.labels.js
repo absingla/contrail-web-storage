@@ -18,19 +18,40 @@ define([
         this.MONITOR_DISK_LIST_VIEW_ID = "monitor-disk-list-view";
         this.MONITOR_DISK_LIST_ID = "monitor-disk-list";
         this.MONITOR_DISK_GRID_ID = "monitor-disk-grid";
+        this.DISK_SCATTER_CHART_ID = "disk-scatter-chart";
 
         this.TITLE_STORAGENODES = "Storage Nodes";
         this.TITLE_STORAGENODES_SUMMARY = "Storage Nodes Summary";
         this.TITLE_STORAGENODE_DETAILS = "Storage Node Details";
 
         this.TITLE_DISKS = "Disks";
-        this.TITLE_DISKS_SUMMARY = "Disks Summary";
+        this.TITLE_DISK_SUMMARY = "Disk Summary";
+        this.TITLE_DISK_DETAILS = "Disk Details";
+        this.TITLE_DISK_USAGE = "Disk Usage";
 
         this.TITLE_GRAPH_ELEMENT_STORAGENODE = "storage node";
 
         this.STORAGENODES_SCATTER_CHART_ID  = "storagenodes-scatter-chart";
         this.STORAGENODES_GRID_ID = "storagenodes-grid";
 
+        var labelMap = {
+
+        };
+
+        this.get = function (key) {
+            var keyArray, newKey;
+            if (_.has(labelMap, key)) {
+                return labelMap[key];
+            } else {
+                keyArray = key.split('.');
+                newKey = keyArray[keyArray.length - 1];
+                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
+                    return labelMap[newKey];
+                } else {
+                    return newKey.charAt(0).toUpperCase() + newKey.slice(1);
+                }
+            }
+        };
     };
     return SLabels;
 });

@@ -37,6 +37,32 @@ define([
             view: "SectionView",
             viewConfig: {
                 rows: [
+                    /*
+                    {
+                        columns: [
+                            {
+                                elementId: swl.DISK_SCATTER_CHART_ID,
+                                title: swl.TITLE_DISKS,
+                                view: "ZoomScatterChartView",
+                                viewConfig: {
+                                    loadChartInChunks: true,
+                                    chartOptions: {
+                                        xLabel: 'Used (%)',
+                                        yLabel: 'Avg. Bandwidth [R + W] (B)',
+                                        forceX: [0, 10],
+                                        forceY: [0, 1],
+                                        dataParser: function (response) {
+                                            return response;
+                                        },
+                                        tooltipConfigCB: getDiskTooltipConfig,
+                                        clickCB: onScatterChartClick,
+                                        sizeFieldName: 'throughput',
+                                        noDataMessage: "No disk available."
+                                    }
+                                }
+                            },
+                        ]
+                    },*/
                     {
                         columns: [
                             {
@@ -54,41 +80,11 @@ define([
     };
 
     function onScatterChartClick(chartConfig) {
-        var networkFQN = chartConfig['name'];
-        ctwgrc.setNetworkURLHashParams(null, networkFQN, true);
+        // TODO
     };
 
     function getDiskTooltipConfig(data) {
-        var networkFQNObj = data.name.split(':'),
-            info = [],
-            actions = [];
-
-        return {
-            title: {
-                name: networkFQNObj[2],
-                type: ctwl.TITLE_GRAPH_ELEMENT_VIRTUAL_NETWORK
-            },
-            content: {
-                iconClass: 'icon-contrail-virtual-network',
-                info: [
-                    {label: 'Project', value: networkFQNObj[0] + ":" + networkFQNObj[1]},
-                    {label:'Instances', value: data.instCnt},
-                    {label:'Interfaces', value: data['x']},
-                    {label:'Throughput', value:formatThroughput(data['throughput'])}
-                ],
-                actions: [
-                    {
-                        type: 'link',
-                        text: 'View',
-                        iconClass: 'icon-external-link',
-                        callback: onScatterChartClick
-                    }
-                ]
-            },
-            dimension: {
-                width: 300
-            }
-        };
+        // TODO
     };
 
     return DiskListView;

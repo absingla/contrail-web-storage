@@ -24,8 +24,6 @@ function MonitorStorageLoader() {
         });
     };
     this.renderView = function (renderFn, hashParams) {
-        console.log("I am in render view");
-
         $(contentContainer).html("");
         switch (renderFn) {
             case 'renderDisks':
@@ -37,8 +35,6 @@ function MonitorStorageLoader() {
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
         var renderFn;
-
-        console.log(hashObj);
 
         if (hashObj.type == "disk"){
             renderFn = "renderDisks";

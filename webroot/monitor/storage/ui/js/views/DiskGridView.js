@@ -20,7 +20,6 @@ define([
                 type: 'GET'
             };
 
-            // TODO: Handle multi-tenancy
             var ucid = storageNodeName != null ? (swc.UCID_PREFIX_MS_LISTS + storageNodeName + ":disks") : swc.UCID_ALL_DISK_LIST;
 
             cowu.renderView4Config(self.$el, self.model, getDisksGridViewConfig(diskRemoteConfig, ucid, pagerOptions));
@@ -51,11 +50,12 @@ define([
         }
     };
 
-    var getDisksGridConfig = function (diskRemoteConfig, ucid, pagerOptions) {;
+    var getDisksGridConfig = function (diskRemoteConfig, ucid, pagerOptions) {
+
         var gridElementConfig = {
             header: {
                 title: {
-                    text: swl.TITLE_DISKS_SUMMARY
+                    text: swl.TITLE_DISK_SUMMARY
                 },
                 defaultControls: {
                     collapseable: false,
@@ -69,7 +69,7 @@ define([
                     autoRefresh: false,
                     checkboxSelectable: false,
                     detail: {
-                        //template: cowu.generateDetailTemplateHTML(getDiskDetailsTemplateConfig(), cowc.APP_CONTRAIL_STORAGE, '{{{formatGridJSON2HTML this.rawData}}}')
+                        template: cowu.generateDetailTemplateHTML(getDiskDetailsTemplateConfig(), cowc.APP_CONTRAIL_STORAGE, '{{{formatGridJSON2HTML this.rawData}}}')
                     },
                     fixedRowHeight: 30
                 },
@@ -95,6 +95,7 @@ define([
 
 
     function getDiskDetailsTemplateConfig() {
+        //TODO: Complete
         return {
             templateGenerator: 'RowSectionTemplateGenerator',
             templateGeneratorConfig: {
@@ -107,33 +108,19 @@ define([
                                     class: 'span6',
                                     rows: [
                                         {
-                                            title: swl.TITLE_NETWORK_DETAILS,
+                                            title: swl.TITLE_DISK_DETAILS,
                                             templateGenerator: 'BlockListTemplateGenerator',
                                             templateGeneratorConfig: [
                                                 {
-                                                    key: 'value.UveVirtualNetworkConfig.connected_networks',
-                                                    templateGenerator: 'LinkGenerator',
-                                                    templateGeneratorConfig: {
-                                                        template: swc.URL_NETWORK,
-                                                        params: {
-                                                            fqName: 'value.UveVirtualNetworkConfig.connected_networks'
-                                                        }
-                                                    }
-                                                },
-                                                {
-                                                    key: 'value.UveVirtualNetworkAgent.acl',
+                                                    key: 'name',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'value.UveVirtualNetworkAgent.total_acl_rules',
+                                                    key: 'type',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'instCnt',
-                                                    templateGenerator: 'TextGenerator'
-                                                },
-                                                {
-                                                    key: 'intfCnt',
+                                                    key: 'host',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]
@@ -144,77 +131,18 @@ define([
                                     class: 'span6',
                                     rows: [
                                         {
-                                            title: swl.TITLE_TRAFFIC_DETAILS,
+                                            title: swl.TITLE_DISK_USAGE,
                                             templateGenerator: 'BlockListTemplateGenerator',
                                             templateGeneratorConfig: [
                                                 {
-                                                    key: 'throughput',
-                                                    templateGenerator: 'TextGenerator',
-                                                    templateGeneratorConfig: {
-                                                        formatter: 'throughput'
-                                                    }
-                                                },
-                                                {
-                                                    key: 'value.UveVirtualNetworkAgent.ingress_flow_count',
+                                                    key: 'used',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'value.UveVirtualNetworkAgent.egress_flow_count',
+                                                    key: 'total',
                                                     templateGenerator: 'TextGenerator'
-                                                },
-                                                {
-                                                    key: 'value.UveVirtualNetworkAgent.in_bytes',
-                                                    templateGenerator: 'TextGenerator',
-                                                    templateGeneratorConfig: {
-                                                        formatter: 'byte'
-                                                    }
-                                                },
-                                                {
-                                                    key: 'value.UveVirtualNetworkAgent.out_bytes',
-                                                    templateGenerator: 'TextGenerator',
-                                                    templateGeneratorConfig: {
-                                                        formatter: 'byte'
-                                                    }
                                                 }
                                             ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        templateGenerator: 'ColumnSectionTemplateGenerator',
-                        templateGeneratorConfig: {
-                            columns: [
-                                {
-                                    class: 'span12',
-                                    rows: [
-                                        {
-                                            title: swl.TITLE_VRF_STATS,
-                                            key: 'value.UveVirtualNetworkAgent.vrf_stats_list',
-                                            templateGenerator: 'BlockGridTemplateGenerator',
-                                            templateGeneratorConfig: {
-                                                titleColumn: {
-                                                    key: 'name',
-                                                    templateGenerator: 'TextGenerator'
-                                                },
-                                                dataColumn: [
-                                                    {
-                                                        key: 'name',
-                                                        templateGenerator: 'TextGenerator'
-                                                    },
-                                                    {
-                                                        key: 'encaps',
-                                                        templateGenerator: 'TextGenerator'
-                                                    },
-                                                    {
-                                                        key: 'l2_encaps',
-                                                        templateGenerator: 'TextGenerator'
-                                                    }
-
-                                                ]
-                                            }
                                         }
                                     ]
                                 }

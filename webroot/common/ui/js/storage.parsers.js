@@ -7,13 +7,10 @@ define([
 ], function (_) {
     var SParsers = function () {
         this.storagenodeDataParser = function (response) {
-            var retArr = [],
-                def_topology = {};
+            var retArr = [], def_topology = {};
 
-            /*
-             * with multi-backend support, there are different topology output in response.
-             * currently only using 'default' type which is the common pool.
-             */
+            // with multi-backend support, there are different topology output in response.
+            // currently only using 'default' type which is the common pool.
             $.each(response.topology, function (idx, topology) {
                 if (topology['name'] == 'default') {
                     def_topology = topology;
@@ -110,112 +107,107 @@ define([
         };
 
         this.disksDataParser = function (response) {
-            var formattedResponse = [],
-                osdErrArr = [],
-                osdChartArr = [],
-                osdArr = [],
-                osdUpInArr = [],
-                osdDownArr = [],
-                osdUpOutArr = [],
-                skip_osd_bubble = new Boolean(),
-                statusTemplate = contrail.getTemplate4Id("disk-status-template");
+            var formattedResponse = [], osdErrArr = [],
+                osdChartArr = [], osdArr = [],
+                osdUpInArr = [], osdDownArr = [],
+                osdUpOutArr = [], skip_osd_bubble = new Boolean(),
+                statusTemplate = contrail.getTemplate4Id("disk-status-template"),
+                osds;
 
             if (response != null) {
-                var osds = response.osds;
-                $.each(osds, function (idx, osd) {
+                osds = response.osds;
+                $.each(osds, function (idx, osdObj) {
+                    osdObj.rawData = $.extend(true, {}, osdObj);
                     skip_osd_bubble = false;
-
-                    if (osd.kb) {
-                        osd.available_perc = swu.calcPercent(osd.kb_avail, osd.kb);
-                        osd.x = parseFloat(100 - osd.available_perc);
-                        osd.gb = swu.kiloByteToGB(osd.kb);
+                    if (osdObj.kb) {
+                        osdObj.available_perc = swu.calcPercent(osdObj.kb_avail, osdObj.kb);
+                        osdObj.x = parseFloat(100 - osdObj.available_perc);
+                        osdObj.gb = swu.kiloByteToGB(osdObj.kb);
                         //osd.y = parseFloat(osd.gb);
-                        osd.total = formatBytes(osd.kb * 1024);
-                        osd.used = formatBytes(osd.kb_used * 1024);
-                        osd.gb_avail = swu.kiloByteToGB(osd.kb_avail);
-                        osd.gb_used = swu.kiloByteToGB(osd.kb_used);
-                        osd.color = getOSDColor(osd);
-                        osd.shape = 'circle';
-                        osd.size = 1;
+                        osdObj.total = formatBytes(osdObj.kb * 1024);
+                        osdObj.used = formatBytes(osdObj.kb_used * 1024);
+                        osdObj.gb_avail = swu.kiloByteToGB(osdObj.kb_avail);
+                        osdObj.gb_used = swu.kiloByteToGB(osdObj.kb_used);
+                        osdObj.color = getOSDColor(osdObj);
+                        osdObj.shape = 'circle';
+                        osdObj.size = 1;
                     } else {
                         skip_osd_bubble = true;
-                        osd.gb = 'N/A';
-                        osd.total = 'N/A';
-                        osd.used = 'N/A';
-                        osd.gb_used = 'N/A';
-                        osd.gb_avail = 'N/A';
-                        osd.available_perc = 'N/A';
-                        osd.x = 'N/A';
+                        osdObj.gb = 'N/A';
+                        osdObj.total = 'N/A';
+                        osdObj.used = 'N/A';
+                        osdObj.gb_used = 'N/A';
+                        osdObj.gb_avail = 'N/A';
+                        osdObj.available_perc = 'N/A';
+                        osdObj.x = 'N/A';
                     }
-                    if (!isEmptyObject(osd.avg_bw)) {
-                        if ($.isNumeric(osd.avg_bw.reads_kbytes) && $.isNumeric(osd.avg_bw.writes_kbytes)) {
-                            osd.y = (osd.avg_bw.reads_kbytes + osd.avg_bw.writes_kbytes) * 1024;
-                            osd.tot_avg_bw = formatBytes(osd.y);
-                            osd.avg_bw.read = formatBytes(osd.avg_bw.reads_kbytes * 1024);
-                            osd.avg_bw.write = formatBytes(osd.avg_bw.writes_kbytes * 1024);
+                    if (!isEmptyObject(osdObj.avg_bw)) {
+                        if ($.isNumeric(osdObj.avg_bw.reads_kbytes) && $.isNumeric(osdObj.avg_bw.writes_kbytes)) {
+                            osdObj.y = (osdObj.avg_bw.reads_kbytes + osdObj.avg_bw.writes_kbytes) * 1024;
+                            osdObj.tot_avg_bw = formatBytes(osdObj.y);
+                            osdObj.avg_bw.read = formatBytes(osdObj.avg_bw.reads_kbytes * 1024);
+                            osdObj.avg_bw.write = formatBytes(osdObj.avg_bw.writes_kbytes * 1024);
                         } else {
-                            osd.tot_avg_bw = 'N/A';
-                            osd.y = 0;
-                            osd.avg_bw.read = 'N/A';
-                            osd.avg_bw.write = 'N/A';
+                            osdObj.tot_avg_bw = 'N/A';
+                            osdObj.y = 0;
+                            osdObj.avg_bw.read = 'N/A';
+                            osdObj.avg_bw.write = 'N/A';
                         }
                     }
-                    /**
-                     * osd status template UP?DOWN
-                     */
-                    osd.status_tmpl = "<span> " + statusTemplate({
-                            sevLevel: sevLevels['NOTICE'],
-                            sevLevels: sevLevels
-                        }) + " up</span>";
-                    if (osd.status == 'down')
-                        osd.status_tmpl = "<span> " + statusTemplate({
+
+                    // osd status template UP/DOWN
+                    osdObj.status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['NOTICE'], sevLevels: sevLevels }) + " up</span>";
+                    if (osdObj.status == 'down')
+                        osdObj.status_tmpl = "<span> " + statusTemplate({
                                 sevLevel: sevLevels['ERROR'],
                                 sevLevels: sevLevels
                             }) + " down</span>";
-                    /**
-                     * osd cluster membership template IN?OUT
-                     */
-                    osd.cluster_status_tmpl = "<span> " + statusTemplate({
+
+                    // osd cluster membership template IN?OUT
+                    osdObj.cluster_status_tmpl = "<span> " + statusTemplate({
                             sevLevel: sevLevels['INFO'],
                             sevLevels: sevLevels
                         }) + " in</span>";
-                    if (osd.cluster_status == 'out')
-                        osd.cluster_status_tmpl = "<span> " + statusTemplate({
+                    if (osdObj.cluster_status == 'out')
+                        osdObj.cluster_status_tmpl = "<span> " + statusTemplate({
                                 sevLevel: sevLevels['WARNING'],
                                 sevLevels: sevLevels
                             }) + " out</span>";
 
                     // Add to OSD scatter chart data of flag is not set
                     if (!skip_osd_bubble) {
-                        if (osd.status == "up") {
-                            if (osd.cluster_status == "in") {
-                                osdUpInArr.push(osd);
-                            } else if (osd.cluster_status == "out") {
-                                osdUpOutArr.push(osd);
+                        if (osdObj.status == "up") {
+                            if (osdObj.cluster_status == "in") {
+                                osdUpInArr.push(osdObj);
+                            } else if (osdObj.cluster_status == "out") {
+                                osdUpOutArr.push(osdObj);
                             } else {
                             }
-                        } else if (osd.status == "down") {
-                            osdDownArr.push(osd);
+                        } else if (osdObj.status == "down") {
+                            osdDownArr.push(osdObj);
                         } else {
                         }
                     } else {
-                        osdErrArr.push(osd.name);
+                        osdErrArr.push(osdObj.name);
                     }
                     // All OSDs data should be pushed here for List grid
-                    osdArr.push(osd);
+                    osdArr.push(osdObj);
                 });
 
                 var upInGroup = {}, upOutGroup = {}, downGroup = {};
+
                 //UP & IN OSDs
                 upInGroup.key = "UP & IN ";
                 upInGroup.values = osdUpInArr;
                 upInGroup.color = swc.color_success;
                 osdChartArr.push(upInGroup);
+
                 //UP & OUT OSDs
                 upOutGroup.key = "UP & OUT";
                 upOutGroup.values = osdUpOutArr;
                 upOutGroup.color = swc.color_warn;
                 osdChartArr.push(upOutGroup);
+
                 //Down OSDs
                 downGroup.key = "Down";
                 downGroup.values = osdDownArr;
