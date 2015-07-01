@@ -39,10 +39,10 @@ define([
 
         this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 
-        this.color_info = '#1F77B4';
-        this.color_success = '#2CA02C';
-        this.color_warn = '#FF7F0E';
-        this.color_imp = '#D62728';
+        this.DISK_OKAY_COLOR = 'okay';
+        this.DISK_WARNING_COLOR = 'warning';
+        this.DISK_ERROR_COLOR = 'error';
+        this.DISK_DEFAULT_COLOR = 'default';
     };
 
     return SConstants;

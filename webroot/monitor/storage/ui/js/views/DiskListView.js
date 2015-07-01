@@ -37,7 +37,6 @@ define([
             view: "SectionView",
             viewConfig: {
                 rows: [
-                    /*
                     {
                         columns: [
                             {
@@ -47,7 +46,7 @@ define([
                                 viewConfig: {
                                     loadChartInChunks: true,
                                     chartOptions: {
-                                        xLabel: 'Used (%)',
+                                        xLabel: 'Usage (%)',
                                         yLabel: 'Avg. Bandwidth [R + W] (B)',
                                         forceX: [0, 10],
                                         forceY: [0, 1],
@@ -56,13 +55,13 @@ define([
                                         },
                                         tooltipConfigCB: getDiskTooltipConfig,
                                         clickCB: onScatterChartClick,
-                                        sizeFieldName: 'throughput',
+                                        sizeFieldName: '',
                                         noDataMessage: "No disk available."
                                     }
                                 }
                             },
                         ]
-                    },*/
+                    },
                     {
                         columns: [
                             {

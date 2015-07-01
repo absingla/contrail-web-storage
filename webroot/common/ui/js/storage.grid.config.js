@@ -54,50 +54,57 @@ define([
 
         this.disksColumns = [
             {
-                field: "id",
-                name: "ID",
-                width: 20
-            }, {
-                field: "status",
-                name: "Status",
-                formatter: function (r, c, v, cd, dc) {
-                    return dc['status_tmpl'];
-                },
-                minWidth: 30
-            }, {
-                field: "cluster_status",
-                name: "Membership",
-                formatter: function (r, c, v, cd, dc) {
-                    return dc['cluster_status_tmpl'];
-                },
-                cssClass: 'grid-status-label',
-                minWidth: 40
-            }, {
                 field: "name",
-                name: "Disk name",
+                name: "Disk Name",
                 events: {
                     onClick: function (e, dc) {
                         onDisksRowSelChange(dc);
                     }
                 },
                 cssClass: 'cell-hyperlink-blue',
-                minWidth: 30
-            }, {
+                minWidth: 60
+            },
+            {
                 field: "host",
                 name: "Hostname",
-                minWidth: 150
-            }, {
+                minWidth: 60
+            },
+            {
+                field: "id",
+                name: "Disk ID",
+                width: 50
+            },
+            {
                 field: "total",
                 name: "Total",
-                minWidth: 100
-            }, {
+                minWidth: 50
+            },
+            {
                 field: "used",
                 name: "Used",
-                minWidth: 100
-            }, {
+                minWidth: 50
+            },
+            {
                 field: "available_perc",
                 name: "Available %",
-                minWidth: 100
+                minWidth: 50
+            },
+            {
+                field: "status",
+                name: "Status",
+                formatter: function (r, c, v, cd, dc) {
+                    return dc['status_tmpl'];
+                },
+                minWidth: 50
+            },
+            {
+                field: "cluster_status",
+                name: "Membership",
+                formatter: function (r, c, v, cd, dc) {
+                    return dc['cluster_status_tmpl'];
+                },
+                cssClass: 'grid-status-label',
+                minWidth: 50
             }
         ];
     };

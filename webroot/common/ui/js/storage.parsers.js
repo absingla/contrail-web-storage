@@ -128,7 +128,7 @@ define([
                         osdObj.used = formatBytes(osdObj.kb_used * 1024);
                         osdObj.gb_avail = swu.kiloByteToGB(osdObj.kb_avail);
                         osdObj.gb_used = swu.kiloByteToGB(osdObj.kb_used);
-                        osdObj.color = getOSDColor(osdObj);
+                        osdObj.color = computeOSDColor(osdObj);
                         osdObj.shape = 'circle';
                         osdObj.size = 1;
                     } else {
@@ -141,6 +141,7 @@ define([
                         osdObj.available_perc = 'N/A';
                         osdObj.x = 'N/A';
                     }
+
                     if (!isEmptyObject(osdObj.avg_bw)) {
                         if ($.isNumeric(osdObj.avg_bw.reads_kbytes) && $.isNumeric(osdObj.avg_bw.writes_kbytes)) {
                             osdObj.y = (osdObj.avg_bw.reads_kbytes + osdObj.avg_bw.writes_kbytes) * 1024;
@@ -157,22 +158,15 @@ define([
 
                     // osd status template UP/DOWN
                     osdObj.status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['NOTICE'], sevLevels: sevLevels }) + " up</span>";
+
                     if (osdObj.status == 'down')
-                        osdObj.status_tmpl = "<span> " + statusTemplate({
-                                sevLevel: sevLevels['ERROR'],
-                                sevLevels: sevLevels
-                            }) + " down</span>";
+                        osdObj.status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['ERROR'], sevLevels: sevLevels }) + " down</span>";
 
                     // osd cluster membership template IN?OUT
-                    osdObj.cluster_status_tmpl = "<span> " + statusTemplate({
-                            sevLevel: sevLevels['INFO'],
-                            sevLevels: sevLevels
-                        }) + " in</span>";
+                    osdObj.cluster_status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['INFO'], sevLevels: sevLevels }) + " in</span>";
+
                     if (osdObj.cluster_status == 'out')
-                        osdObj.cluster_status_tmpl = "<span> " + statusTemplate({
-                                sevLevel: sevLevels['WARNING'],
-                                sevLevels: sevLevels
-                            }) + " out</span>";
+                        osdObj.cluster_status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['WARNING'], sevLevels: sevLevels }) + " out</span>";
 
                     // Add to OSD scatter chart data of flag is not set
                     if (!skip_osd_bubble) {
@@ -199,19 +193,19 @@ define([
                 //UP & IN OSDs
                 upInGroup.key = "UP & IN ";
                 upInGroup.values = osdUpInArr;
-                upInGroup.color = swc.color_success;
+                upInGroup.color = swc.DISK_OKAY_COLOR;
                 osdChartArr.push(upInGroup);
 
                 //UP & OUT OSDs
                 upOutGroup.key = "UP & OUT";
                 upOutGroup.values = osdUpOutArr;
-                upOutGroup.color = swc.color_warn;
+                upOutGroup.color = swc.DISK_WARNING_COLOR;
                 osdChartArr.push(upOutGroup);
 
                 //Down OSDs
                 downGroup.key = "Down";
                 downGroup.values = osdDownArr;
-                downGroup.color = swc.color_imp;
+                downGroup.color = swc.DISK_ERROR_COLOR;
                 osdChartArr.push(downGroup);
             }
 
@@ -221,24 +215,23 @@ define([
                 disksError: osdErrArr
             });
 
-            console.log(osdArr);
-
             return osdArr;
         };
     };
 
 
-    function getOSDColor(d, obj) {
-        if (d['status'] == 'up') {
-            if (d['cluster_status'] == 'in')
-                return d3Colors['green'];
-            else if (d['cluster_status'] == 'out')
-                return d3Colors['orange']
-            else
-                return d3Colors['blue']
-        } else if (d['status'] == 'down')
-            return d3Colors['red']
-        else {}
+    function computeOSDColor(osd) {
+        if (osd['status'] == 'up') {
+            if (osd['cluster_status'] == 'in') {
+                return swc.DISK_OKAY_COLOR;
+            } else if (osd['cluster_status'] == 'out') {
+                return swc.DISK_WARNING_COLOR;
+            } else {
+                return swc.DISK_DEFAULT_COLOR;
+            }
+        } else if (osd['status'] == 'down') {
+            return swc.DISK_ERROR_COLOR;
+        }
     };
 
     return SParsers;
