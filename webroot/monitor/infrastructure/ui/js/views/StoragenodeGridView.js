@@ -68,7 +68,11 @@ define([
                     rowHeight: 30,
                     autoHeight: true,
                     enableAsyncPostRender: true,
-                    forceFitColumns: true
+                    forceFitColumns: true,
+                    checkboxSelectable: false,
+                    detail: {
+                        template: cowu.generateDetailTemplateHTML(getStorageNodeDetailsTemplateConfig(), cowc.APP_CONTRAIL_STORAGE, '{{{formatGridJSON2HTML this.rawData}}}')
+                    }
                 },
                 dataSource: {
                     remote: {
@@ -99,7 +103,75 @@ define([
             }
         };
         return gridElementConfig;
-    }
+    };
+
+    function getStorageNodeDetailsTemplateConfig() {
+        //TODO: Complete
+        return {
+            templateGenerator: 'RowSectionTemplateGenerator',
+            templateGeneratorConfig: {
+                rows: [
+                    {
+                        templateGenerator: 'ColumnSectionTemplateGenerator',
+                        templateGeneratorConfig: {
+                            columns: [
+                                {
+                                    class: 'span6',
+                                    rows: [
+                                        {
+                                            title: swl.TITLE_STORAGENODE_DETAILS,
+                                            templateGenerator: 'BlockListTemplateGenerator',
+                                            templateGeneratorConfig: [
+                                                {
+                                                    key: 'name',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'status',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'version',
+                                                    templateGenerator: 'TextGenerator'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    class: 'span6',
+                                    rows: [
+                                        {
+                                            title: swl.TITLE_DISK_DETAILS,
+                                            templateGenerator: 'BlockListTemplateGenerator',
+                                            templateGeneratorConfig: [
+                                                {
+                                                    key: 'osds_count',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'osds_status',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'osds_used',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'osds_total',
+                                                    templateGenerator: 'TextGenerator'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        };
+    };
 
     return StoragenodeGridView;
 });

@@ -21,6 +21,7 @@ define([
 
             $.each(def_topology.hosts, function (idx, host) {
                 var obj = {};
+                obj['rawData'] = $.extend(true, {}, host);
                 obj['available_perc'] = $.isNumeric(host['avail_percent']) ? host['avail_percent'].toFixed(2) : '-';
                 obj['total'] = formatBytes(host['kb_total'] * 1024);
                 obj['size'] = 1;
@@ -30,8 +31,13 @@ define([
                 obj['name'] = host['name'];
                 obj['isPartialUveMissing'] = false;
                 obj['osds'] = host['osds'];
+                obj['osds_count'] = obj['osds'].length;
                 obj['osds_total'] = 0;
                 obj['osds_used'] = 0;
+                obj['osds_up'] = 0;
+                obj['osds_down'] = 0;
+                obj['osds_in'] = 0;
+                obj['osds_out'] = 0;
                 obj['tot_avg_bw'] = 0;
                 obj['tot_avg_read_kb'] = 0;
                 obj['tot_avg_write_kb'] = 0;
@@ -50,10 +56,18 @@ define([
                             osd['avg_bw']['write'] = 'N/A';
                         }
                     }
+                    if (osd['status'] == 'up')
+                        ++obj['osds_up'];
+                    else if (osd['status'] == 'down')
+                        ++obj['osds_down'];
+                    if (osd['cluster_status'] == 'in')
+                        ++obj['osds_in'];
+                    else if (osd['cluster_status'] == 'out')
+                        ++obj['osds_out'];
                 });
+                obj['osds_status'] = "up: " + obj['osds_up'] + ", down: " + obj['osds_down'] + " / in: " + obj['osds_in'] + ", out: " + obj['osds_out'];
                 obj['osds_available_perc'] = swu.calcPercent((obj['osds_total'] - obj['osds_used']), obj['osds_total']);
                 obj['x'] = parseFloat((100 - obj['osds_available_perc']).toFixed(2));
-                //obj['y'] = parseFloat(byteToGB(obj['osds_total']));
                 obj['y'] = parseFloat(obj['tot_avg_bw'].toFixed(2)) * 1024;
                 obj['osds_available'] = formatBytes(obj['osds_total'] - obj['osds_used']);
                 obj['osds_total'] = formatBytes(obj['osds_total']);

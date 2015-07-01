@@ -35,6 +35,12 @@ define([
         this.STORAGENODES_GRID_ID = "storagenodes-grid";
 
         var labelMap = {
+            /* Storage Node Details */
+            name: 'Name',
+            osds_total: 'Total',
+            osds_used: 'Used',
+            osds_count: 'Count',
+            osds_status: 'Status/Membership'
 
         };
 
