@@ -47,7 +47,7 @@ define([
                                     loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Usage (%)',
-                                        yLabel: 'Avg. Bandwidth [R + W] (B)',
+                                        yLabel: 'Avg. Bandwidth [R + W] ',
                                         forceX: [0, 10],
                                         forceY: [0, 1],
                                         dataParser: function (response) {

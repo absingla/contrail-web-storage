@@ -16,7 +16,7 @@ define([
                 pagerOptions = viewConfig['pagerOptions'];
 
             var diskRemoteConfig = {
-                url: storageNodeName != null ? swc.get(swc.URL_STORAGENODE_DETAILS, storageNodeName) : swc.URL_DISKS_SUMMARY,
+                url: storageNodeName != null ? swc.get(swc.URL_STORAGENODE_DISKS, storageNodeName) : swc.URL_DISKS_SUMMARY,
                 type: 'GET'
             };
 

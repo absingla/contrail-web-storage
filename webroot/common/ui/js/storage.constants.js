@@ -8,6 +8,7 @@ define([
     var SConstants = function () {
         this.URL_STORAGENODES_SUMMARY = '/api/admin/monitor/infrastructure/storagenodes/summary';
         this.URL_STORAGENODE_DETAILS = '/api/admin/monitor/infrastructure/storagenodes/details?hostname={0}';
+        this.URL_STORAGENODE_DISKS = '/api/admin/monitor/infrastructure/storagenode/disks?hostname={0}';
 
         this.URL_DISKS_SUMMARY = '/api/tenant/storage/cluster/osds/summary';
         this.URL_DISK_DETAILS = '/api/tenant/storage/cluster/osd/details?name={0}';

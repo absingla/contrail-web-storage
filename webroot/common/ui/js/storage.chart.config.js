@@ -20,7 +20,7 @@ define([
                 hashObj.clickedElement = hashParams.clickedElement;
             }
 
-            layoutHandler.setURLHashParams(hashObj, {p: "mon_infra_storagemvc", merge: false, triggerHashChange: triggerHashChange});
+            layoutHandler.setURLHashParams(hashObj, {p: "monitor_infra_storage", merge: false, triggerHashChange: triggerHashChange});
 
         };
 
