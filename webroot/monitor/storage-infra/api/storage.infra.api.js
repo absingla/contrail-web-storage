@@ -276,7 +276,10 @@ function getStorageNodeDisks(req, res, appData) {
 function parseStorageNodeDisks(req, res, resultJSON) {
     var hostName = req.param('hostname');
     var disks = jsonPath(resultJSON, "$..hosts[?(@.name=='"+hostName+"')].osds")[0];
-    commonUtils.handleJSONResponse(null, res, disks);
+    var retJSON = {
+        osds: disks
+    }
+    commonUtils.handleJSONResponse(null, res, retJSON);
 }
 
 /* List all public functions */
