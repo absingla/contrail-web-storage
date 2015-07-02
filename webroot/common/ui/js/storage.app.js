@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-var swc, swgc, swcc, swl, swu, swm, swp;
+var swc, swgc, swcc, swl, swu, swm, swp, swvc;
 
 require.config({
     baseUrl: '/',
@@ -14,7 +14,8 @@ require.config({
         'storage-utils': 'common/ui/js/storage.utils',
         'storage-messages': 'common/ui/js/storage.messages',
         'storage-parsers': 'common/ui/js/storage.parsers',
-        'storage-init': 'common/ui/js/storage.init'
+        'storage-init': 'common/ui/js/storage.init',
+        'storage-view-config': 'common/ui/js/storage.view.config'
     },
     waitSeconds: 0
 })

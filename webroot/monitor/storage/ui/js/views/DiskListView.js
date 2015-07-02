@@ -11,23 +11,25 @@ define([
         el: $(contentContainer),
 
         render: function () {
-            var self = this, viewConfig = this.attributes.viewConfig;
+            var self = this,
+                viewConfig = self.attributes.viewConfig,
+                storageNodeName = viewConfig['storageNode'];
 
             var listModelConfig = {
                 remote: {
                     ajaxConfig: {
-                        url: swc.URL_DISKS_SUMMARY,
+                        url: storageNodeName != null ? swc.get(swc.URL_STORAGENODE_DISKS, storageNodeName) : swc.URL_DISKS_SUMMARY,
                         type: "GET"
                     },
                     dataParser: swp.disksDataParser
                 },
                 cacheConfig: {
-                    ucid: swc.UCID_ALL_DISK_LIST
+                    ucid: storageNodeName != null ? (swc.UCID_PREFIX_MS_LISTS + storageNodeName + ":disks") : swc.UCID_ALL_DISK_LIST
                 }
             };
 
             var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(this.$el, contrailListModel, getDiskListViewConfig());
+            cowu.renderView4Config(self.$el, contrailListModel, getDiskListViewConfig());
         }
     });
 

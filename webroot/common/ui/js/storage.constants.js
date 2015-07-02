@@ -40,6 +40,8 @@ define([
 
         this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 
+        this.TAB_ELEMENT_STORAGENODE = 'storagenode';
+
         this.DISK_OKAY_COLOR = 'okay';
         this.DISK_WARNING_COLOR = 'warning';
         this.DISK_ERROR_COLOR = 'error';

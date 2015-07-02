@@ -19,6 +19,7 @@ define([
             breadcrumbView.renderDomainBreadcrumbDropdown(fqName, function (domainSelectedValueData, domainBreadcrumbChanged) {
 
             });
+            cowu.renderView4Config(this.$el, null, getStorageNodeViewConfig(hashParams));
         },
 
         renderStoragenodeList: function () {
@@ -34,6 +35,17 @@ define([
             viewConfig: {}
         }
     };
+
+    function getStorageNodeViewConfig(hashParams) {
+        return {
+            elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_VIEW_ID]),
+            view: "StorageNodeView",
+            app: cowc.APP_CONTRAIL_STORAGE,
+            viewConfig: {
+                storageNode: hashParams.focusedElement.fqName
+            }
+        }
+    }
 
     return MonitorStorageView;
 });

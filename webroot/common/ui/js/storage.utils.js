@@ -7,9 +7,13 @@ define([
     'contrail-view-model',
     'monitor/infrastructure/ui/js/views/StoragenodeGridView',
     'monitor/infrastructure/ui/js/views/StoragenodeListView',
+    'monitor/infrastructure/ui/js/views/StorageNodeView',
+    'monitor/infrastructure/ui/js/views/StorageNodeTabView',
     'monitor/storage/ui/js/views/DiskListView',
     'monitor/storage/ui/js/views/DiskGridView'
-], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, DiskListView, DiskGridView) {
+], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, StorageNodeView, StorageNodeTabView,
+             DiskListView, DiskGridView
+            ) {
     var SUtils = function () {
         var self = this;
 
@@ -196,6 +200,19 @@ define([
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;
+
+                case "StorageNodeView" :
+                    elementView = new StorageNodeView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "StorageNodeTabView" :
+                    elementView = new StorageNodeTabView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
 
                 case "DiskListView" :
                     elementView = new DiskListView({el: parentElement, model: model, attributes: viewAttributes});
