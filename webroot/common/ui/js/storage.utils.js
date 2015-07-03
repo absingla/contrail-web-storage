@@ -10,9 +10,13 @@ define([
     'monitor/infrastructure/ui/js/views/StorageNodeView',
     'monitor/infrastructure/ui/js/views/StorageNodeTabView',
     'monitor/storage/ui/js/views/DiskListView',
-    'monitor/storage/ui/js/views/DiskGridView'
+    'monitor/storage/ui/js/views/DiskGridView',
+    'monitor/storage/ui/js/views/DiskView',
+    'monitor/storage/ui/js/views/DiskTabView',
+    'monitor/storage/ui/js/views/DiskDetailsView',
+    'monitor/storage/ui/js/views/DiskActivityStatsView',
 ], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, StorageNodeView, StorageNodeTabView,
-             DiskListView, DiskGridView
+             DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView
             ) {
     var SUtils = function () {
         var self = this;
@@ -222,6 +226,30 @@ define([
 
                 case "DiskGridView" :
                     elementView = new DiskGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DiskView" :
+                    elementView = new DiskView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DiskTabView" :
+                    elementView = new DiskTabView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DiskDetailsView" :
+                    elementView = new DiskDetailsView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DiskActivityStatsView" :
+                    elementView = new DiskActivityStatsView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;

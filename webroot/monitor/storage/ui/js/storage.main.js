@@ -28,7 +28,12 @@ function MonitorStorageLoader() {
         switch (renderFn) {
             case 'renderDisks':
                 if (hashParams.type == "disk") {
-                    this.monStorageView.renderDiskList({hashParams: hashParams});
+                    if (hashParams.view == "details") {
+                        this.monStorageView.renderDisk({hashParams: hashParams});
+
+                    } else {
+                        this.monStorageView.renderDiskList({hashParams: hashParams});
+                    }
                 }
                 break;
         }

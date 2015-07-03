@@ -6,6 +6,8 @@ define([
     'underscore'
 ], function (_) {
     var SParsers = function () {
+        var self = this;
+
         this.storagenodeDataParser = function (response) {
             var retArr = [], def_topology = {};
 
@@ -120,70 +122,88 @@ define([
             return retArr;
         };
 
+        this.diskDataParser = function (response) {
+            var osdObj = response,
+                statusTemplate = contrail.getTemplate4Id("disk-status-template");
+
+            osdObj.rawData = $.extend(true, {}, osdObj);
+            osdObj.skip_osd_bubble = false;
+            if (osdObj.kb) {
+                osdObj.available_perc = swu.calcPercent(osdObj.kb_avail, osdObj.kb);
+                osdObj.x = parseFloat(100 - osdObj.available_perc);
+                osdObj.gb = swu.kiloByteToGB(osdObj.kb);
+                osdObj.total = formatBytes(osdObj.kb * 1024);
+                osdObj.used = formatBytes(osdObj.kb_used * 1024);
+                osdObj.gb_avail = swu.kiloByteToGB(osdObj.kb_avail);
+                osdObj.gb_used = swu.kiloByteToGB(osdObj.kb_used);
+                osdObj.color = computeOSDColor(osdObj);
+                osdObj.shape = 'circle';
+                osdObj.size = 1;
+            } else {
+                osdObj.skip_osd_bubble = true;
+                osdObj.gb = 'N/A';
+                osdObj.total = 'N/A';
+                osdObj.used = 'N/A';
+                osdObj.gb_used = 'N/A';
+                osdObj.gb_avail = 'N/A';
+                osdObj.available_perc = 'N/A';
+                osdObj.x = 'N/A';
+            }
+
+            if (!isEmptyObject(osdObj.avg_bw)) {
+                if ($.isNumeric(osdObj.avg_bw.reads_kbytes) && $.isNumeric(osdObj.avg_bw.writes_kbytes)) {
+                    osdObj.y = (osdObj.avg_bw.reads_kbytes + osdObj.avg_bw.writes_kbytes) * 1024;
+                    osdObj.tot_avg_bw = formatBytes(osdObj.y);
+                    osdObj.avg_bw.read = formatBytes(osdObj.avg_bw.reads_kbytes * 1024);
+                    osdObj.avg_bw.write = formatBytes(osdObj.avg_bw.writes_kbytes * 1024);
+                } else {
+                    osdObj.tot_avg_bw = 'N/A';
+                    osdObj.y = 0;
+                    osdObj.avg_bw.read = 'N/A';
+                    osdObj.avg_bw.write = 'N/A';
+                }
+            }
+
+            // osd status template UP/DOWN
+            osdObj.status_tmpl = "<span> " + statusTemplate({
+                sevLevel: sevLevels['NOTICE'],
+                sevLevels: sevLevels
+            }) + " up</span>";
+
+            if (osdObj.status == 'down')
+                osdObj.status_tmpl = "<span> " + statusTemplate({
+                    sevLevel: sevLevels['ERROR'],
+                    sevLevels: sevLevels
+                }) + " down</span>";
+
+            // osd cluster membership template IN?OUT
+            osdObj.cluster_status_tmpl = "<span> " + statusTemplate({
+                sevLevel: sevLevels['INFO'],
+                sevLevels: sevLevels
+            }) + " in</span>";
+
+            if (osdObj.cluster_status == 'out')
+                osdObj.cluster_status_tmpl = "<span> " + statusTemplate({
+                    sevLevel: sevLevels['WARNING'],
+                    sevLevels: sevLevels
+                }) + " out</span>";
+
+            return osdObj;
+        };
+
         this.disksDataParser = function (response) {
             var formattedResponse = [], osdErrArr = [],
                 osdChartArr = [], osdArr = [],
                 osdUpInArr = [], osdDownArr = [],
                 osdUpOutArr = [], skip_osd_bubble = new Boolean(),
-                statusTemplate = contrail.getTemplate4Id("disk-status-template"),
                 osds;
 
             if (response != null) {
                 osds = response.osds;
                 $.each(osds, function (idx, osdObj) {
-                    osdObj.rawData = $.extend(true, {}, osdObj);
-                    skip_osd_bubble = false;
-                    if (osdObj.kb) {
-                        osdObj.available_perc = swu.calcPercent(osdObj.kb_avail, osdObj.kb);
-                        osdObj.x = parseFloat(100 - osdObj.available_perc);
-                        osdObj.gb = swu.kiloByteToGB(osdObj.kb);
-                        //osd.y = parseFloat(osd.gb);
-                        osdObj.total = formatBytes(osdObj.kb * 1024);
-                        osdObj.used = formatBytes(osdObj.kb_used * 1024);
-                        osdObj.gb_avail = swu.kiloByteToGB(osdObj.kb_avail);
-                        osdObj.gb_used = swu.kiloByteToGB(osdObj.kb_used);
-                        osdObj.color = computeOSDColor(osdObj);
-                        osdObj.shape = 'circle';
-                        osdObj.size = 1;
-                    } else {
-                        skip_osd_bubble = true;
-                        osdObj.gb = 'N/A';
-                        osdObj.total = 'N/A';
-                        osdObj.used = 'N/A';
-                        osdObj.gb_used = 'N/A';
-                        osdObj.gb_avail = 'N/A';
-                        osdObj.available_perc = 'N/A';
-                        osdObj.x = 'N/A';
-                    }
-
-                    if (!isEmptyObject(osdObj.avg_bw)) {
-                        if ($.isNumeric(osdObj.avg_bw.reads_kbytes) && $.isNumeric(osdObj.avg_bw.writes_kbytes)) {
-                            osdObj.y = (osdObj.avg_bw.reads_kbytes + osdObj.avg_bw.writes_kbytes) * 1024;
-                            osdObj.tot_avg_bw = formatBytes(osdObj.y);
-                            osdObj.avg_bw.read = formatBytes(osdObj.avg_bw.reads_kbytes * 1024);
-                            osdObj.avg_bw.write = formatBytes(osdObj.avg_bw.writes_kbytes * 1024);
-                        } else {
-                            osdObj.tot_avg_bw = 'N/A';
-                            osdObj.y = 0;
-                            osdObj.avg_bw.read = 'N/A';
-                            osdObj.avg_bw.write = 'N/A';
-                        }
-                    }
-
-                    // osd status template UP/DOWN
-                    osdObj.status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['NOTICE'], sevLevels: sevLevels }) + " up</span>";
-
-                    if (osdObj.status == 'down')
-                        osdObj.status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['ERROR'], sevLevels: sevLevels }) + " down</span>";
-
-                    // osd cluster membership template IN?OUT
-                    osdObj.cluster_status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['INFO'], sevLevels: sevLevels }) + " in</span>";
-
-                    if (osdObj.cluster_status == 'out')
-                        osdObj.cluster_status_tmpl = "<span> " + statusTemplate({ sevLevel: sevLevels['WARNING'], sevLevels: sevLevels }) + " out</span>";
-
+                    osdObj = self.diskDataParser(osdObj);
                     // Add to OSD scatter chart data of flag is not set
-                    if (!skip_osd_bubble) {
+                    if (!osdObj.skip_osd_bubble) {
                         if (osdObj.status == "up") {
                             if (osdObj.cluster_status == "in") {
                                 osdUpInArr.push(osdObj);

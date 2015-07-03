@@ -11,8 +11,10 @@ define([
     'storage-utils',
     'storage-messages',
     'storage-parsers',
-    'storage-view-config'
-], function (_, Constants, GridConfig, ChartConfig, Labels, Utils, Messages, Parsers, ViewConfig) {
+    'storage-view-config',
+    'storage-detail-templates'
+], function (_, Constants, GridConfig, ChartConfig, Labels, Utils, Messages, Parsers, ViewConfig,
+            DetailTemplates) {
     swc = new Constants();
     swgc = new GridConfig();
     swcc = new ChartConfig();
@@ -21,5 +23,6 @@ define([
     swm = new Messages();
     swp = new Parsers();
     swvc = new ViewConfig();
+    swdt = new DetailTemplates();
     sInitComplete = true;
 });

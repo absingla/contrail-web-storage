@@ -24,6 +24,16 @@ define([
 
         renderStoragenodeList: function () {
             cowu.renderView4Config(this.$el, null, getStoragenodeListConfig());
+        },
+
+        renderDisk: function (viewConfig) {
+            var self = this,
+                hashParams = viewConfig.hashParams,
+                fqName = (contrail.checkIfKeyExistInObject(true, hashParams, 'focusedElement.fqName') ? hashParams.focusedElement.fqName : null);
+
+            //TBD breadcrumb update
+
+            cowu.renderView4Config(self.$el, null, getDiskViewConfig(hashParams));
         }
     });
 
@@ -45,6 +55,18 @@ define([
                 storageNode: hashParams.focusedElement.fqName
             }
         }
+    };
+
+    function getDiskViewConfig(hashParams) {
+        return {
+            elementId: cowu.formatElementId([swl.MONITOR_DISK_VIEW_ID]),
+            view: "DiskView",
+            app: cowc.APP_CONTRAIL_STORAGE,
+            viewConfig: {
+                disk: hashParams.focusedElement.fqName,
+                storageNode: hashParams.focusedElement.fqHost
+            }
+        };
     }
 
     return MonitorStorageView;

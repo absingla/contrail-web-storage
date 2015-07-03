@@ -38,7 +38,9 @@ function MonitorInfraStorageLoader() {
 
             case 'renderDisks':
                 if (hashParams.type == "disk") {
-                    this.infraStorageView.renderDiskList({hashParams: hashParams});
+                    if (hashParams.view == "details") {
+                        this.infraStorageView.renderDisk({hashParams: hashParams});
+                    }
                 }
                 break;
         }
