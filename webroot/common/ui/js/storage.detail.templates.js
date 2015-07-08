@@ -14,7 +14,6 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -34,11 +33,11 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'status',
+                                            key: 'status_tmpl',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'cluster_status',
+                                            key: 'cluster_status_tmpl',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {

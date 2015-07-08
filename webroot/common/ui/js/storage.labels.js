@@ -28,7 +28,11 @@ define([
         this.TITLE_DISK_SUMMARY = "Disk Summary";
         this.TITLE_DISK_DETAILS = "Disk Details";
         this.TITLE_DISK_USAGE = "Disk Usage";
-        this.TITLE_DISK_ACTIVITY_STATS = "Disk Activity"
+        this.TITLE_DISK_ACTIVITY_STATS = "Disk Activity";
+        this.TITLE_DISK_ACTIVITY_THRPT_STATS = "Disk Throughput";
+        this.TITLE_DISK_ACTIVITY_IOPS_STATS = "Disk IOPs";
+        this.TITLE_DISK_ACTIVITY_LATENCY_STATS = "Disk Latency";
+
 
         this.TITLE_GRAPH_ELEMENT_STORAGENODE = "storage node";
 
@@ -42,6 +46,14 @@ define([
         this.DISK_SCATTER_CHART_ID = "disk-scatter-chart";
         this.DISK_DETAILS_ID = "disk-details";
         this.DISK_ACTIVITY_STATS_ID = "disk-activity-stats";
+        this.DISK_ACTIVITY_VIEW_ID = "disk-activity-view";
+        this.DISK_ACTIVITY_THRPT_CHART_ID =  "disk-activity-thrpt-chart";
+        this.DISK_ACTIVITY_IOPS_CHART_ID =  "disk-activity-iops-chart";
+        this.DISK_ACTIVITY_LATENCY_CHART_ID =  "disk-activity-latency-chart";
+
+        this.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL = "Throughput";
+        this.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL = "IOPs";
+        this.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
 
         var labelMap = {
             /* Storage Node Details */
@@ -50,7 +62,8 @@ define([
             osds_used: 'Used',
             osds_count: 'Count',
             osds_status: 'Status/Membership',
-            cluster_status: 'Membership',
+            status_tmpl: 'Status',
+            cluster_status_tmpl: 'Membership',
             public_addr: 'Public Address',
             uuid: 'UUID'
 

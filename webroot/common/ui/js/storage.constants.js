@@ -12,7 +12,7 @@ define([
 
         this.URL_DISKS_SUMMARY = '/api/tenant/storage/cluster/osds/summary';
         this.URL_DISK_DETAILS = '/api/tenant/storage/cluster/osd/details?name={0}';
-        this.URL_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/osd/flow-series?osdName={0}&minsSince=10&sampleCnt=10&hostName={1}&endTime=now';
+        this.URL_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/osd/flow-series?osdName={0}&minsSince=60&sampleCnt=10&hostName={1}&endTime=now';
 
         this.POOL_PREFIX = {
             VOLUME: 'volumes_',
@@ -30,6 +30,8 @@ define([
             return cowu.getValueFromTemplate(args);
         };
 
+        this.UMID_DISK_UVE = "uve:{0}:{1}";
+
         this.UCID_PREFIX_MS = "monitor-storage";
         this.UCID_PREFIX_CHARTS = "charts";
         this.UCID_PREFIX_LISTS = "lists";
@@ -38,14 +40,16 @@ define([
 
         this.UCID_ALL_STORAGENODE_LIST = this.UCID_PREFIX_MS_LISTS + 'all-storagenodes';
         this.UCID_ALL_DISK_LIST = this.UCID_PREFIX_MS_LISTS + "all-disks";
-        this.UCID_ALL_DISK_STATS = this.UCID_PREFIX_MS_LISTS + "all-disks-stats";
+        this.UCID_DISK_STATS = this.UCID_PREFIX_MS_CHARTS + "{0}:{1}:disk_stats";
 
         this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 
         this.TAB_ELEMENT_STORAGENODE = 'storagenode';
         this.TAB_ELEMENT_DISK = 'disk';
 
-        this.DETAILS_ELEMENT_DISK = 'disk-details'
+        this.DETAILS_ELEMENT_DISK = 'disk-details';
+
+        this.TMPL_DISK_ACTIVITY_STATS = 'disk-activity-stats-template';
 
         this.DISK_OKAY_COLOR = 'okay';
         this.DISK_WARNING_COLOR = 'warning';

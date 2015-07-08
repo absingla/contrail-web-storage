@@ -143,6 +143,14 @@ define([
                         disk: elementObj.disk,
                         storageNode: elementObj.storageNode
                     };
+                    var modelKey = swc.get(swc.UMID_DISK_UVE, options.storageNode, options.disk);
+                    var ucid = swc.get(swc.UCID_DISK_STATS, options.storageNode, options.disk);
+                    var dataParser = swp.diskActivityStatsParser;
+                    var diskRemoteConfig = {
+                        url: swc.get(swc.URL_DISK_ACTIVITY_STATS, options.disk, options.storageNode),
+                        type: 'GET'
+                    };
+
                     config = {
                         elementId: cowu.formatElementId([swl.MONITOR_DISK_VIEW_ID]),
                         view: "SectionView",
@@ -155,6 +163,7 @@ define([
                                             title: swl.TITLE_DISK_DETAILS,
                                             view: "DetailsView",
                                             viewConfig: {
+                                                class: 'span6',
                                                 ajaxConfig: {
                                                     url: swc.get(swc.URL_DISK_DETAILS, options.disk),
                                                     type: 'GET'
@@ -171,7 +180,19 @@ define([
                                             title: swl.TITLE_DISK_ACTIVITY_STATS,
                                             view: "DiskActivityStatsView",
                                             app: cowc.APP_CONTRAIL_STORAGE,
-                                            viewConfig: options
+                                            viewConfig: {
+                                                class: 'span6',
+                                                modelConfig: {
+                                                    modelKey: modelKey,
+                                                    remote: {
+                                                        ajaxConfig: diskRemoteConfig,
+                                                        dataParser: dataParser
+                                                    },
+                                                    cacheConfig: {
+                                                        ucid: ucid
+                                                    }
+                                                }
+                                            }
                                         }
                                     ]
                                 }

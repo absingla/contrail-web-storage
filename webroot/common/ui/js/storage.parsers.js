@@ -251,6 +251,104 @@ define([
 
             return osdArr;
         };
+
+        this.diskActivityStatsParser = function (response) {
+            var readThrptData = {
+                    values: [],
+                    key: 'Read',
+                    color: d3_category5[1]
+                },
+                writeThrptData = {
+                    values: [],
+                    key: 'Write',
+                    color: d3_category5[0]
+                },
+                readIopsData = {
+                    values: [],
+                    key: 'Read',
+                    color: d3_category5[1]
+                },
+                writeIopsData = {
+                    values: [],
+                    key: 'Write',
+                    color: d3_category5[0]
+                },
+                readLatData = {
+                    values: [],
+                    key: 'Read',
+                    color: d3_category5[1]
+                },
+                writeLatData = {
+                    values: [],
+                    key: 'Write',
+                    color: d3_category5[0]
+                };
+
+            if (response != null && response.hasOwnProperty('flow-series')) {
+                $.each(response['flow-series'], function (idx, sample) {
+                    var ts = Math.floor(sample['MessageTS'] / 1000);
+                    //Throughput Data
+                    readThrptData.values.push({
+                        'x': ts,
+                        'y': sample['reads_kbytes'] * 1024
+                    });
+                    writeThrptData.values.push({
+                        'x': ts,
+                        'y': sample['writes_kbytes'] * 1024
+                    });
+
+                    //IOPS Data
+                    readIopsData.values.push({
+                        'x': ts,
+                        'y': sample['reads']
+                    });
+                    writeIopsData.values.push({
+                        'x': ts,
+                        'y': sample['writes']
+                    });
+
+                    //Latency Data
+                    readLatData.values.push({
+                        'x': ts,
+                        'y': sample['op_r_latency']
+                    });
+                    writeLatData.values.push({
+                        'x': ts,
+                        'y': sample['op_w_latency']
+                    });
+                });
+            }
+
+            var retThrptData = [readThrptData, writeThrptData],
+                retIopsData = [readIopsData, writeIopsData],
+                retLatData = [readLatData, writeLatData];
+
+            return [retThrptData, retIopsData, retLatData];
+        };
+
+        this.diskActivityThrptLineChartDataParser = function (responseArray) {
+            if (responseArray.length == 0) {
+                return [];
+            } else {
+                return responseArray[0];
+            }
+        };
+
+        this.diskActivityIOPsLineChartDataParser = function (responseArray) {
+            if (responseArray.length == 0) {
+                return [];
+            } else {
+                return responseArray[1];
+            }
+        };
+
+        this.diskActivityLatencyLineChartDataParser = function (responseArray) {
+            if (responseArray.length == 0) {
+                return [];
+            } else {
+                return responseArray[2];
+            }
+        };
     };
 
 

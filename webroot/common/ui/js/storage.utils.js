@@ -14,7 +14,7 @@ define([
     'monitor/storage/ui/js/views/DiskView',
     'monitor/storage/ui/js/views/DiskTabView',
     'monitor/storage/ui/js/views/DiskDetailsView',
-    'monitor/storage/ui/js/views/DiskActivityStatsView',
+    'monitor/storage/ui/js/views/DiskActivityStatsView'
 ], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, StorageNodeView, StorageNodeTabView,
              DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView
             ) {
@@ -174,12 +174,94 @@ define([
         self.byteToGB = function (bytes) {
             var gb = (bytes / 1073741824).toFixed(2);
             return gb;
-        }
+        };
 
         self.kiloByteToGB = function (kbytes) {
             var gb = (kbytes / 1048576).toFixed(2);
             return gb;
-        }
+        };
+
+        self.getSelector4Id = function (id) {
+            if (id != null) {
+                return $('#' + id);
+            }
+        };
+
+        self.addUnits2IOPs = function (data, noDecimal, maxPrecision, precision) {
+            var dataPrefixes = ['IOPs', 'K IOPs', 'M IOPs', 'B IOPs', 'T IOPs'],
+                formatStr = '', decimalDigits = 2, size = 1000;
+
+            if (!$.isNumeric(data)) {
+                return '-';
+            } else if (data == 0) {
+                return '0 IOPs';
+            }
+
+            if ((maxPrecision != null) && (maxPrecision == true)) {
+                decimalDigits = 6;
+            } else if (precision != null) {
+                decimalDigits = precision < 7 ? precision : 6;
+            }
+
+            if (noDecimal != null && noDecimal == true)
+                decimalDigits = 0;
+
+
+            data = parseInt(data);
+            data = makePositive(data);
+
+            $.each(dataPrefixes, function (idx, prefix) {
+                if (data < size) {
+                    formatStr = contrail.format('{0} {1}', parseFloat(data.toFixed(decimalDigits)), prefix);
+                    return false;
+                } else {
+                    //last iteration
+                    if (idx == (dataPrefixes.length - 1))
+                        formatStr = contrail.format('{0} {1}', parseFloat(data.toFixed(decimalDigits)), prefix);
+                    else
+                        data = data / size;
+                }
+            });
+            return formatStr;
+        };
+
+        self.addUnits2Latency = function (data, noDecimal, maxPrecision, precision) {
+            var dataPrefixes = ['ms', 's', 'm', 'hr'],
+                formatStr = '', decimalDigits = 2, size = 60;
+
+            if (!$.isNumeric(data)) {
+                return '-';
+            } else if (data == 0) {
+                return '0 ms';
+            }
+
+            if ((maxPrecision != null) && (maxPrecision == true)) {
+                decimalDigits = 6;
+            } else if (precision != null) {
+                decimalDigits = precision < 7 ? precision : 6;
+            }
+
+            if (noDecimal != null && noDecimal == true)
+                decimalDigits = 0;
+
+
+            data = parseInt(data);
+            data = makePositive(data);
+
+            $.each(dataPrefixes, function (idx, prefix) {
+                if (data < size) {
+                    formatStr = contrail.format('{0} {1}', parseFloat(data.toFixed(decimalDigits)), prefix);
+                    return false;
+                } else {
+                    //last iteration
+                    if (idx == (dataPrefixes.length - 1))
+                        formatStr = contrail.format('{0} {1}', parseFloat(data.toFixed(decimalDigits)), prefix);
+                    else
+                        data = data / size;
+                }
+            });
+            return formatStr;
+        };
 
         self.renderView = function (viewName, parentElement, model, viewAttributes, modelMap) {
             var elementView;

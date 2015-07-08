@@ -4,51 +4,121 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'contrail-list-model',
+    'js/views/LineWithFocusChartView',
+], function (_, Backbone, ContrailListModel, LineWithFocusChartView) {
     var DiskActivityStatsView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
-                diskName = viewConfig['disk'],
-                storageNodeName = viewConfig['storageNode'];
+                selector = $(self.$el);
 
-            var diskRemoteConfig = {
-                url: swc.get(swc.URL_DISK_ACTIVITY_STATS, diskName, storageNodeName),
-                type: 'GET'
-            };
 
-            var ucid = storageNodeName != null ? (swc.UCID_PREFIX_MS_LISTS + storageNodeName + ":disks_stats") : swc.UCID_ALL_DISK_STATS;
+            self.initializeChartElementsAndLoadSpinner(selector);
 
-            cowu.renderView4Config(self.$el, self.model, getDiskActivityViewConfig(diskRemoteConfig, ucid));
+            if (viewConfig.modelConfig != null) {
+                self.model = new ContrailListModel(viewConfig['modelConfig']);
+                if (self.model.loadedFromCache || !(self.model.isRequestInProgress())) {
+                    var chartData = self.model.getItems();
+                    self.renderCharts(viewConfig, chartData);
+                }
 
-        }
-    });
+                self.model.onAllRequestsComplete.subscribe(function () {
+                    var chartData = self.model.getItems();
+                    self.renderCharts(viewConfig, chartData);
+                });
 
-    var getDiskActivityViewConfig = function (diskRemoteConfig, ucid) {
-        return {
-            elementId: cowu.formatElementId([swl.MONITOR_DISK_LIST_VIEW_ID]),
-            view: "SectionView",
-            viewConfig: {
-                rows: [
-                    {
-                        columns: [
-                            {
-                                elementId: "",
-                                title: "",
-                                view: "",
-                                viewConfig: {
-                                    elementConfig: ""
-                                }
-                            }
-                        ]
-                    }
-                ]
+                if (viewConfig.loadChartInChunks) {
+                    self.model.onDataUpdate.subscribe(function () {
+                        var chartData = self.model.getItems();
+                        self.renderCharts(viewConfig, chartData);
+                    });
+                }
             }
+        },
+
+        initializeChartElementsAndLoadSpinner: function (selector) {
+            var diskActivityStatsTemplate = contrail.getTemplate4Id(swc.TMPL_DISK_ACTIVITY_STATS),
+                loadingSpinnerTemplate = contrail.getTemplate4Id(cowc.TMPL_LOADING_SPINNER);
+
+            $(selector).append(diskActivityStatsTemplate({
+                chartId: swl.DISK_ACTIVITY_THRPT_CHART_ID
+            }));
+
+            $(selector).append(diskActivityStatsTemplate({
+                chartId: swl.DISK_ACTIVITY_IOPS_CHART_ID
+            }));
+
+            $(selector).append(diskActivityStatsTemplate({
+                chartId: swl.DISK_ACTIVITY_LATENCY_CHART_ID
+            }));
+
+            $(swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_CHART_ID)).append(loadingSpinnerTemplate);
+            $(swu.getSelector4Id(swl.DISK_ACTIVITY_IOPS_CHART_ID)).append(loadingSpinnerTemplate);
+            $(swu.getSelector4Id(swl.DISK_ACTIVITY_LATENCY_CHART_ID)).append(loadingSpinnerTemplate);
+
+        },
+
+        renderCharts: function (viewConfig, chartData) {
+            var lineWithFocusChartView = new LineWithFocusChartView(),
+                selector, add2ViewConfig, yFormatterFn;
+            /**
+             * Disk Activity Throughput line chart
+             */
+            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_CHART_ID);
+            add2ViewConfig = {
+                chartOptions: {
+                    height: 250,
+                    yAxisLabel: swl.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL
+                },
+                parseFn: swp.diskActivityThrptLineChartDataParser
+            }
+            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
+            lineWithFocusChartView.renderChart(selector, viewConfig, chartData);
+
+            /**
+             * Disk Activity IOPs line chart
+             */
+            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_IOPS_CHART_ID);
+            yFormatterFn = function (d) {
+                return swu.addUnits2IOPs(d, false, false, 1);
+            };
+            add2ViewConfig = {
+                chartOptions: {
+                    height: 250,
+                    yAxisLabel: swl.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
+                    yFormatter: yFormatterFn,
+                    y2Formatter: yFormatterFn
+                },
+                parseFn: swp.diskActivityIOPsLineChartDataParser
+            }
+            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
+            lineWithFocusChartView.renderChart(selector, viewConfig, chartData);
+
+            /**
+             * Disk Activity Latency line chart
+             */
+            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_LATENCY_CHART_ID);
+            yFormatterFn = function (d) {
+                return swu.addUnits2Latency(d, false, false, 1);
+            };
+            add2ViewConfig = {
+                chartOptions: {
+                    height: 250,
+                    yAxisLabel: swl.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
+                    yFormatter: yFormatterFn,
+                    y2Formatter: yFormatterFn
+                },
+                parseFn: swp.diskActivityLatencyLineChartDataParser
+            }
+            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
+            lineWithFocusChartView.renderChart(selector, viewConfig, chartData);
         }
-    };
+
+    });
 
     return DiskActivityStatsView;
 });
