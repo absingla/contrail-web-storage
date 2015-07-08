@@ -18,3 +18,19 @@
 <script type="text/x-handlebars-template" id="disk-activity-stats-template">
     <div id="{{chartId}}" class="traffic-stats-chart row-fluid"></div>
 </script>
+
+<script type="text/x-handlebars-template" id="storage-status-template">
+    {{#IfCompare sevLevel sevLevels.ERROR }}
+        <span class="status-badge-rounded-small status-inactive"></span>
+    {{else}}
+        {{#IfCompare sevLevel sevLevels.WARNING}}
+            <span class="status-badge-rounded-small status-partially-active"></span>
+        {{else}}
+            {{#IfCompare sevLevel sevLevels.NOTICE}}
+                <span class="status-badge-rounded-small status-idle"></span>
+            {{else}}
+                <span class="status-badge-rounded-small status-active"></span>
+            {{/IfCompare}}
+        {{/IfCompare}}
+    {{/IfCompare}}
+</script>

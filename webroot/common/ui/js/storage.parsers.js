@@ -349,6 +349,49 @@ define([
                 return responseArray[2];
             }
         };
+
+        this.storageMonitorDataParser = function (response) {
+            var monObj = response;
+            monObj.rawData = $.extend(true, {}, monObj);
+            monObj['addr'] = swu.formatIpPort(monObj['addr']);
+            monObj['hostNameColor'] = '#D62728';
+            monObj['total'] = formatBytes(monObj['kb_total'] * 1024);
+            monObj['used'] = formatBytes(monObj['kb_used'] * 1024);
+            monObj['available'] = formatBytes(monObj['kb_avail'] * 1024);
+            monObj['avail_percent'] = monObj['avail_percent'] + " %";
+            monObj['latency'] = monObj['latency'] + " ms";
+            monObj['skew'] = monObj['skew'] + " ms";
+
+            if (String(monObj['health']).valueOf() == "HEALTH_OK") {
+                monObj['hostNameColor'] = 'label-success';
+            } else if (String(monObj['health']).valueOf() == "HEALTH_WARN") {
+                monObj['hostNameColor'] = 'label-warning';
+            } else {
+                monObj['hostNameColor'] = 'label-info';
+            }
+
+            if (monObj['act_health'] == 'HEALTH_WARN') {
+                monObj['healthColor'] = 'label-warning';
+            } else if (monObj['act_health'] == 'HEALTH_OK') {
+                monObj['healthColor'] = 'label-success';
+            } else {
+                monObj['healthColor'] = 'label-important';
+            }
+
+            return monObj;
+        };
+
+        this.storageMonitorsDataParser = function (response) {
+            var retArr = [];
+            if (response != null) {
+                var allmons = response['monitors']
+                $.each(allmons, function (idx, mon) {
+                    mon = self.storageMonitorDataParser(mon);
+                    retArr.push(mon);
+                });
+            }
+            return retArr;
+        };
     };
 
 

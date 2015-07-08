@@ -36,6 +36,15 @@ function MonitorStorageLoader() {
                     }
                 }
                 break;
+            case 'renderMonitors':
+                if (hashParams.type == "monitor") {
+                    if (hashParams.view == "details") {
+                        //TBD for single storage monitor page.
+                    } else {
+                        this.monStorageView.renderMonitorList({hashParams: hashParams});
+                    }
+                }
+                break;
         }
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {

@@ -23,6 +23,11 @@ define([
 
         renderDiskList: function () {
             cowu.renderView4Config(this.$el, null, getDiskListConfig());
+        },
+
+        renderMonitorList: function (viewConfig) {
+            var self = this;
+            cowu.renderView4Config(self.$el, null, getStorageMonitorListViewConfig());
         }
 
     });
@@ -47,6 +52,15 @@ define([
             viewConfig: {}
         }
     };
+
+    function getStorageMonitorListViewConfig() {
+        return {
+            elementId: cowu.formatElementId([swl.MONITOR_STORAGE_MONITOR_LIST_PAGE_ID]),
+            view: "StorageMonListView",
+            app: cowc.APP_CONTRAIL_STORAGE,
+            viewConfig: {}
+        };
+    }
 
     return MonitorStorageView;
 });

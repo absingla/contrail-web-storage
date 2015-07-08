@@ -14,9 +14,12 @@ define([
     'monitor/storage/ui/js/views/DiskView',
     'monitor/storage/ui/js/views/DiskTabView',
     'monitor/storage/ui/js/views/DiskDetailsView',
-    'monitor/storage/ui/js/views/DiskActivityStatsView'
+    'monitor/storage/ui/js/views/DiskActivityStatsView',
+    'monitor/storage/ui/js/views/StorageMonListView',
+    'monitor/storage/ui/js/views/StorageMonGridView'
 ], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, StorageNodeView, StorageNodeTabView,
-             DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView
+             DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView,
+             StorageMonListView, StorageMonGridView
             ) {
     var SUtils = function () {
         var self = this;
@@ -55,6 +58,10 @@ define([
             return ((val1 / val2) * 100).toFixed(2);
         };
 
+        self.formatIpPort = function (ip) {
+            return ip.split(':')[0] + ', Port: ' + ip.split(':')[1];
+        }
+
         self.getStorageNodeColor = function (d, obj) {
             obj = ifNull(obj, {});
             if (obj['status'] == "down")
@@ -81,6 +88,30 @@ define([
                         sevLevel: sevLevels['ERROR'],
                         sevLevels: sevLevels
                     }) + " down</span>";
+            else
+                return "<span> " + statusTmpl({
+                        sevLevel: sevLevels['NOTICE'],
+                        sevLevels: sevLevels
+                    }) + " N/A</span>";
+        };
+
+        self.getMonitorNodeHealthStatusTmpl = function (obj) {
+            var statusTmpl = contrail.getTemplate4Id('storage-status-template');
+            if (obj == "HEALTH_OK")
+                return "<span> " + statusTmpl({
+                        sevLevel: sevLevels['INFO'],
+                        sevLevels: sevLevels
+                    }) + " ok</span>";
+            else if (obj == "HEALTH_WARN")
+                return "<span> " + statusTmpl({
+                        sevLevel: sevLevels['WARNING'],
+                        sevLevels: sevLevels
+                    }) + " warn</span>";
+            else if (obj == "HEALTH_CRIT")
+                return "<span> " + statusTmpl({
+                        sevLevel: sevLevels['ERROR'],
+                        sevLevels: sevLevels
+                    }) + " critical</span>";
             else
                 return "<span> " + statusTmpl({
                         sevLevel: sevLevels['NOTICE'],
@@ -332,6 +363,18 @@ define([
 
                 case "DiskActivityStatsView" :
                     elementView = new DiskActivityStatsView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "StorageMonListView" :
+                    elementView = new StorageMonListView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "StorageMonGridView" :
+                    elementView = new StorageMonGridView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;

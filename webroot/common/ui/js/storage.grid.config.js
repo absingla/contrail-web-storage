@@ -107,6 +107,35 @@ define([
                 minWidth: 50
             }
         ];
+
+        this.storageMonitorsColumns = [
+            {
+                field: "name",
+                name: "Hostname",
+                minWidth: 60
+            },
+            {
+                field:"act-health",
+                name:"Activity Status",
+                formatter: function(r,c,v,cd,dc){
+                    return swu.getMonitorNodeHealthStatusTmpl(dc['act_health'])
+                },
+                width:100
+            },
+            {
+                field:"health",
+                name:"Overall Status",
+                formatter: function(r,c,v,cd,dc){
+                    return swu.getMonitorNodeHealthStatusTmpl(dc['health'])
+                },
+                width:100
+            },
+            {
+                field:"addr",
+                name:"IP Address",
+                width:150
+            }
+        ];
     };
 
     function onClickGrid(e, selRowDataItem) {

@@ -19,6 +19,12 @@ define([
         this.MONITOR_DISK_LIST_ID = "monitor-disk-list";
         this.MONITOR_DISK_GRID_ID = "monitor-disk-grid";
 
+        this.MONITOR_STORAGE_MONITORS_ID = "monitor-storagemons";
+        this.MONITOR_STORAGE_MONITOR_LIST_PAGE_ID = "monitor-storagemon-list-page";
+        this.MONITOR_STORAGE_MONITOR_LIST_VIEW_ID = "monitor-storagemon-list-view";
+        this.MONITOR_STORAGE_MONITOR_LIST_ID = "monitor-storagemon-list";
+        this.MONITOR_STORAGE_MONITOR_GRID_ID = "monitor-storagemon-grid";
+
         this.TITLE_STORAGENODES = "Storage Nodes";
         this.TITLE_STORAGENODES_SUMMARY = "Storage Nodes Summary";
         this.TITLE_STORAGENODE = "Storage Node";
@@ -32,6 +38,12 @@ define([
         this.TITLE_DISK_ACTIVITY_THRPT_STATS = "Disk Throughput";
         this.TITLE_DISK_ACTIVITY_IOPS_STATS = "Disk IOPs";
         this.TITLE_DISK_ACTIVITY_LATENCY_STATS = "Disk Latency";
+
+        this.TITLE_MONITORS = "Storage Monitors";
+        this.TITLE_MONITOR_SUMMARY = "Storage Monitor Summary";
+        this.TITLE_MONITOR_DETAILS = "Storage Monitor Details";
+        this.TITLE_ROOT_DISK_USAGE = "Root Disk Usage";
+
 
 
         this.TITLE_GRAPH_ELEMENT_STORAGENODE = "storage node";
@@ -65,8 +77,11 @@ define([
             status_tmpl: 'Status',
             cluster_status_tmpl: 'Membership',
             public_addr: 'Public Address',
-            uuid: 'UUID'
-
+            uuid: 'UUID',
+            /* Storage Monitor Details */
+            avail_percent: 'Available',
+            addr: 'IP Address',
+            skew: 'Clock Skew'
         };
 
         this.get = function (key) {
