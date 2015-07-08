@@ -71,7 +71,7 @@ define([
                 obj['osds_available_perc'] = swu.calcPercent((obj['osds_total'] - obj['osds_used']), obj['osds_total']);
                 obj['x'] = parseFloat((100 - obj['osds_available_perc']).toFixed(2));
                 obj['y'] = parseFloat(obj['tot_avg_bw'].toFixed(2)) * 1024;
-                obj['osds_available'] = formatBytes(obj['osds_total'] - obj['osds_used']);
+                obj['osds_available'] = formatBytes(obj['osds_total'] - obj['osds_used']) + " (" + obj['osds_available_perc'] + "%)";
                 obj['osds_total'] = formatBytes(obj['osds_total']);
                 obj['osds_used'] = formatBytes(obj['osds_used']);
                 obj['monitor'] = host['monitor'];
@@ -127,27 +127,33 @@ define([
                 statusTemplate = contrail.getTemplate4Id("disk-status-template");
 
             osdObj.rawData = $.extend(true, {}, osdObj);
-            osdObj.skip_osd_bubble = false;
+            //osdObj.skip_osd_bubble = false;
+            osdObj.public_addr = swu.formatIpPort(osdObj.public_addr);
             if (osdObj.kb) {
                 osdObj.available_perc = swu.calcPercent(osdObj.kb_avail, osdObj.kb);
                 osdObj.x = parseFloat(100 - osdObj.available_perc);
                 osdObj.gb = swu.kiloByteToGB(osdObj.kb);
                 osdObj.total = formatBytes(osdObj.kb * 1024);
                 osdObj.used = formatBytes(osdObj.kb_used * 1024);
-                osdObj.gb_avail = swu.kiloByteToGB(osdObj.kb_avail);
+                osdObj.available = formatBytes(osdObj.kb_avail * 1024) + " (" + osdObj.available_perc + "%)";
                 osdObj.gb_used = swu.kiloByteToGB(osdObj.kb_used);
-                osdObj.color = computeOSDColor(osdObj);
+                osdObj.color = swu.getDiskColor(osdObj);
                 osdObj.shape = 'circle';
                 osdObj.size = 1;
             } else {
-                osdObj.skip_osd_bubble = true;
+                //osdObj.skip_osd_bubble = true;
                 osdObj.gb = 'N/A';
                 osdObj.total = 'N/A';
                 osdObj.used = 'N/A';
                 osdObj.gb_used = 'N/A';
-                osdObj.gb_avail = 'N/A';
+                osdObj.available = 'N/A';
                 osdObj.available_perc = 'N/A';
                 osdObj.x = 'N/A';
+            }
+
+            if(!isEmptyObject(osdObj.fs_perf_stat)) {
+                osdObj.apply_latency = osdObj.fs_perf_stat.apply_latency_ms + " ms";
+                osdObj.commit_latency = osdObj.fs_perf_stat.commit_latency_ms + " ms";
             }
 
             if (!isEmptyObject(osdObj.avg_bw)) {
@@ -203,7 +209,7 @@ define([
                 $.each(osds, function (idx, osdObj) {
                     osdObj = self.diskDataParser(osdObj);
                     // Add to OSD scatter chart data of flag is not set
-                    if (!osdObj.skip_osd_bubble) {
+                    //if (!osdObj.skip_osd_bubble) {
                         if (osdObj.status == "up") {
                             if (osdObj.cluster_status == "in") {
                                 osdUpInArr.push(osdObj);
@@ -215,9 +221,9 @@ define([
                             osdDownArr.push(osdObj);
                         } else {
                         }
-                    } else {
-                        osdErrArr.push(osdObj.name);
-                    }
+                    //} else {
+                    //    osdErrArr.push(osdObj.name);
+                    //}
                     // All OSDs data should be pushed here for List grid
                     osdArr.push(osdObj);
                 });
@@ -394,20 +400,6 @@ define([
         };
     };
 
-
-    function computeOSDColor(osd) {
-        if (osd['status'] == 'up') {
-            if (osd['cluster_status'] == 'in') {
-                return swc.DISK_OKAY_COLOR;
-            } else if (osd['cluster_status'] == 'out') {
-                return swc.DISK_WARNING_COLOR;
-            } else {
-                return swc.DISK_DEFAULT_COLOR;
-            }
-        } else if (osd['status'] == 'down') {
-            return swc.DISK_ERROR_COLOR;
-        }
-    };
 
     return SParsers;
 });

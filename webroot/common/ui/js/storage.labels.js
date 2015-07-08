@@ -78,6 +78,9 @@ define([
             cluster_status_tmpl: 'Membership',
             public_addr: 'Public Address',
             uuid: 'UUID',
+            /* Disk Details */
+            apply_latency: 'Apply Latency',
+            commit_latency: 'Commit Latency',
             /* Storage Monitor Details */
             avail_percent: 'Available',
             addr: 'IP Address',

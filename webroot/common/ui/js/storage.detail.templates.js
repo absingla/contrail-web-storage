@@ -41,6 +41,10 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
+                                            key: 'state',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
                                             key: 'total',
                                             templateGenerator: 'TextGenerator'
                                         },
@@ -54,6 +58,14 @@ define([
                                         },
                                         {
                                             key: 'uuid',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'apply_latency',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'commit_latency',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]

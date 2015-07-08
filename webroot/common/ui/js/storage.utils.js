@@ -62,6 +62,20 @@ define([
             return ip.split(':')[0] + ', Port: ' + ip.split(':')[1];
         }
 
+        self.getDiskColor = function (disk) {
+            if (disk['status'] == 'up') {
+                if (disk['cluster_status'] == 'in') {
+                    return swc.DISK_OKAY_COLOR;
+                } else if (disk['cluster_status'] == 'out') {
+                    return swc.DISK_WARNING_COLOR;
+                } else {
+                    return swc.DISK_DEFAULT_COLOR;
+                }
+            } else if (disk['status'] == 'down') {
+                return swc.DISK_ERROR_COLOR;
+            }
+        };
+
         self.getStorageNodeColor = function (d, obj) {
             obj = ifNull(obj, {});
             if (obj['status'] == "down")

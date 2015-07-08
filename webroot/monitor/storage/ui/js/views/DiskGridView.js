@@ -116,11 +116,19 @@ define([
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'type',
+                                                    key: 'host',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'host',
+                                                    key: 'public_addr',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'state',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'uuid',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]
@@ -140,6 +148,10 @@ define([
                                                 },
                                                 {
                                                     key: 'total',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'available',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]

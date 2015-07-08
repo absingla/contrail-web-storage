@@ -39,20 +39,25 @@ define([
                 }
             }, {
                 field: "osds_total",
-                name: "Disks Space",
-                minWidth: 60,
+                name: "Total",
+                minWidth: 60
             }, {
                 field: "osds_used",
-                name: "Disks Used Space",
-                minWidth: 60,
+                name: "Used",
+                minWidth: 60
             }, {
-                field: "osds_available_perc",
-                name: "Disks Available %",
-                minWidth: 60,
+                field: "osds_available",
+                name: "Available",
+                minWidth: 60
             }
         ];
 
         this.disksColumns = [
+            {
+                field: "id",
+                name: "Disk ID",
+                width: 50
+            },
             {
                 field: "name",
                 name: "Disk Name",
@@ -70,11 +75,6 @@ define([
                 minWidth: 60
             },
             {
-                field: "id",
-                name: "Disk ID",
-                width: 50
-            },
-            {
                 field: "total",
                 name: "Total",
                 minWidth: 50
@@ -85,8 +85,8 @@ define([
                 minWidth: 50
             },
             {
-                field: "available_perc",
-                name: "Available %",
+                field: "available",
+                name: "Available",
                 minWidth: 50
             },
             {
