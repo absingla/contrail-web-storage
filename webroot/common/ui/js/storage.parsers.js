@@ -69,6 +69,7 @@ define([
                 });
                 obj['osds_status'] = "up: " + obj['osds_up'] + ", down: " + obj['osds_down'] + " / in: " + obj['osds_in'] + ", out: " + obj['osds_out'];
                 obj['osds_available_perc'] = swu.calcPercent((obj['osds_total'] - obj['osds_used']), obj['osds_total']);
+                obj['osds_used_perc'] = 100.00 - obj['osds_available_perc'];
                 obj['x'] = parseFloat((100 - obj['osds_available_perc']).toFixed(2));
                 obj['y'] = parseFloat(obj['tot_avg_bw'].toFixed(2)) * 1024;
                 obj['osds_available'] = formatBytes(obj['osds_total'] - obj['osds_used']) + " (" + obj['osds_available_perc'] + "%)";
@@ -131,6 +132,7 @@ define([
             osdObj.public_addr = swu.formatIpPort(osdObj.public_addr);
             if (osdObj.kb) {
                 osdObj.available_perc = swu.calcPercent(osdObj.kb_avail, osdObj.kb);
+                osdObj.used_perc = 100.00 - osdObj.available_perc;
                 osdObj.x = parseFloat(100 - osdObj.available_perc);
                 osdObj.gb = swu.kiloByteToGB(osdObj.kb);
                 osdObj.total = formatBytes(osdObj.kb * 1024);

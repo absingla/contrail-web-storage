@@ -49,16 +49,21 @@ define([
                                     loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Usage (%)',
+                                        xLabelFormat: d3.format(".01f"),
+                                        forceX: [0, 1],
                                         yLabel: 'Avg. Bandwidth [R + W] ',
-                                        forceX: [0, 10],
-                                        forceY: [0, 1],
+                                        yLabelFormat: function(yValue) {
+                                            var formattedValue = formatThroughput(yValue, true);
+                                            return formattedValue;
+                                        },
                                         dataParser: function (response) {
                                             return response;
                                         },
                                         tooltipConfigCB: getDiskTooltipConfig,
                                         clickCB: onScatterChartClick,
-                                        sizeFieldName: '',
-                                        noDataMessage: "No disk available."
+                                        sizeFieldName: 'used_perc',
+                                        margin: {left: 70},
+                                        noDataMessage: "Unable to get disk data."
                                     }
                                 }
                             },
@@ -101,7 +106,7 @@ define([
                     {label:'Total', value: data['total']},
                     {label:'Used', value: data['used']},
                     {label:'Available', value: data['available']},
-                    {label:'Avg 30Min BW (Read+Write)', value:formatThroughput(data['y'])}
+                    {label:'Avg BW (Read+Write)', value:formatThroughput(data['y'])}
                 ],
                 actions: [
                     {
@@ -113,7 +118,7 @@ define([
                 ]
             },
             dimension: {
-                width: 300
+                width: 350
             }
         };
     };

@@ -47,9 +47,13 @@ define([
                                     loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Used (%)',
+                                        xLabelFormat: d3.format(".01f"),
+                                        forceX: [0, 1],
                                         yLabel: 'Avg 30Min BW (Read+Write)',
-                                        forceX: [0, 5],
-                                        forceY: [0, 10],
+                                        yLabelFormat: function(yValue) {
+                                            var formattedValue = formatThroughput(yValue, true);
+                                            return formattedValue;
+                                        },
                                         dataParser: function (response) {
                                             var nodeData = $.map(response, function(val, idx) {
                                                 if (val['name'] != 'CLUSTER_HEALTH')
@@ -59,8 +63,10 @@ define([
                                         },
                                         tooltipConfigCB: getStoragenodeTooltipConfig,
                                         clickCB: onScatterChartClick,
-                                        sizeFieldName: 'usage'
-                                    }
+                                        sizeFieldName: 'osds_used_perc',
+                                        margin: {left: 70},
+                                        noDataMessage: "Unable to get any storage node details."
+                                     }
                                 }
                             },
                         ]
@@ -113,7 +119,7 @@ define([
                 ]
             },
             dimension: {
-                width: 300
+                width: 350
             }
         };
     };
