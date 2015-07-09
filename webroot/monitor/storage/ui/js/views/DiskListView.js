@@ -87,7 +87,35 @@ define([
     };
 
     function getDiskTooltipConfig(data) {
-        // TODO
+        var diskFQNObj = data.name.split(':');
+
+        return {
+            title: {
+                name: diskFQNObj[0],
+                type: swl.TITLE_CHART_ELEMENT_DISK
+            },
+            content: {
+                iconClass: 'icon-contrail-storage-disk',
+                info: [
+                    {label: 'Name', value: data['name']},
+                    {label:'Total', value: data['total']},
+                    {label:'Used', value: data['used']},
+                    {label:'Available', value: data['available']},
+                    {label:'Avg 30Min BW (Read+Write)', value:formatThroughput(data['y'])}
+                ],
+                actions: [
+                    {
+                        type: 'link',
+                        text: 'View',
+                        iconClass: 'icon-external-link',
+                        callback: onScatterChartClick
+                    }
+                ]
+            },
+            dimension: {
+                width: 300
+            }
+        };
     };
 
     return DiskListView;

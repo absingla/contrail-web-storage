@@ -87,14 +87,12 @@ define([
     };
 
     var getStoragenodeTooltipConfig = function(data) {
-        var storagenodeFQNObj = data.name.split(':'),
-            info = [],
-            actions = [];
+        var storagenodeFQNObj = data.name.split(':');
 
         return {
             title: {
-                name: storagenodeFQNObj[2],
-                type: swl.TITLE_GRAPH_ELEMENT_STORAGENODE
+                name: storagenodeFQNObj[0],
+                type: swl.TITLE_CHART_ELEMENT_STORAGENODE
             },
             content: {
                 iconClass: 'icon-contrail-storage-node',
@@ -102,7 +100,7 @@ define([
                     {label: 'Name', value: data['name']},
                     {label:'Disks', value: data['osds'].length},
                     {label:'Total', value: data['osds_total']},
-                    {label:'Available', value: data['osds_available'] + " [" + data['osds_available_perc'] + "%]"},
+                    {label:'Available', value: data['osds_available']},
                     {label:'Avg 30Min BW (Read+Write)', value:formatThroughput(data['y'])}
                 ],
                 actions: [

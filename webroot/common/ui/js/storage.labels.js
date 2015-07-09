@@ -46,7 +46,8 @@ define([
 
 
 
-        this.TITLE_GRAPH_ELEMENT_STORAGENODE = "storage node";
+        this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
+        this.TITLE_CHART_ELEMENT_DISK = "disk";
 
         this.STORAGENODE_TAB_VIEW_ID = "storagenode-tab-view"
         this.STORAGENODE_TAB_ID = "storagenode";
