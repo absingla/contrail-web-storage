@@ -142,6 +142,14 @@ define([
                 width:150
             }
         ];
+
+        this.poolsColumns = [
+            {
+                field: "name",
+                name: "Name",
+                minWidth: 60
+            },
+        ];
     };
 
     function onClickGrid(e, selRowDataItem) {
@@ -158,6 +166,6 @@ define([
 
         }
     };
-    
+
     return SGridConfig;
 });

@@ -45,6 +45,15 @@ function MonitorStorageLoader() {
                     }
                 }
                 break;
+            case 'renderPools':
+                if (hashParams.type == "pool") {
+                    if (hashParams.view == "details") {
+                        //TBD for single pool page.
+                    } else {
+                        this.monStorageView.renderPoolList({hashParams: hashParams});
+                    }
+                }
+                break;
         }
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -54,6 +63,8 @@ function MonitorStorageLoader() {
             renderFn = "renderDisks";
         } else if (hashObj.type == "monitor"){
             renderFn = "renderMonitors";
+        } else if (hashObj.type == "pool"){
+            renderFn = "renderPools";
         } else if (hashObj.type == "dashboard"){
             renderFn = "renderDashboard";
         }

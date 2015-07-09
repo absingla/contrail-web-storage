@@ -17,6 +17,9 @@ define([
         this.URL_STORAGENODE_MONITORS_SUMMARY = '/api/tenant/storage/cluster/monitors/summary';
         this.URL_STORAGENODE_MONITOR_DETAILS = '/api/tenant/storage/cluster/monitor/details?name={0}'; //TBD
 
+        this.URL_POOLS_SUMMARY = '/api/tenant/storage/cluster/pools/summary';
+        this.URL_POOL_DETAILS = '/api/tenant/storage/cluster/pool/details?name={0}'; //TBD
+
         this.POOL_PREFIX = {
             VOLUME: 'volumes_',
             IMAGE: 'images_'
@@ -45,6 +48,7 @@ define([
         this.UCID_ALL_DISK_LIST = this.UCID_PREFIX_MS_LISTS + "all-disks";
         this.UCID_DISK_STATS = this.UCID_PREFIX_MS_CHARTS + "{0}:{1}:disk_stats";
         this.UCID_ALL_MONITOR_LIST = this.UCID_PREFIX_MS_LISTS + "all-monitors";
+        this.UCID_ALL_POOL_LIST = this.UCID_PREFIX_MS_LISTS + "all-pools";
 
         this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 

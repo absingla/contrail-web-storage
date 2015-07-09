@@ -28,6 +28,11 @@ define([
         renderMonitorList: function (viewConfig) {
             var self = this;
             cowu.renderView4Config(self.$el, null, getStorageMonitorListViewConfig());
+        },
+
+        renderPoolList: function (viewConfig) {
+            var self = this;
+            cowu.renderView4Config(self.$el, null, getPoolListViewConfig());
         }
 
     });
@@ -57,6 +62,15 @@ define([
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGE_MONITOR_LIST_PAGE_ID]),
             view: "StorageMonListView",
+            app: cowc.APP_CONTRAIL_STORAGE,
+            viewConfig: {}
+        };
+    }
+
+    function getPoolListViewConfig() {
+        return {
+            elementId: cowu.formatElementId([swl.MONITOR_POOL_LIST_PAGE_ID]),
+            view: "PoolListView",
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {}
         };

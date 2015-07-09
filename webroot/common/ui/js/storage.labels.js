@@ -25,6 +25,13 @@ define([
         this.MONITOR_STORAGE_MONITOR_LIST_ID = "monitor-storagemon-list";
         this.MONITOR_STORAGE_MONITOR_GRID_ID = "monitor-storagemon-grid";
 
+        this.MONITOR_POOLS_ID = "monitor-pools";
+        this.MONITOR_POOL_LIST_PAGE_ID = "monitor-pool-list-page";
+        this.MONITOR_POOL_LIST_VIEW_ID = "monitor-pool-list-view";
+        this.MONITOR_POOL_LIST_ID = "monitor-pool-list";
+        this.MONITOR_POOL_GRID_ID = "monitor-pool-grid";
+
+
         this.TITLE_STORAGENODES = "Storage Nodes";
         this.TITLE_STORAGENODES_SUMMARY = "Storage Nodes Summary";
         this.TITLE_STORAGENODE = "Storage Node";
@@ -44,10 +51,14 @@ define([
         this.TITLE_MONITOR_DETAILS = "Storage Monitor Details";
         this.TITLE_ROOT_DISK_USAGE = "Root Disk Usage";
 
-
+        this.TITLE_POOLS = "Pools";
+        this.TITLE_POOL_SUMMARY = "Pool Summary";
+        this.TITLE_POOL_DETAILS = "Pool Details";
+        this.TITLE_POOL_STATS = "Pool Stats";
 
         this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
         this.TITLE_CHART_ELEMENT_DISK = "disk";
+        this.TITLE_CHART_ELEMENT_POOL = "pool";
 
         this.STORAGENODE_TAB_VIEW_ID = "storagenode-tab-view"
         this.STORAGENODE_TAB_ID = "storagenode";
@@ -68,6 +79,8 @@ define([
         this.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL = "IOPs";
         this.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
 
+        this.POOL_SCATTER_CHART_ID = "pool-scatter-chart";
+
         var labelMap = {
             /* Storage Node Details */
             name: 'Name',
@@ -85,7 +98,14 @@ define([
             /* Storage Monitor Details */
             avail_percent: 'Available',
             addr: 'IP Address',
-            skew: 'Clock Skew'
+            skew: 'Clock Skew',
+            /* Pool Details */
+            max_avail: 'Max Available',
+            pg_num: 'Placement Group',
+            pool: 'Pool ID',
+            crush_ruleset: 'Crush Ruleset',
+            snap_mode: 'Snapshot Mode',
+            cache_mode: 'Cache Mode'
         };
 
         this.get = function (key) {

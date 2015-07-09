@@ -400,6 +400,29 @@ define([
             }
             return retArr;
         };
+
+        this.poolDataParser = function (response) {
+            var poolObj = response;
+            poolObj['rawData'] = $.extend(true, {}, poolObj);
+            poolObj['x'] = poolObj['stats']['bytes_used'];
+            poolObj['y'] = poolObj['stats']['objects'];
+            poolObj['used'] = formatBytes(poolObj['stats']['bytes_used']);
+            poolObj['max_avail'] = formatBytes(poolObj['stats']['max_avail']);
+            poolObj['objects'] = formatNumberByCommas(poolObj['stats']['objects']);
+            return poolObj;
+        };
+
+        this.poolsDataParser = function (response) {
+            var retArr = [];
+            if (response != null) {
+                $.each(response.pools, function (idx, pool) {
+                    pool = self.poolDataParser(pool);
+                    retArr.push(pool);
+                });
+            }
+            return retArr;
+
+        }
     };
 
 
