@@ -145,9 +145,34 @@ define([
 
         this.poolsColumns = [
             {
+                field: "pool",
+                name: "ID",
+                minWidth: 30
+            },
+            {
                 field: "name",
                 name: "Name",
                 minWidth: 60
+            },
+            {
+                field: "pg_placement_num",
+                name: "PG Placement",
+                minWidth: 60
+            },
+            {
+                field: "used",
+                name: "Used",
+                minWidth: 50
+            },
+            {
+                field: "max_avail",
+                name: "Max Available",
+                minWidth: 50
+            },
+            {
+                field: "objects",
+                name: "Objects",
+                minWidth: 50
             },
         ];
     };

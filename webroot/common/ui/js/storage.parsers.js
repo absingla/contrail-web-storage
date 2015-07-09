@@ -404,7 +404,7 @@ define([
         this.poolDataParser = function (response) {
             var poolObj = response;
             poolObj['rawData'] = $.extend(true, {}, poolObj);
-            poolObj['x'] = poolObj['stats']['bytes_used'];
+            poolObj['x'] = swu.calcPercent(poolObj['stats']['bytes_used'], poolObj['stats']['max_avail']);
             poolObj['y'] = poolObj['stats']['objects'];
             poolObj['used'] = formatBytes(poolObj['stats']['bytes_used']);
             poolObj['max_avail'] = formatBytes(poolObj['stats']['max_avail']);
