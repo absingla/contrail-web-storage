@@ -13,7 +13,7 @@ define([
                 formatter: function (r, c, v, cd, dc) {
                     return cellTemplateLinks({
                         cellText: 'name',
-                        name: 'name',
+                        name: 'storagenode',
                         statusBubble: false,
                         rowData: dc
                     });
@@ -61,10 +61,16 @@ define([
             {
                 field: "name",
                 name: "Disk Name",
+                formatter: function (r, c, v, cd, dc) {
+                    return cellTemplateLinks({
+                        cellText: 'name',
+                        name: 'disk',
+                        statusBubble: false,
+                        rowData: dc
+                    });
+                },
                 events: {
-                    onClick: function (e, dc) {
-                        onDisksRowSelChange(dc);
-                    }
+                    onClick: onClickGrid
                 },
                 cssClass: 'cell-hyperlink-blue',
                 minWidth: 60
@@ -140,22 +146,18 @@ define([
 
     function onClickGrid(e, selRowDataItem) {
         var name = $(e.target).attr('name'),
-            fqName;
+            fqName, fqObj = {};
         if ($.inArray(name, ['storagenode']) > -1) {
             fqName = selRowDataItem['name'];
-            swgrc.setStoragenodeURLHashParams(null, fqName, true);
+            swcc.setStoragenodeURLHashParams(null, fqName, true);
+        } else if ($.inArray(name, ['disk']) > -1) {
+            fqObj['fqName'] = selRowDataItem['name'];
+            fqObj['fqHost'] = selRowDataItem['host'];
+            swcc.setDiskURLHashParams(null, fqObj, true);
+        } else {
+
         }
-
     };
-
-    function onDisksRowSelChange(currObj) {
-        layoutHandler.setURLHashParams({
-            node: currObj['host'],
-            tab: 'details:' + currObj['name']
-        }, {
-            p: 'mon_storage_disks'
-        });
-    };
-
+    
     return SGridConfig;
 });
