@@ -54,6 +54,16 @@ function MonitorStorageLoader() {
                     }
                 }
                 break;
+
+            case 'renderStorageDashboard':
+                if (hashParams.type == "storage") {
+                    if (hashParams.view == "dashboard") {
+                        this.monStorageView.renderStorageDashboard({hashParams: hashParams});
+                    } else {
+                        //TODO
+                    }
+                }
+                break;
         }
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -65,8 +75,8 @@ function MonitorStorageLoader() {
             renderFn = "renderMonitors";
         } else if (hashObj.type == "pool"){
             renderFn = "renderPools";
-        } else if (hashObj.type == "dashboard"){
-            renderFn = "renderDashboard";
+        } else if (hashObj.type == "storage"){
+            renderFn = "renderStorageDashboard";
         }
 
         this.load({hashParams: hashObj, 'function': renderFn});

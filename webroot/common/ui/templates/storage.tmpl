@@ -19,6 +19,19 @@
     <div id="{{chartId}}" class="traffic-stats-chart row-fluid"></div>
 </script>
 
+<script type="text/x-handlebars-template" id="cluster-disk-activity-stats-template">
+    <div id="logs-box" class="widget-box transparent">
+        <div class="widget-header">{{title}}</div>
+        <div class="widget-body">
+            <div class="widget-main padding-4">
+                <div id="{{chart1Id}}" class="traffic-stats-chart row-fluid"></div>
+                <div id="{{chart2Id}}" class="traffic-stats-chart row-fluid"></div>
+                <div id="{{chart3Id}}" class="traffic-stats-chart row-fluid"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script type="text/x-handlebars-template" id="storage-status-template">
     {{#IfCompare sevLevel sevLevels.ERROR }}
         <span class="status-badge-rounded-small status-inactive"></span>

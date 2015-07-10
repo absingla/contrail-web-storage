@@ -33,6 +33,11 @@ define([
         renderPoolList: function (viewConfig) {
             var self = this;
             cowu.renderView4Config(self.$el, null, getPoolListViewConfig());
+        },
+
+        renderStorageDashboard: function (viewConfig) {
+            var self = this;
+            cowu.renderView4Config(self.$el, null, getDashboardViewConfig());
         }
 
     });
@@ -71,6 +76,15 @@ define([
         return {
             elementId: cowu.formatElementId([swl.MONITOR_POOL_LIST_PAGE_ID]),
             view: "PoolListView",
+            app: cowc.APP_CONTRAIL_STORAGE,
+            viewConfig: {}
+        };
+    }
+
+    function getDashboardViewConfig() {
+        return {
+            elementId: cowu.formatElementId([swl.MONITOR_STORAGE_DASHBOARD_PAGE_ID]),
+            view: "DashboardView",
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {}
         };

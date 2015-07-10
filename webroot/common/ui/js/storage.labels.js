@@ -31,6 +31,9 @@ define([
         this.MONITOR_POOL_LIST_ID = "monitor-pool-list";
         this.MONITOR_POOL_GRID_ID = "monitor-pool-grid";
 
+        this.MONITOR_STORAGE_DASHBOARD_PAGE_ID = "monitor-storage-dashboard-page";
+        this.MONITOR_STORAGE_DASHBOARD_LIST_ID = "monitor-storage-dashboard-list";
+
 
         this.TITLE_STORAGENODES = "Storage Nodes";
         this.TITLE_STORAGENODES_SUMMARY = "Storage Nodes Summary";
@@ -78,6 +81,16 @@ define([
         this.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL = "Throughput";
         this.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL = "IOPs";
         this.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
+
+        this.CLUSTER_DISK_ACTIVITY_STATS_ID = "cluster-disk-activity-stats";
+        this.CLUSTER_DISK_ACTIVITY_VIEW_ID = "cluster-disk-activity-view";
+        this.CLUSTER_DISK_ACTIVITY_THRPT_CHART_ID =  "cluster-disk-activity-thrpt-chart";
+        this.CLUSTER_DISK_ACTIVITY_IOPS_CHART_ID =  "cluster-disk-activity-iops-chart";
+        this.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID =  "cluster-disk-activity-latency-chart";
+
+        this.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL = "Throughput";
+        this.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL = "IOPs";
+        this.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
 
         this.POOL_SCATTER_CHART_ID = "pool-scatter-chart";
 

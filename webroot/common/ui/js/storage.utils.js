@@ -18,10 +18,12 @@ define([
     'monitor/storage/ui/js/views/StorageMonListView',
     'monitor/storage/ui/js/views/StorageMonGridView',
     'monitor/storage/ui/js/views/PoolListView',
-    'monitor/storage/ui/js/views/PoolGridView'
+    'monitor/storage/ui/js/views/PoolGridView',
+    'monitor/storage/ui/js/views/DashboardView',
+    'monitor/storage/ui/js/views/ClusterActivityStatsView'
 ], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, StorageNodeView, StorageNodeTabView,
              DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView,
-             StorageMonListView, StorageMonGridView, PoolListView, PoolGridView
+             StorageMonListView, StorageMonGridView, PoolListView, PoolGridView, DashboardView, ClusterActivityStatsView
             ) {
     var SUtils = function () {
         var self = this;
@@ -454,6 +456,18 @@ define([
 
                 case "PoolGridView" :
                     elementView = new PoolGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "DashboardView" :
+                    elementView = new DashboardView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    break;
+
+                case "ClusterActivityStatsView" :
+                    elementView = new ClusterActivityStatsView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;
