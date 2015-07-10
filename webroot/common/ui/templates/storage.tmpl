@@ -20,13 +20,24 @@
 </script>
 
 <script type="text/x-handlebars-template" id="cluster-disk-activity-stats-template">
-    <div id="logs-box" class="widget-box transparent">
+    <div id="cluster-disk-activity-stats-box" class="widget-box transparent">
         <div class="widget-header">{{title}}</div>
         <div class="widget-body">
             <div class="widget-main padding-4">
                 <div id="{{chart1Id}}" class="traffic-stats-chart row-fluid"></div>
                 <div id="{{chart2Id}}" class="traffic-stats-chart row-fluid"></div>
                 <div id="{{chart3Id}}" class="traffic-stats-chart row-fluid"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="cluster-pool-stats-template">
+    <div id="cluster-pool-stats-box" class="widget-box transparent">
+        <div class="widget-header">{{title}}</div>
+        <div class="widget-body">
+            <div class="widget-main padding-4">
+                <div id="{{chart1Id}}" class="bar-stats-chart row-fluid"></div>
             </div>
         </div>
     </div>

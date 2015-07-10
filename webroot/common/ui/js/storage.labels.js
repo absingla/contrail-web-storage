@@ -30,9 +30,12 @@ define([
         this.MONITOR_POOL_LIST_VIEW_ID = "monitor-pool-list-view";
         this.MONITOR_POOL_LIST_ID = "monitor-pool-list";
         this.MONITOR_POOL_GRID_ID = "monitor-pool-grid";
+        this.MONITOR_POOL_STATS_ID = "monitor-pool-stats";
 
         this.MONITOR_STORAGE_DASHBOARD_PAGE_ID = "monitor-storage-dashboard-page";
         this.MONITOR_STORAGE_DASHBOARD_LIST_ID = "monitor-storage-dashboard-list";
+        this.MONITOR_STORAGE_DASHBOARD_USAGE_SECTION_ID = "monitor-storage-dashboard-usage";
+        this.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID = "monitor-storage-dashboard-stats"
 
 
         this.TITLE_STORAGENODES = "Storage Nodes";
@@ -93,6 +96,7 @@ define([
         this.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
 
         this.POOL_SCATTER_CHART_ID = "pool-scatter-chart";
+        this.POOL_BAR_CHART_ID = "pool-bar-chart";
 
         var labelMap = {
             /* Storage Node Details */

@@ -42,47 +42,81 @@ define([
                     {
                         columns: [
                             {
-                                elementId: swl.DISK_SCATTER_CHART_ID,
-                                title: swl.TITLE_DISKS,
-                                view: "ZoomScatterChartView",
+                                elementId: cowu.formatElementId([swl.MONITOR_STORAGE_DASHBOARD_USAGE_SECTION_ID]),
+                                view: "SectionView",
                                 viewConfig: {
-                                    loadChartInChunks: true,
-                                    chartOptions: {
-                                        xLabel: 'Usage (%)',
-                                        xLabelFormat: d3.format(".01f"),
-                                        forceX: [0, 1],
-                                        yLabel: 'Avg. Bandwidth [R + W] ',
-                                        yLabelFormat: function(yValue) {
-                                            return formatThroughput(yValue, true);
+                                    class: 'span6',
+                                    rows: [
+                                        {
+                                            columns: [
+                                                {
+                                                    //TODO //Cluster USage
+                                                }
+                                            ]
                                         },
-                                        dataParser: function (response) {
-                                            return response;
+                                        {
+                                            columns: [
+                                                {
+                                                    elementId: swl.DISK_SCATTER_CHART_ID,
+                                                    title: swl.TITLE_DISKS,
+                                                    view: "ZoomScatterChartView",
+                                                    viewConfig: {
+                                                        loadChartInChunks: true,
+                                                        chartOptions: {
+                                                            xLabel: 'Usage (%)',
+                                                            xLabelFormat: d3.format(".01f"),
+                                                            forceX: [0, 1],
+                                                            yLabel: 'Avg. Bandwidth [R + W] ',
+                                                            yLabelFormat: function (yValue) {
+                                                                return formatThroughput(yValue, true);
+                                                            },
+                                                            dataParser: function (response) {
+                                                                return response;
+                                                            },
+                                                            tooltipConfigCB: getDiskTooltipConfig,
+                                                            clickCB: onScatterChartClick,
+                                                            sizeFieldName: 'used_perc',
+                                                            margin: {left: 70},
+                                                            noDataMessage: "Unable to get disk data."
+                                                        }
+                                                    }
+                                                }
+                                            ]
                                         },
-                                        tooltipConfigCB: getDiskTooltipConfig,
-                                        clickCB: onScatterChartClick,
-                                        sizeFieldName: 'used_perc',
-                                        margin: {left: 70},
-                                        noDataMessage: "Unable to get disk data."
-                                    }
+                                        {
+                                            columns: [
+                                                {
+                                                    elementId: swl.MONITOR_POOL_STATS_ID,
+                                                    title: swl.TITLE_POOL_STATS,
+                                                    view: "PoolStatsView",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
+                                                    viewConfig: {
+                                                        modelConfig: {
+                                                            remote: {
+                                                                ajaxConfig: {
+                                                                    url: swc.URL_POOLS_SUMMARY,
+                                                                    type: 'GET'
+                                                                },
+                                                                dataParser: swp.poolsDataParser
+                                                            },
+                                                            cacheConfig: {
+                                                                ucid: swc.UCID_ALL_POOL_LIST
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                    ]
                                 }
                             },
-                        ]
-                    },
-                    {
-                        columns: [
                             {
-                                //TODO //Cluster USage
-                            },
-                            {
-                                //TODO //Cluster Pool
-                            },
-                            {
-                                elementId: swl.DISK_ACTIVITY_STATS_ID,
+                                elementId: swl.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID,
                                 title: swl.TITLE_DISK_ACTIVITY_STATS,
                                 view: "ClusterActivityStatsView",
                                 app: cowc.APP_CONTRAIL_STORAGE,
                                 viewConfig: {
-                                    class: 'span5',
+                                    class: 'span6',
                                     modelConfig: {
                                         modelKey: swc.UMID_CLUSTER_DISK_UVE,
                                         remote: {
@@ -108,7 +142,7 @@ define([
     function onScatterChartClick(chartConfig) {
         var diskFQN = chartConfig['name'],
             storagenodeFQN = chartConfig['host'];
-        swcc.setDiskURLHashParams(null, {fqName: diskFQN, fqHost:storagenodeFQN}, true);
+        swcc.setDiskURLHashParams(null, {fqName: diskFQN, fqHost: storagenodeFQN}, true);
     };
 
     function getDiskTooltipConfig(data) {
@@ -123,10 +157,10 @@ define([
                 iconClass: 'icon-contrail-storage-disk',
                 info: [
                     {label: 'Name', value: data['name']},
-                    {label:'Total', value: data['total']},
-                    {label:'Used', value: data['used']},
-                    {label:'Available', value: data['available']},
-                    {label:'Avg BW (Read+Write)', value:formatThroughput(data['y'])}
+                    {label: 'Total', value: data['total']},
+                    {label: 'Used', value: data['used']},
+                    {label: 'Available', value: data['available']},
+                    {label: 'Avg BW (Read+Write)', value: formatThroughput(data['y'])}
                 ],
                 actions: [
                     {

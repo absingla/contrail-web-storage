@@ -422,7 +422,44 @@ define([
             }
             return retArr;
 
-        }
+        };
+
+        this.poolsBarChartDataParser = function (response) {
+            var usageKeys = [],
+                objectKeys = [],
+                replicaArr = [];
+
+            if (response != null) {
+                $.each(response, function(idx, pool) {
+                    var usageItem = {
+                        key: pool['pool_name'],
+                        values: [
+                            {
+                                label: 'Usage',
+                                value: pool['stats']['bytes_used'] / pool['size']
+                            }
+                        ]
+                    };
+                    usageKeys.push(usageItem);
+                    /*
+                    var objItem = {
+                        key: pool['pool_name'],
+                        values: [
+                            {
+                                label: 'Objects',
+                                value: pool['stats']['objects'] / pool['size']
+                            }
+                        ]
+                    };
+                    objectKeys.push(objItem);
+
+                    replicaArr.push(pool['size']);
+                    */
+                });
+            }
+            //return {usage: usageKeys, objects: objectKeys, replica: replicaArr};
+            return usageKeys;
+        };
     };
 
 

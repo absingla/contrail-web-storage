@@ -74,7 +74,7 @@ define([
             selector = swu.getSelector4Id(swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_ID);
             add2ViewConfig = {
                 chartOptions: {
-                    height: 200,
+                    height: 250,
                     yAxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL
                 },
                 parseFn: swp.diskActivityThrptLineChartDataParser
@@ -91,7 +91,7 @@ define([
             };
             add2ViewConfig = {
                 chartOptions: {
-                    height: 200,
+                    height: 250,
                     yAxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
                     yFormatter: yFormatterFn,
                     y2Formatter: yFormatterFn
@@ -110,7 +110,7 @@ define([
             };
             add2ViewConfig = {
                 chartOptions: {
-                    height: 200,
+                    height: 250,
                     yAxisLabel: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
                     yFormatter: yFormatterFn,
                     y2Formatter: yFormatterFn
