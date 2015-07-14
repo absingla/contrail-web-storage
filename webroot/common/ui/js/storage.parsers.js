@@ -460,6 +460,130 @@ define([
             //return {usage: usageKeys, objects: objectKeys, replica: replicaArr};
             return usageKeys;
         };
+
+        this.clusterReplicaFactorParser = function (response) {
+            var replicaArr = [];
+            $.each(response.pools, function (idx, pool) {
+                replicaArr.push(pool['size']);
+            });
+            return [getMaxNumericValueInArray(replicaArr)];
+        }
+
+        this.clusterUsageDataParser = function (response) {
+            var usage = {};
+            if (response != null) {
+                usage['rawData'] = response;
+                var osd_summary = response['usage_summary']['osd_summary'];
+                usage['kb'] = osd_summary['kb'];
+                usage['kb_used'] = osd_summary['kb_used'];
+                usage['kb_avail'] = osd_summary['kb_avail'];
+                usage['near_full_ratio'] = parseFloat((osd_summary['near_full_ratio'] * 100).toFixed(2));
+                usage['full_ratio'] = parseFloat((osd_summary['full_ratio'] * 100).toFixed(2));
+                usage['total_used'] = formatBytes(usage['kb_used'] * 1024);
+                usage['total_avail'] = formatBytes(usage['kb_avail'] * 1024);
+                usage['total_space'] = formatBytes(usage['kb'] * 1024);
+                usage['used_perc'] = parseFloat(swu.calcPercent(usage['kb_used'], usage['kb']));
+                return [usage];
+            }
+        };
+
+        this.clusterUsageWithReplicaFactor = function (usage, clusterReplicaFactor) {
+            if (usage != null && clusterReplicaFactor != null) {
+                usage = usage[0];
+                usage['kb'] = usage['kb'] / clusterReplicaFactor;
+                usage['kb_used'] = usage['kb_used'] / clusterReplicaFactor;
+                usage['kb_avail'] = usage['kb_avail'] / clusterReplicaFactor;
+                usage['total_used'] = formatBytes(usage['kb_used'] * 1024);
+                usage['total_avail'] = formatBytes(usage['kb_avail'] * 1024);
+                usage['total_space'] = formatBytes(usage['kb'] * 1024);
+                usage['used_perc'] = parseFloat(swu.calcPercent(usage['kb_used'], usage['kb']));
+                return [usage];
+            }
+        }
+
+        this.clusterUsageDonutChartParser = function (response) {
+            var retObj = {};
+
+            response = response[0];
+
+            retObj['innerData'] = [
+                {
+                    name: "Used",
+                    value: Math.ceil(response['used_perc']),
+                    tooltip_data: [
+                        {
+                            lbl: "Used",
+                            value: response['total_used']
+                        },
+                        {
+                            lbl: "Percentage",
+                            value: response['used_perc'] + "%"
+                        }
+                    ]
+                },
+                {
+                    name: "Available",
+                    value: 100 - Math.ceil(response['used_perc']),
+                    tooltip_data: [
+                        {
+                            lbl: "Available",
+                            value: response['total_avail']
+                        },
+                        {
+                            lbl: "Percentage",
+                            value: (100 - response['used_perc']).toFixed(2) + "%"
+                        }
+                    ]
+                }
+            ];
+
+            retObj['outerData'] = [
+                {
+                    name: "Normal Ratio",
+                    status: "Normal",
+                    value: parseInt(response['near_full_ratio']),
+                    tooltip_data: [
+                        {
+                            lbl: "Range",
+                            value: '0 - ' + response['near_full_ratio'] + ' %'
+                        }
+                    ]
+                },
+                {
+                    name: "Near Full Ratio",
+                    status: "Warning",
+                    value: parseInt(response['full_ratio'] - response['near_full_ratio']),
+                    tooltip_data: [
+                        {
+                            lbl: "Range",
+                            value: response['near_full_ratio'] + ' - ' + response['full_ratio'] + ' %'
+                        }
+                    ]
+                },
+                {
+                    name: "Full Ratio",
+                    status: "Critical",
+                    value: parseInt(100 - response['full_ratio']),
+                    tooltip_data: [
+                        {
+                            lbl: "Range",
+                            value: response['full_ratio'] + ' - 100 %'
+                        }
+                    ]
+                }
+            ];
+
+            if (response['used_perc'] < response['near_full_ratio']) {
+                retObj['flagKey'] = "Normal";
+            } else if ((response['used_perc'] > response['near_full_ratio']) &&
+                (response['used_perc'] < response['full_ratio'])) {
+                retObj['flagKey'] = "Warning";
+            } else {
+                retObj['flagKey'] = "Critical";
+            }
+
+            return retObj;
+        };
     };
 
 

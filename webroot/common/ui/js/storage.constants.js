@@ -20,6 +20,7 @@ define([
         this.URL_POOLS_SUMMARY = '/api/tenant/storage/cluster/pools/summary';
         this.URL_POOL_DETAILS = '/api/tenant/storage/cluster/pool/details?name={0}'; //TBD
 
+        this.URL_CLUSTER_USAGE = '/api/tenant/storage/cluster/usage';
         this.URL_CLUSTER_THROUGHPUT_SUMMARY = '/api/tenant/storage/cluster/throughput/summary';
         this.URL_CLUSTER_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/osd/activity?minsSince=60&sampleCnt=60&endTime=now';
         this.URL_CLUSTER_RAW_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/disk/activity?minsSince=60&sampleCnt=60&endTime=now';
@@ -42,6 +43,7 @@ define([
 
         this.UMID_DISK_UVE = "uve:{0}:{1}";
         this.UMID_CLUSTER_DISK_UVE = "uve:cluster:disk";
+        this.UMID_CLUSTER_USAGE = "uve:cluster:usage"
 
         this.UCID_PREFIX_MS = "monitor-storage";
         this.UCID_PREFIX_CHARTS = "charts";
@@ -55,6 +57,7 @@ define([
         this.UCID_ALL_MONITOR_LIST = this.UCID_PREFIX_MS_LISTS + "all-monitors";
         this.UCID_ALL_POOL_LIST = this.UCID_PREFIX_MS_LISTS + "all-pools";
         this.UCID_CLUSTER_DISK_STATS = this.UCID_PREFIX_MS_CHARTS + "cluster_disk_stats";
+        this.UCID_CLUSTER_USAGE = this.UCID_PREFIX_MS_CHARTS + "cluster_usage"
 
         this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 
@@ -63,9 +66,11 @@ define([
 
         this.DETAILS_ELEMENT_DISK = 'disk-details';
 
+        this.TMPL_BASIC_STATS_WIDGET = 'basic-stats-widget-template';
         this.TMPL_DISK_ACTIVITY_STATS = 'disk-activity-stats-template';
         this.TMPL_CLUSTER_DISK_ACTIVITY_STATS = 'cluster-disk-activity-stats-template';
-        this.TMPL_POOL_STATS = 'cluster-pool-stats-template';
+        this.TMPL_POOL_STATS = this.TMPL_BASIC_STATS_WIDGET;
+        this.TMPL_CLUSTER_USAGE_STATS = this.TMPL_BASIC_STATS_WIDGET;
 
         this.DISK_OKAY_COLOR = 'okay';
         this.DISK_WARNING_COLOR = 'warning';

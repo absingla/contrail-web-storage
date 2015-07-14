@@ -37,6 +37,7 @@ define([
         this.MONITOR_STORAGE_DASHBOARD_USAGE_SECTION_ID = "monitor-storage-dashboard-usage";
         this.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID = "monitor-storage-dashboard-stats"
 
+        this.MONITOR_CLUSTER_USAGE_ID = "monitor-storage-cluster-usage";
 
         this.TITLE_STORAGENODES = "Storage Nodes";
         this.TITLE_STORAGENODES_SUMMARY = "Storage Nodes Summary";
@@ -61,6 +62,8 @@ define([
         this.TITLE_POOL_SUMMARY = "Pool Summary";
         this.TITLE_POOL_DETAILS = "Pool Details";
         this.TITLE_POOL_STATS = "Pool Stats";
+
+        this.TITLE_CLUSTER_USAGE = "Cluster Usage";
 
         this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
         this.TITLE_CHART_ELEMENT_DISK = "disk";
@@ -97,6 +100,8 @@ define([
 
         this.POOL_SCATTER_CHART_ID = "pool-scatter-chart";
         this.POOL_BAR_CHART_ID = "pool-bar-chart";
+
+        this.CLUSTER_USAGE_CHART_ID = "storage-cluster-usage-chart";
 
         var labelMap = {
             /* Storage Node Details */

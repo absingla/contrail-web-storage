@@ -50,7 +50,24 @@ define([
                                         {
                                             columns: [
                                                 {
-                                                    //TODO //Cluster USage
+                                                    elementId: swl.MONITOR_CLUSTER_USAGE_ID,
+                                                    title: swl.TITLE_CLUSTER_USAGE,
+                                                    view: "ClusterUsageView",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
+                                                    viewConfig: {
+                                                        modelConfig: {
+                                                            remote: {
+                                                                ajaxConfig: {
+                                                                    url: swc.URL_CLUSTER_USAGE,
+                                                                    type: 'GET'
+                                                                },
+                                                                dataParser: swp.clusterUsageDataParser
+                                                            },
+                                                            cacheConfig: {
+                                                                ucid: swc.UCID_CLUSTER_USAGE
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             ]
                                         },
