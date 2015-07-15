@@ -30,15 +30,17 @@ define([
         var poolStatsViewConfig = {
             elementId: swl.POOL_BAR_CHART_ID,
             title: swl.TITLE_POOLS,
-            view: "HorizontalBarChartView",
+            view: "MultiBarChartView",
             viewConfig: {
                 loadChartInChunks: true,
                 parseFn: swp.poolsBarChartDataParser,
                 chartOptions: {
                     xAxisLabel: '',
                     yAxisLabel: '',
-                    height: 150,
+                    height: 250,
                     showLegend: true,
+                    legendPadding: 75,
+                    groupSpacing: 0.5,
                     tooltipConfigCB: getPoolBarTooltipConfig,
                     clickCB: '',//TODO
                     noDataMessage: "Unable to get pool data."
