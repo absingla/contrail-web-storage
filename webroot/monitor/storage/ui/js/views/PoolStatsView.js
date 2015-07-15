@@ -35,8 +35,8 @@ define([
                 loadChartInChunks: true,
                 parseFn: swp.poolsBarChartDataParser,
                 chartOptions: {
-                    xAxisLabel: 'Pools',
-                    yAxisLabel: 'Usage',
+                    xAxisLabel: '',
+                    yAxisLabel: '',
                     height: 150,
                     showLegend: true,
                     tooltipConfigCB: getPoolBarTooltipConfig,

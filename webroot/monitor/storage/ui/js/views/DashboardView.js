@@ -42,10 +42,38 @@ define([
                     {
                         columns: [
                             {
+                                elementId: swl.DISK_SCATTER_CHART_ID,
+                                title: swl.TITLE_DISKS,
+                                view: "ZoomScatterChartView",
+                                viewConfig: {
+                                    loadChartInChunks: true,
+                                    chartOptions: {
+                                        xLabel: 'Usage (%)',
+                                        xLabelFormat: d3.format(".01f"),
+                                        forceX: [0, 1],
+                                        yLabel: 'Avg. Bandwidth [R + W] ',
+                                        yLabelFormat: function (yValue) {
+                                            return formatThroughput(yValue, true);
+                                        },
+                                        dataParser: function (response) {
+                                            return response;
+                                        },
+                                        tooltipConfigCB: getDiskTooltipConfig,
+                                        clickCB: onScatterChartClick,
+                                        sizeFieldName: 'used_perc',
+                                        margin: {left: 70},
+                                        noDataMessage: "Unable to get disk data."
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
                                 elementId: cowu.formatElementId([swl.MONITOR_STORAGE_DASHBOARD_USAGE_SECTION_ID]),
                                 view: "SectionView",
                                 viewConfig: {
-                                    class: 'span6',
                                     rows: [
                                         {
                                             columns: [
@@ -55,6 +83,7 @@ define([
                                                     view: "ClusterUsageView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
+                                                        class: 'span3',
                                                         modelConfig: {
                                                             remote: {
                                                                 ajaxConfig: {
@@ -68,46 +97,14 @@ define([
                                                             }
                                                         }
                                                     }
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            columns: [
-                                                {
-                                                    elementId: swl.DISK_SCATTER_CHART_ID,
-                                                    title: swl.TITLE_DISKS,
-                                                    view: "ZoomScatterChartView",
-                                                    viewConfig: {
-                                                        loadChartInChunks: true,
-                                                        chartOptions: {
-                                                            xLabel: 'Usage (%)',
-                                                            xLabelFormat: d3.format(".01f"),
-                                                            forceX: [0, 1],
-                                                            yLabel: 'Avg. Bandwidth [R + W] ',
-                                                            yLabelFormat: function (yValue) {
-                                                                return formatThroughput(yValue, true);
-                                                            },
-                                                            dataParser: function (response) {
-                                                                return response;
-                                                            },
-                                                            tooltipConfigCB: getDiskTooltipConfig,
-                                                            clickCB: onScatterChartClick,
-                                                            sizeFieldName: 'used_perc',
-                                                            margin: {left: 70},
-                                                            noDataMessage: "Unable to get disk data."
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            columns: [
+                                                },
                                                 {
                                                     elementId: swl.MONITOR_POOL_STATS_ID,
                                                     title: swl.TITLE_POOL_STATS,
                                                     view: "PoolStatsView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
+                                                        class: 'span4',
                                                         modelConfig: {
                                                             remote: {
                                                                 ajaxConfig: {
@@ -121,32 +118,42 @@ define([
                                                             }
                                                         }
                                                     }
+                                                },
+                                                {
+                                                    elementId: swl.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID,
+                                                    title: swl.TITLE_DISK_ACTIVITY_STATS,
+                                                    view: "ClusterActivityStatsView",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
+                                                    viewConfig: {
+                                                        class: 'span5',
+                                                        modelConfig: {
+                                                            modelKey: swc.UMID_CLUSTER_DISK_UVE,
+                                                            remote: {
+                                                                ajaxConfig: {
+                                                                    url: swc.URL_CLUSTER_DISK_ACTIVITY_STATS,
+                                                                    type: 'GET'
+                                                                },
+                                                                dataParser: swp.diskActivityStatsParser
+                                                            },
+                                                            cacheConfig: {
+                                                                ucid: swc.UCID_CLUSTER_DISK_STATS
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             ]
                                         },
-                                    ]
-                                }
-                            },
-                            {
-                                elementId: swl.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID,
-                                title: swl.TITLE_DISK_ACTIVITY_STATS,
-                                view: "ClusterActivityStatsView",
-                                app: cowc.APP_CONTRAIL_STORAGE,
-                                viewConfig: {
-                                    class: 'span6',
-                                    modelConfig: {
-                                        modelKey: swc.UMID_CLUSTER_DISK_UVE,
-                                        remote: {
-                                            ajaxConfig: {
-                                                url: swc.URL_CLUSTER_DISK_ACTIVITY_STATS,
-                                                type: 'GET'
-                                            },
-                                            dataParser: swp.diskActivityStatsParser
+                                        {
+                                            columns: [
+
+                                            ]
                                         },
-                                        cacheConfig: {
-                                            ucid: swc.UCID_CLUSTER_DISK_STATS
-                                        }
-                                    }
+                                        {
+                                            columns: [
+
+                                            ]
+                                        },
+                                    ]
                                 }
                             }
                         ]
