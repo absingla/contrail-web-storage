@@ -508,6 +508,19 @@ define([
             return usageKeys;
         };
 
+        this.poolsDonutChartDataParser = function (response) {
+            var retArr = [];
+            if(response != null) {
+                $.each(response, function(idx, pool) {
+                    retArr.push({
+                        label: pool['pool_name'],
+                        value: pool['stats']['bytes_used'] / pool['size']
+                    });
+                });
+            }
+            return retArr;
+        };
+
         this.clusterReplicaFactorParser = function (response) {
             var replicaArr = [];
             $.each(response.pools, function (idx, pool) {

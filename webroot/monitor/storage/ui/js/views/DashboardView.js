@@ -104,7 +104,7 @@ define([
                                                     view: "PoolStatsView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
-                                                        class: 'span4',
+                                                        class: 'span3',
                                                         modelConfig: {
                                                             remote: {
                                                                 ajaxConfig: {
@@ -120,12 +120,12 @@ define([
                                                     }
                                                 },
                                                 {
-                                                    elementId: swl.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID,
+                                                    elementId: swl.MONITOR_STORAGE_DASHBOARD_CLUSTER_STATS_ID,
                                                     title: swl.TITLE_DISK_ACTIVITY_STATS,
                                                     view: "ClusterActivityStatsView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
-                                                        class: 'span5',
+                                                        class: 'span6',
                                                         modelConfig: {
                                                             modelKey: swc.UMID_CLUSTER_DISK_UVE,
                                                             remote: {
@@ -142,17 +142,7 @@ define([
                                                     }
                                                 }
                                             ]
-                                        },
-                                        {
-                                            columns: [
-
-                                            ]
-                                        },
-                                        {
-                                            columns: [
-
-                                            ]
-                                        },
+                                        }
                                     ]
                                 }
                             }

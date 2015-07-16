@@ -34,8 +34,9 @@ define([
 
         this.MONITOR_STORAGE_DASHBOARD_PAGE_ID = "monitor-storage-dashboard-page";
         this.MONITOR_STORAGE_DASHBOARD_LIST_ID = "monitor-storage-dashboard-list";
-        this.MONITOR_STORAGE_DASHBOARD_USAGE_SECTION_ID = "monitor-storage-dashboard-usage";
-        this.MONITOR_STORAGE_DASHBOARD_STATS_SECTION_ID = "monitor-storage-dashboard-stats"
+        this.MONITOR_STORAGE_DASHBOARD_USAGE_SECTION_ID = "monitor-storage-dashboard-usage-section";
+        this.MONITOR_STORAGE_DASHBOARD_CLUSTER_USAGE_ID = "monitor-storage-dashboard-usage";
+        this.MONITOR_STORAGE_DASHBOARD_CLUSTER_STATS_ID = "monitor-storage-dashboard-stats";
 
         this.MONITOR_CLUSTER_USAGE_ID = "monitor-storage-cluster-usage";
 
@@ -64,6 +65,7 @@ define([
         this.TITLE_POOL_STATS = "Pool Stats";
 
         this.TITLE_CLUSTER_USAGE = "Cluster Usage";
+        this.TITLE_CLUSTER_REPLICA_FACTOR = "Replication Factor: "
 
         this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
         this.TITLE_CHART_ELEMENT_DISK = "disk";
@@ -102,8 +104,10 @@ define([
 
         this.POOL_SCATTER_CHART_ID = "pool-scatter-chart";
         this.POOL_BAR_CHART_ID = "pool-bar-chart";
+        this.POOL_STATS_CHART_ID = "pool-stats-chart";
 
         this.CLUSTER_USAGE_CHART_ID = "storage-cluster-usage-chart";
+        this.CLUSTER_REPLICA_FACTOR_ID = "storage-cluster-replica-factor";
 
         var labelMap = {
             /* Storage Node Details */

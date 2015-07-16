@@ -17,7 +17,9 @@ define([
 
             $(selector).append(clusterUsageTemplate({
                 title: swl.TITLE_CLUSTER_USAGE,
-                chart1Id: swl.CLUSTER_USAGE_CHART_ID
+                usageChartId: swl.CLUSTER_USAGE_CHART_ID,
+                replicaFactorId: swl.CLUSTER_REPLICA_FACTOR_ID,
+                replicaFactorTitle: swl.TITLE_CLUSTER_REPLICA_FACTOR,
             }));
             selector = swu.getSelector4Id(swl.CLUSTER_USAGE_CHART_ID);
 
@@ -54,6 +56,8 @@ define([
                     }
                 },
                 chartOptions: {
+                    margin: {top: 35, right: 30, bottom: 20, left: 60},
+                    height: 150,
                     outerArc: {
                         tooltipFn: getClusterStatusTooltip
                     },

@@ -15,11 +15,13 @@ define([
             var selector = $(self.$el),
                 poolStatsTemplate = contrail.getTemplate4Id(swc.TMPL_POOL_STATS);
 
+
             $(selector).append(poolStatsTemplate({
                 title: swl.TITLE_POOL_STATS,
-                chart1Id: swl.POOL_BAR_CHART_ID
+                chart1Id: swl.POOL_STATS_CHART_ID
             }));
-            selector = swu.getSelector4Id(swl.POOL_BAR_CHART_ID);
+
+            selector = swu.getSelector4Id(swl.POOL_STATS_CHART_ID);
 
             cowu.renderView4Config(selector, null, getPoolStatsViewConfig(viewConfig));
         }
@@ -28,22 +30,23 @@ define([
     var getPoolStatsViewConfig = function (viewConfig) {
 
         var poolStatsViewConfig = {
-            elementId: swl.POOL_BAR_CHART_ID,
+            elementId: swl.POOL_STATS_CHART_ID,
             title: swl.TITLE_POOLS,
-            view: "MultiBarChartView",
+            view: "DonutChartView",
             viewConfig: {
                 loadChartInChunks: true,
-                parseFn: swp.poolsBarChartDataParser,
+                parseFn: swp.poolsDonutChartDataParser,
                 chartOptions: {
-                    xAxisLabel: '',
-                    yAxisLabel: '',
+                    //margin: {top: 10, right: 10, bottom: 20, left: 40},
+                    donutRatio: 0.6,
                     height: 250,
                     showLegend: true,
-                    legendPadding: 75,
-                    groupSpacing: 0.7,
-                    tooltipConfigCB: getPoolBarTooltipConfig,
-                    clickCB: '',//TODO
-                    noDataMessage: "Unable to get pool data."
+                    showLabels: false,
+                    legendRightAlign: true,
+                    legendPadding: 32,
+                    noDataMessage: "Unable to get pool data.",
+                    valueFormat: formatBytes
+
                 }
             }
         };

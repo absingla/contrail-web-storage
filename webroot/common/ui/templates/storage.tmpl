@@ -43,6 +43,24 @@
     </div>
 </script>
 
+<script type="text/x-handlebars-template" id="cluster-usage-widget-template">
+    <div id="cluster-usage-box" class="widget-box transparent">
+        <div class="widget-header">{{title}}</div>
+        <div class="widget-body">
+            <div class="widget-main padding-4">
+                <div class="row-fluid">
+                    <div id="{{replicaFactorId}}" style="text-align:center">
+                        <span>{{replicaFactorTitle}}</span>
+                        <span id="replica-factor"></span>
+                    </div>
+                    <div id="{{usageChartId}}" class="stats-chart"></div>
+                </div>
+                <div id="{{poolsChartId}}" class="stats-chart row-fluid"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script type="text/x-handlebars-template" id="storage-status-template">
     {{#IfCompare sevLevel sevLevels.ERROR }}
         <span class="status-badge-rounded-small status-inactive"></span>
