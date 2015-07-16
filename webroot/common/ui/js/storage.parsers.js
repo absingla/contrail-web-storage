@@ -342,6 +342,37 @@ define([
             }
         };
 
+        this.diskActivityThrptIOPsLineBarChartDataParser = function (responseArray) {
+            if (responseArray.length == 0) {
+                return [];
+            } else {
+                var thrptWrite = {key: "Throughput Write", values: [], color: d3_category5[2]},
+                    thrptRead = {key: "Throughput Read", values: [], color: d3_category5[3]},
+                    iopsWrite = {key: "IOPs Write", values: [], bar: true, color: d3_category5[0]},
+                    iopsRead = {key: "IOPs Read", values: [], bar: true, color: d3_category5[1]},
+                    chartData = [thrptWrite, thrptRead, iopsWrite, iopsRead];
+
+                $.each(responseArray[0], function (idx, thrpt) {
+                    if (thrpt.key == 'Read') {
+                        thrptRead.values = thrpt.values;
+                    } else if (thrpt.key == 'Write') {
+                        thrptWrite.values = thrpt.values;
+                    } else {
+                    }
+                });
+
+                $.each(responseArray[1], function (idx, iops) {
+                    if (iops.key == 'Read') {
+                        iopsRead.values = iops.values;
+                    } else if (iops.key == 'Write') {
+                        iopsWrite.values = iops.values;
+                    } else {
+                    }
+                });
+                return chartData;
+            }
+        };
+
         this.diskActivityIOPsLineChartDataParser = function (responseArray) {
             if (responseArray.length == 0) {
                 return [];
@@ -354,6 +385,22 @@ define([
             if (responseArray.length == 0) {
                 return [];
             } else {
+                return responseArray[2];
+            }
+        };
+
+        this.diskActivityLatencyLineBarChartDataParser = function (responseArray) {
+            if (responseArray.length == 0) {
+                return [];
+            } else {
+                $.each(responseArray[2], function (idx, latency) {
+                    if (latency.key == 'Read') {
+                        latency.key = "Read Latency";
+                    } else if (latency.key == 'Write') {
+                        latency.key = "Write Latency";
+                    } else {
+                    }
+                });
                 return responseArray[2];
             }
         };

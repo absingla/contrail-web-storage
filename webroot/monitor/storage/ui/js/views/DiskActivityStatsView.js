@@ -7,7 +7,8 @@ define([
     'backbone',
     'contrail-list-model',
     'js/views/LineWithFocusChartView',
-], function (_, Backbone, ContrailListModel, LineWithFocusChartView) {
+    'js/views/LineBarWithFocusChartView',
+], function (_, Backbone, ContrailListModel, LineWithFocusChartView, LineBarWithFocusChartView) {
     var DiskActivityStatsView = Backbone.View.extend({
         el: $(contentContainer),
 
@@ -45,58 +46,44 @@ define([
                 loadingSpinnerTemplate = contrail.getTemplate4Id(cowc.TMPL_LOADING_SPINNER);
 
             $(selector).append(diskActivityStatsTemplate({
-                chartId: swl.DISK_ACTIVITY_THRPT_CHART_ID
-            }));
-
-            $(selector).append(diskActivityStatsTemplate({
-                chartId: swl.DISK_ACTIVITY_IOPS_CHART_ID
+                chartId: swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID
             }));
 
             $(selector).append(diskActivityStatsTemplate({
                 chartId: swl.DISK_ACTIVITY_LATENCY_CHART_ID
             }));
 
-            $(swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_CHART_ID)).append(loadingSpinnerTemplate);
-            $(swu.getSelector4Id(swl.DISK_ACTIVITY_IOPS_CHART_ID)).append(loadingSpinnerTemplate);
+            $(swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID)).append(loadingSpinnerTemplate);
             $(swu.getSelector4Id(swl.DISK_ACTIVITY_LATENCY_CHART_ID)).append(loadingSpinnerTemplate);
 
         },
 
         renderCharts: function (viewConfig, chartData) {
             var lineWithFocusChartView = new LineWithFocusChartView(),
+                lineBarWithFocusChartView = new LineBarWithFocusChartView(),
                 selector, add2ViewConfig, yFormatterFn;
             /**
-             * Disk Activity Throughput line chart
+             * Disk Activity Throughput & IOPs Line Bar chart
              */
-            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_CHART_ID);
+            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID);
             add2ViewConfig = {
                 chartOptions: {
-                    height: 250,
-                    yAxisLabel: swl.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL
-                },
-                parseFn: swp.diskActivityThrptLineChartDataParser
-            }
-            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
-            lineWithFocusChartView.renderChart(selector, viewConfig, chartData);
+                    height: 350,
+                    y1AxisLabel: swl.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
+                    y1Formatter: function (d) {
+                        return swu.addUnits2IOPs(d, false, false, 1);
+                    },
+                    y2AxisLabel: swl.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
+                    y2Formatter: function(y2Value) {
+                        return formatBytes(y2Value, true);
+                    },
+                    showLegend: false
 
-            /**
-             * Disk Activity IOPs line chart
-             */
-            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_IOPS_CHART_ID);
-            yFormatterFn = function (d) {
-                return swu.addUnits2IOPs(d, false, false, 1);
-            };
-            add2ViewConfig = {
-                chartOptions: {
-                    height: 250,
-                    yAxisLabel: swl.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
-                    yFormatter: yFormatterFn,
-                    y2Formatter: yFormatterFn
                 },
-                parseFn: swp.diskActivityIOPsLineChartDataParser
+                parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
             }
             var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
-            lineWithFocusChartView.renderChart(selector, viewConfig, chartData);
+            lineBarWithFocusChartView.renderChart(selector, viewConfig, chartData);
 
             /**
              * Disk Activity Latency line chart
@@ -112,7 +99,7 @@ define([
                     yFormatter: yFormatterFn,
                     y2Formatter: yFormatterFn
                 },
-                parseFn: swp.diskActivityLatencyLineChartDataParser
+                parseFn: swp.diskActivityLatencyLineBarChartDataParser
             }
             var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
             lineWithFocusChartView.renderChart(selector, viewConfig, chartData);

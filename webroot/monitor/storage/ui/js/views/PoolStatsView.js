@@ -40,7 +40,7 @@ define([
                     height: 250,
                     showLegend: true,
                     legendPadding: 75,
-                    groupSpacing: 0.5,
+                    groupSpacing: 0.7,
                     tooltipConfigCB: getPoolBarTooltipConfig,
                     clickCB: '',//TODO
                     noDataMessage: "Unable to get pool data."
