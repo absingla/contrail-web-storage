@@ -6,7 +6,7 @@ define([
     'underscore'
 ], function (_) {
     var SChartConfig = function () {
-        this.setStoragenodeURLHashParams = function(hashParams, fqName, triggerHashChange) {
+        this.setStorageNodeURLHashParams = function(hashParams, fqName, triggerHashChange) {
             var hashObj = {
                 type: "storagenode",
                 view: "details",

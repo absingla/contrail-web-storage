@@ -84,7 +84,7 @@ and need to add the iconClass tag wherever we need to show some icons
                                 <resource>
                                     <rootDir>/monitor/infrastructure/ui</rootDir>
                                     <class>infraStoragePageLoader</class>
-                                    <function>renderStoragenodes</function>
+                                    <function>renderStorageNodes</function>
                                 </resource>
                             </resources>
                             <queryParams>

@@ -182,7 +182,7 @@ define([
             fqName, fqObj = {};
         if ($.inArray(name, ['storagenode']) > -1) {
             fqName = selRowDataItem['name'];
-            swcc.setStoragenodeURLHashParams(null, fqName, true);
+            swcc.setStorageNodeURLHashParams(null, fqName, true);
         } else if ($.inArray(name, ['disk']) > -1) {
             fqObj['fqName'] = selRowDataItem['name'];
             fqObj['fqHost'] = selRowDataItem['host'];

@@ -26,12 +26,12 @@ function MonitorInfraStorageLoader() {
     this.renderView = function (renderFn, hashParams) {
         $(contentContainer).html("");
         switch (renderFn) {
-            case 'renderStoragenodes':
+            case 'renderStorageNodes':
                 if (hashParams.type == "storagenode") {
                     if (hashParams.view == "details") {
-                        this.infraStorageView.renderStoragenode({hashParams: hashParams});
+                        this.infraStorageView.renderStorageNode({hashParams: hashParams});
                     } else {
-                        this.infraStorageView.renderStoragenodeList({hashParams: hashParams});
+                        this.infraStorageView.renderStorageNodeList({hashParams: hashParams});
                     }
                 }
                 break;
@@ -49,7 +49,7 @@ function MonitorInfraStorageLoader() {
         var renderFn;
 
         if(hashObj.type == "storagenode"){
-            renderFn = "renderStoragenodes";
+            renderFn = "renderStorageNodes";
         } else if (hashObj.type == "disk"){
             renderFn = "renderDisks";
         } else if (hashObj.type == "monitor"){

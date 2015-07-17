@@ -7,7 +7,7 @@ define([
     'backbone',
     'contrail-list-model'
 ], function (_, Backbone, ContrailListModel) {
-    var StoragenodeListView = Backbone.View.extend({
+    var StorageNodeListView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -27,11 +27,11 @@ define([
             };
 
             var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(this.$el, contrailListModel, getStoragenodeListViewConfig());
+            cowu.renderView4Config(this.$el, contrailListModel, getStorageNodeListViewConfig());
         }
     });
 
-    var getStoragenodeListViewConfig = function () {
+    var getStorageNodeListViewConfig = function () {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_LIST_ID]),
             view: "SectionView",
@@ -61,7 +61,7 @@ define([
                                             });
                                             return nodeData;
                                         },
-                                        tooltipConfigCB: getStoragenodeTooltipConfig,
+                                        tooltipConfigCB: getStorageNodeTooltipConfig,
                                         clickCB: onScatterChartClick,
                                         sizeFieldName: 'osds_used_perc',
                                         margin: {left: 70},
@@ -76,7 +76,7 @@ define([
                             {
                                 elementId: swl.MONITOR_STORAGENODES_ID,
                                 title: swl.TITLE_STORAGENODES,
-                                view: "StoragenodeGridView",
+                                view: "StorageNodeGridView",
                                 app: cowc.APP_CONTRAIL_STORAGE,
                                 viewConfig: {pagerOptions: { options: { pageSize: 10, pageSizeSelect: [10, 50, 100] } }}
                             }
@@ -89,15 +89,15 @@ define([
 
     var onScatterChartClick = function(chartConfig) {
         var storagenodeFQN = chartConfig['name'];
-        swcc.setStoragenodeURLHashParams(null, storagenodeFQN, true);
+        swcc.setStorageNodeURLHashParams(null, storagenodeFQN, true);
     };
 
-    var getStoragenodeTooltipConfig = function(data) {
-        var storagenodeFQNObj = data.name.split(':');
+    var getStorageNodeTooltipConfig = function(data) {
+        var storageNodeFQNObj = data.name.split(':');
 
         return {
             title: {
-                name: storagenodeFQNObj[0],
+                name: storageNodeFQNObj[0],
                 type: swl.TITLE_CHART_ELEMENT_STORAGENODE
             },
             content: {
@@ -124,5 +124,5 @@ define([
         };
     };
 
-    return StoragenodeListView;
+    return StorageNodeListView;
 });

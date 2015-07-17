@@ -5,8 +5,8 @@
 define([
     'underscore',
     'contrail-view-model',
-    'monitor/infrastructure/ui/js/views/StoragenodeGridView',
-    'monitor/infrastructure/ui/js/views/StoragenodeListView',
+    'monitor/infrastructure/ui/js/views/StorageNodeGridView',
+    'monitor/infrastructure/ui/js/views/StorageNodeListView',
     'monitor/infrastructure/ui/js/views/StorageNodeView',
     'monitor/infrastructure/ui/js/views/StorageNodeTabView',
     'monitor/storage/ui/js/views/DiskListView',
@@ -23,7 +23,7 @@ define([
     'monitor/storage/ui/js/views/ClusterActivityStatsView',
     'monitor/storage/ui/js/views/PoolStatsView',
     'monitor/storage/ui/js/views/ClusterUsageView',
-], function (_, ContrailViewModel, StoragenodeGridView, StoragenodeListView, StorageNodeView, StorageNodeTabView,
+], function (_, ContrailViewModel, StorageNodeGridView, StorageNodeListView, StorageNodeView, StorageNodeTabView,
              DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView,
              StorageMonListView, StorageMonGridView, PoolListView, PoolGridView, DashboardView, ClusterActivityStatsView,
              PoolStatsView, ClusterUsageView
@@ -370,22 +370,14 @@ define([
             var elementView;
 
             switch (viewName) {
-                case "StoragenodeListView" :
-                    elementView = new StoragenodeListView({
-                        el: parentElement,
-                        model: model,
-                        attributes: viewAttributes
-                    });
+                case "StorageNodeListView" :
+                    elementView = new StorageNodeListView({ el: parentElement, model: model, attributes: viewAttributes });
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;
 
-                case "StoragenodeGridView" :
-                    elementView = new StoragenodeGridView({
-                        el: parentElement,
-                        model: model,
-                        attributes: viewAttributes
-                    });
+                case "StorageNodeGridView" :
+                    elementView = new StorageNodeGridView({ el: parentElement, model: model, attributes: viewAttributes });
                     elementView.modelMap = modelMap;
                     elementView.render();
                     break;

@@ -6,7 +6,7 @@ define([
     'underscore',
     'backbone'
 ], function (_, Backbone) {
-    var StoragenodeGridView = Backbone.View.extend({
+    var StorageNodeGridView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function() {
@@ -15,17 +15,17 @@ define([
                 pagerOptions = viewConfig['pagerOptions'],
                 ucid = swc.UCID_ALL_STORAGENODE_LIST;
 
-            var storagenodesRemoteConfig = {
+            var storageNodesRemoteConfig = {
                 url: swc.get(swc.URL_STORAGENODES_SUMMARY),
                 type: "GET"
             };
 
-            cowu.renderView4Config(self.$el, self.model, getStoragenodeGridViewConfig(storagenodesRemoteConfig, ucid, pagerOptions));
+            cowu.renderView4Config(self.$el, self.model, getStorageNodeGridViewConfig(storageNodesRemoteConfig, ucid, pagerOptions));
 
         }
     });
 
-    var getStoragenodeGridViewConfig = function(storagenodesRemoteConfig, ucid, pagerOptions) {
+    var getStorageNodeGridViewConfig = function(storagenodesRemoteConfig, ucid, pagerOptions) {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_LIST_VIEW_ID]),
             view: "SectionView",
@@ -38,7 +38,7 @@ define([
                                 title: swl.TITLE_STORAGENODES_SUMMARY,
                                 view: "GridView",
                                 viewConfig: {
-                                    elementConfig: getStoragenodeGridConfig(storagenodesRemoteConfig, ucid, pagerOptions)
+                                    elementConfig: getStorageNodeGridConfig(storagenodesRemoteConfig, ucid, pagerOptions)
                                 }
                             }
                         ]
@@ -49,7 +49,7 @@ define([
 
     };
 
-    var getStoragenodeGridConfig = function(storagenodesRemoteConfig, ucid, pagerOptions) {
+    var getStorageNodeGridConfig = function(storageNodesRemoteConfig, ucid, pagerOptions) {
         var gridElementConfig = {
             header: {
                 title: {
@@ -76,7 +76,7 @@ define([
                 },
                 dataSource: {
                     remote: {
-                        ajaxConfig: storagenodesRemoteConfig,
+                        ajaxConfig: storageNodesRemoteConfig,
                         dataParser: swp.storagenodeDataParser
                     },
                     cacheConfig: ucid
@@ -173,5 +173,5 @@ define([
         };
     };
 
-    return StoragenodeGridView;
+    return StorageNodeGridView;
 });

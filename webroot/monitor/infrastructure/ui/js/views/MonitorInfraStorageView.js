@@ -10,7 +10,7 @@ define([
     var MonitorStorageView = Backbone.View.extend({
         el: $(contentContainer),
 
-        renderStoragenode: function (viewConfig) {
+        renderStorageNode: function (viewConfig) {
             var self = this,
                 hashParams = viewConfig.hashParams,
                 fqName = (contrail.checkIfKeyExistInObject(true, hashParams, 'focusedElement.fqName') ? hashParams.focusedElement.fqName : null),
@@ -22,8 +22,8 @@ define([
             cowu.renderView4Config(this.$el, null, getStorageNodeViewConfig(hashParams));
         },
 
-        renderStoragenodeList: function () {
-            cowu.renderView4Config(this.$el, null, getStoragenodeListConfig());
+        renderStorageNodeList: function () {
+            cowu.renderView4Config(this.$el, null, getStorageNodeListConfig());
         },
 
         renderDisk: function (viewConfig) {
@@ -37,10 +37,10 @@ define([
         }
     });
 
-    function getStoragenodeListConfig() {
+    function getStorageNodeListConfig() {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_LIST_PAGE_ID]),
-            view: "StoragenodeListView",
+            view: "StorageNodeListView",
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {}
         }
