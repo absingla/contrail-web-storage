@@ -64,6 +64,7 @@ and need to add the iconClass tag wherever we need to show some icons
                             </queryParams>
                             <searchStrings>Infrastructure Dashboard</searchStrings>
                         </item>
+                        <!--
                         <item>
                             <hash>mon_infra_storage</hash>
                             <label>Storage Nodes</label>
@@ -77,9 +78,10 @@ and need to add the iconClass tag wherever we need to show some icons
                             </resources>
                             <searchStrings>Monitor Storage Nodes</searchStrings>
                         </item>
+                        -->
                         <item>
                             <hash>monitor_infra_storage</hash>
-                            <label>Storage Nodes (MVC)</label>
+                            <label>Storage Nodes</label>
                             <resources>
                                 <resource>
                                     <rootDir>/monitor/infrastructure/ui</rootDir>
@@ -96,6 +98,7 @@ and need to add the iconClass tag wherever we need to show some icons
                         </item>
                     </items>
                 </item>
+                <!--
                 <item>
                     <name>storage</name>
                     <label>Storage</label>
@@ -161,8 +164,9 @@ and need to add the iconClass tag wherever we need to show some icons
                         </item>
                     </items>
                 </item>
+                -->
                 <item>
-                    <label>Storage (MVC)</label>
+                    <label>Storage</label>
                     <iconClass>icon-tasks</iconClass>
                     <resources>
                         <resource>
