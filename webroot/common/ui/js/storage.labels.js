@@ -24,6 +24,7 @@ define([
         this.MONITOR_STORAGE_MONITOR_LIST_VIEW_ID = "monitor-storagemon-list-view";
         this.MONITOR_STORAGE_MONITOR_LIST_ID = "monitor-storagemon-list";
         this.MONITOR_STORAGE_MONITOR_GRID_ID = "monitor-storagemon-grid";
+        this.MONITOR_STORAGE_MONITOR_SCATTER_CHART_ID = "monitor-storagemon-scatter-chart";
 
         this.MONITOR_POOLS_ID = "monitor-pools";
         this.MONITOR_POOL_LIST_PAGE_ID = "monitor-pool-list-page";
@@ -68,6 +69,7 @@ define([
         this.TITLE_CLUSTER_REPLICA_FACTOR = "Replication Factor: "
 
         this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
+        this.TITLE_CHART_ELEMENT_STORAGENODE_MONITOR = "storage node monitor";
         this.TITLE_CHART_ELEMENT_DISK = "disk";
         this.TITLE_CHART_ELEMENT_POOL = "pool";
 

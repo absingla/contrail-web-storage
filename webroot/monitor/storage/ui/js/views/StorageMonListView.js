@@ -42,6 +42,34 @@ define([
                     {
                         columns: [
                             {
+                                elementId: swl.MONITOR_STORAGE_MONITOR_SCATTER_CHART_ID,
+                                title: swl.TITLE_MONITORS,
+                                view: "ZoomScatterChartView",
+                                viewConfig: {
+                                    loadChartInChunks: true,
+                                    chartOptions: {
+                                        xLabel: 'Total ',
+                                        xLabelFormat: function(xValue) {
+                                            return formatBytes(xValue, true);
+                                        },
+                                        yLabel: 'Usage (%)',
+                                        yLabelFormat: d3.format(".01f"),
+                                        dataParser: function (response) {
+                                            return response;
+                                        },
+                                        tooltipConfigCB: getStorageMonitorTooltipConfig,
+                                        clickCB: '',
+                                        sizeFieldName: '',
+                                        margin: {left: 70},
+                                        noDataMessage: "Unable to get Monitor data."
+                                    }
+                                }
+                            },
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
                                 elementId: swl.MONITOR_STORAGE_MONITORS_ID,
                                 title: swl.TITLE_MONITORS,
                                 view: "StorageMonGridView",
@@ -61,3 +89,29 @@ define([
 
     return StorageMonListView;
 });
+
+function getStorageMonitorTooltipConfig (data) {
+    var storagenodeFQNObj = data.name.split(':');
+
+    return {
+        title: {
+            name: storagenodeFQNObj[0],
+            type: swl.TITLE_CHART_ELEMENT_STORAGENODE_MONITOR
+        },
+        content: {
+            iconClass: 'icon-contrail-storage-node',
+            info: [
+                {label: 'Name', value: data['name']},
+                {label:'Latency', value: data['latency']},
+                {label:'Clock Skew', value: data['skew']},
+                {label:'Available', value: data['avail_percent']},
+                {label:'Root HD Total', value:formatBytes(data['x'])}
+            ],
+            actions: []
+        },
+        dimension: {
+            width: 350
+        }
+    };
+
+}
