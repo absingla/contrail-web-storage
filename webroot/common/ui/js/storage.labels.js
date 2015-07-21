@@ -6,6 +6,63 @@ define([
     'underscore'
 ], function (_) {
     var SLabels = function () {
+        this.get = function (key) {
+            var keyArray, newKey;
+            if (_.has(labelMap, key)) {
+                return labelMap[key];
+            } else {
+                keyArray = key.split('.');
+                newKey = keyArray[keyArray.length - 1];
+                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
+                    return labelMap[newKey];
+                } else {
+                    return newKey.charAt(0).toUpperCase() + newKey.slice(1);
+                }
+            }
+        };
+
+        this.isExistKey = function (key) {
+            var keyArray, newKey;
+            if (_.has(labelMap, key)) {
+                return true;
+            } else {
+                keyArray = key.split('.');
+                newKey = keyArray[keyArray.length - 1];
+                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        var labelMap = {
+            /* Storage Node Details */
+            name: 'Name',
+            osds_total: 'Total',
+            osds_used: 'Used',
+            osds_count: 'Count',
+            osds_status: 'Status/Membership',
+            status_tmpl: 'Status',
+            cluster_status_tmpl: 'Membership',
+            public_addr: 'Public Address',
+            uuid: 'UUID',
+            /* Disk Details */
+            apply_latency: 'Apply Latency',
+            commit_latency: 'Commit Latency',
+            /* Storage Monitor Details */
+            avail_percent: 'Available',
+            addr: 'IP Address',
+            skew: 'Clock Skew',
+            /* Pool Details */
+            max_avail: 'Max Available',
+            pg_num: 'Placement Group',
+            pool: 'Pool ID',
+            crush_ruleset: 'Crush Ruleset',
+            snap_mode: 'Snapshot Mode',
+            cache_mode: 'Cache Mode'
+        };
+
         this.MONITOR_STORAGENODE_LIST_PAGE_ID = "monitor-storagenode-list-page"
         this.MONITOR_STORAGENODE_LIST_ID = "monitor-storagenode-list";
         this.MONITOR_STORAGENODE_LIST_VIEW_ID = "monitor-storagenode-list-view";
@@ -66,6 +123,8 @@ define([
         this.TITLE_POOL_STATS = "Pool Stats";
 
         this.TITLE_CLUSTER_USAGE = "Cluster Usage";
+        this.TITLE_CLUSTER_THROUGHPUT = "Cluster Throughput";
+        this.TITLE_CLUSTER_LATENCY = "Cluster Latency";
         this.TITLE_CLUSTER_REPLICA_FACTOR = "Replication Factor: "
 
         this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
@@ -94,6 +153,7 @@ define([
         this.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
 
         this.CLUSTER_DISK_ACTIVITY_STATS_ID = "cluster-disk-activity-stats";
+        this.CLUSTER_DISK_ACTIVITY_STATS_TAB_ID = "cluster-disk-activity-stats-tab";
         this.CLUSTER_DISK_ACTIVITY_VIEW_ID = "cluster-disk-activity-view";
         this.CLUSTER_DISK_ACTIVITY_THRPT_CHART_ID =  "cluster-disk-activity-thrpt-chart";
         this.CLUSTER_DISK_ACTIVITY_IOPS_CHART_ID =  "cluster-disk-activity-iops-chart";
@@ -111,47 +171,6 @@ define([
         this.CLUSTER_USAGE_CHART_ID = "storage-cluster-usage-chart";
         this.CLUSTER_REPLICA_FACTOR_ID = "storage-cluster-replica-factor";
 
-        var labelMap = {
-            /* Storage Node Details */
-            name: 'Name',
-            osds_total: 'Total',
-            osds_used: 'Used',
-            osds_count: 'Count',
-            osds_status: 'Status/Membership',
-            status_tmpl: 'Status',
-            cluster_status_tmpl: 'Membership',
-            public_addr: 'Public Address',
-            uuid: 'UUID',
-            /* Disk Details */
-            apply_latency: 'Apply Latency',
-            commit_latency: 'Commit Latency',
-            /* Storage Monitor Details */
-            avail_percent: 'Available',
-            addr: 'IP Address',
-            skew: 'Clock Skew',
-            /* Pool Details */
-            max_avail: 'Max Available',
-            pg_num: 'Placement Group',
-            pool: 'Pool ID',
-            crush_ruleset: 'Crush Ruleset',
-            snap_mode: 'Snapshot Mode',
-            cache_mode: 'Cache Mode'
-        };
-
-        this.get = function (key) {
-            var keyArray, newKey;
-            if (_.has(labelMap, key)) {
-                return labelMap[key];
-            } else {
-                keyArray = key.split('.');
-                newKey = keyArray[keyArray.length - 1];
-                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
-                    return labelMap[newKey];
-                } else {
-                    return newKey.charAt(0).toUpperCase() + newKey.slice(1);
-                }
-            }
-        };
     };
     return SLabels;
 });
