@@ -11,17 +11,8 @@ define([
 
         render: function () {
             var self = this,
-                viewConfig = self.attributes.viewConfig;
-            var selector = $(self.$el),
-                poolStatsTemplate = contrail.getTemplate4Id(swc.TMPL_POOL_STATS);
-
-
-            $(selector).append(poolStatsTemplate({
-                title: swl.TITLE_POOL_STATS,
-                chart1Id: swl.POOL_STATS_CHART_ID
-            }));
-
-            selector = swu.getSelector4Id(swl.POOL_STATS_CHART_ID);
+                viewConfig = self.attributes.viewConfig,
+                selector = $(self.$el);
 
             cowu.renderView4Config(selector, null, getPoolStatsViewConfig(viewConfig));
         }
@@ -31,9 +22,9 @@ define([
 
         var poolStatsViewConfig = {
             elementId: swl.POOL_STATS_CHART_ID,
-            title: swl.TITLE_POOLS,
             view: "DonutChartView",
             viewConfig: {
+                title: swl.TITLE_POOL_STATS,
                 loadChartInChunks: true,
                 parseFn: swp.poolsDonutChartDataParser,
                 chartOptions: {

@@ -5,102 +5,109 @@
 define([
     'underscore',
     'backbone',
-    'contrail-list-model',
-    'js/views/LineWithFocusChartView',
-    'js/views/LineBarWithFocusChartView',
-], function (_, Backbone, ContrailListModel, LineWithFocusChartView, LineBarWithFocusChartView) {
+    'contrail-list-model'
+], function (_, Backbone, ContrailListModel) {
     var ClusterActivityStatsView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
-                selector = $(self.$el);
+                modelConfig = viewConfig.modelConfig;
 
+            if(self.model === null) {
+                self.model = new ContrailListModel(modelConfig);
+            }
 
-            self.initializeChartElementsAndLoadSpinner(selector);
-
-            if (viewConfig.modelConfig != null) {
-                self.model = new ContrailListModel(viewConfig['modelConfig']);
-                if (self.model.loadedFromCache || !(self.model.isRequestInProgress())) {
-                    var chartData = self.model.getItems();
-                    self.renderCharts(viewConfig, chartData);
-                }
+            if (viewConfig.modelConfig !== null) {
+                self.renderCharts();
 
                 self.model.onAllRequestsComplete.subscribe(function () {
-                    var chartData = self.model.getItems();
-                    self.renderCharts(viewConfig, chartData);
+                    self.renderCharts();
                 });
 
                 if (viewConfig.loadChartInChunks) {
                     self.model.onDataUpdate.subscribe(function () {
-                        var chartData = self.model.getItems();
-                        self.renderCharts(viewConfig, chartData);
+                        self.renderCharts();
                     });
                 }
             }
         },
 
-        initializeChartElementsAndLoadSpinner: function (selector) {
-            var diskActivityStatsTemplate = contrail.getTemplate4Id(swc.TMPL_CLUSTER_DISK_ACTIVITY_STATS),
-                loadingSpinnerTemplate = contrail.getTemplate4Id(cowc.TMPL_LOADING_SPINNER);
-
-            $(selector).append(diskActivityStatsTemplate({
-                title: "Cluster Activity",
-                chart1Id: swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID,
-                chart3Id: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID
-            }));
-            $(swu.getSelector4Id(swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID)).append(loadingSpinnerTemplate);
-            $(swu.getSelector4Id(swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID)).append(loadingSpinnerTemplate);
-
-        },
-
-        renderCharts: function (viewConfig, chartData) {
-            var lineBarWithFocusChartView = new LineBarWithFocusChartView(),
-                lineWithFocusChartView = new LineWithFocusChartView(),
-                selector, add2ViewConfig, yFormatterFn;
-            /**
-             * Cluster wide Disk Activity Throughput & IOPs chart
-             */
-            selector = swu.getSelector4Id(swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID);
-            add2ViewConfig = {
-                chartOptions: {
-                    height: 300,
-                    y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
-                    y1AxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
-                    y2Formatter: function(y2Value) {
-                        return formatBytes(y2Value, true);
-                    },
-                    y1Formatter: function (d) {
-                        return swu.addUnits2IOPs(d, false, false, 1);
-                    },
-                    showLegend: false
-                },
-                parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
-            }
-            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
-            lineBarWithFocusChartView.renderChart(selector, viewConfig, chartData);
-
-            /**
-             * Cluster wide Disk Activity Latency line chart
-             */
-            selector = swu.getSelector4Id(swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID);
-            yFormatterFn = function (d) {
-                return swu.addUnits2Latency(d, false, false, 1);
-            };
-            add2ViewConfig = {
-                chartOptions: {
-                    height: 250,
-                    y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
-                    y2Formatter: yFormatterFn
-                },
-                parseFn: swp.diskActivityLatencyLineBarChartDataParser
-            }
-            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
-            lineBarWithFocusChartView.renderChart(selector, viewConfig, chartData);
+        renderCharts: function () {
+            var self = this;
+            cowu.renderView4Config(self.$el, self.model, getClusterActivityStatsViewConfig());
         }
 
     });
+
+    var getClusterActivityStatsViewConfig = function () {
+        return {
+            elementId: cowu.formatElementId([swl.CLUSTER_DISK_ACTIVITY_STATS_ID, '-section']),
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {
+                                elementId: swl.CLUSTER_DISK_ACTIVITY_STATS_TAB_ID,
+                                view: "TabsView",
+                                viewConfig: {
+                                    theme: 'widget-classic',
+                                    active: 0,
+                                    activate: function (e, ui) {
+                                        var selTab = $(ui.newTab.context).text();
+                                        if (selTab == swl.TITLE_CLUSTER_THROUGHPUT) {
+                                            $('#' + swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID).find('svg').trigger('refresh');
+                                        } else if (selTab == swl.TITLE_CLUSTER_LATENCY) {
+                                            $('#' + swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID).find('svg').trigger('refresh');
+                                        }
+                                    },
+                                    tabs: [
+                                        {
+                                            elementId: swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID,
+                                            title: swl.TITLE_CLUSTER_THROUGHPUT,
+                                            view: "LineBarWithFocusChartView",
+                                            viewConfig: {
+                                                chartOptions: {
+                                                    height: 300,
+                                                    y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
+                                                    y1AxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
+                                                    y2Formatter: function(y2Value) {
+                                                        return formatBytes(y2Value, true);
+                                                    },
+                                                    y1Formatter: function (d) {
+                                                        return swu.addUnits2IOPs(d, false, false, 1);
+                                                    },
+                                                    showLegend: false
+                                                },
+                                                parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
+                                            }
+                                        },
+                                        {
+                                            elementId: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID,
+                                            title: swl.TITLE_CLUSTER_LATENCY,
+                                            view: "LineWithFocusChartView",
+                                            viewConfig: {
+                                                chartOptions: {
+                                                    height: 300,
+                                                    yAxisLabel: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
+                                                    yFormatter: function (d) {
+                                                        return swu.addUnits2Latency(d, false, false, 1);
+                                                    }
+                                                },
+                                                parseFn: swp.diskActivityLatencyLineBarChartDataParser
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+    };
 
     return ClusterActivityStatsView;
 });

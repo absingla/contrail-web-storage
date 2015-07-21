@@ -11,24 +11,8 @@ define([
         el: $(contentContainer),
 
         render: function () {
-            var self = this,
-                viewConfig = self.attributes.viewConfig;
-
-            var listModelConfig = {
-                remote: {
-                    ajaxConfig: {
-                        url: swc.URL_DISKS_SUMMARY,
-                        type: "GET"
-                    },
-                    dataParser: swp.disksDataParser
-                },
-                cacheConfig: {
-                    ucid: swc.UCID_ALL_DISK_LIST
-                }
-            };
-
-            var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(self.$el, contrailListModel, getDashboardViewConfig());
+            var self = this;
+            cowu.renderView4Config(self.$el, null, getDashboardViewConfig());
         }
     });
 
@@ -46,6 +30,18 @@ define([
                                 title: swl.TITLE_DISKS,
                                 view: "ZoomScatterChartView",
                                 viewConfig: {
+                                    modelConfig: {
+                                        remote: {
+                                            ajaxConfig: {
+                                                url: swc.URL_DISKS_SUMMARY,
+                                                type: "GET"
+                                            },
+                                            dataParser: swp.disksDataParser
+                                        },
+                                        cacheConfig: {
+                                            ucid: swc.UCID_ALL_DISK_LIST
+                                        }
+                                    },
                                     loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Usage (%)',
@@ -99,11 +95,11 @@ define([
                                                     }
                                                 },
                                                 {
-                                                    elementId: swl.MONITOR_POOL_STATS_ID,
-                                                    title: swl.TITLE_POOL_STATS,
-                                                    view: "PoolStatsView",
+                                                    elementId: swl.POOL_STATS_CHART_ID,
+                                                    view: "DonutChartView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
+                                                        title: swl.TITLE_POOL_STATS,
                                                         class: 'span3',
                                                         modelConfig: {
                                                             remote: {
@@ -116,6 +112,20 @@ define([
                                                             cacheConfig: {
                                                                 ucid: swc.UCID_ALL_POOL_LIST
                                                             }
+                                                        },
+                                                        loadChartInChunks: true,
+                                                        parseFn: swp.poolsDonutChartDataParser,
+                                                        chartOptions: {
+                                                            //margin: {top: 10, right: 10, bottom: 20, left: 40},
+                                                            donutRatio: 0.6,
+                                                            height: 250,
+                                                            showLegend: true,
+                                                            showLabels: false,
+                                                            legendRightAlign: true,
+                                                            legendPadding: 32,
+                                                            noDataMessage: "Unable to get pool data.",
+                                                            valueFormat: formatBytes
+
                                                         }
                                                     }
                                                 },
