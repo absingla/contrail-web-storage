@@ -25,4 +25,6 @@ define([
     swvc = new ViewConfig();
     swdt = new DetailTemplates();
     sInitComplete = true;
+
+    menuHandler.initFeatureAppDefObjMap[FEATURE_PCK_WEB_STORAGE].resolve();
 });

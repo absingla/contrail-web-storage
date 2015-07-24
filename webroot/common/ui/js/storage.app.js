@@ -19,4 +19,6 @@ require.config({
         'storage-detail-templates': 'common/ui/js/storage.detail.templates'
     },
     waitSeconds: 0
-})
+});
+
+require(['storage-init'], function () {});

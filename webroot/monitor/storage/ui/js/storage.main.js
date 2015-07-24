@@ -12,16 +12,14 @@ function MonitorStorageLoader() {
             pathMSView = rootDir + '/js/views/MonitorStorageView.js',
             renderFn = paramObject['function'];
 
-        check4StorageInit(function () {
-            if (self.monStorageView == null) {
-                requirejs([pathMSView], function (MonitorStorageView) {
-                    self.monStorageView = new MonitorStorageView();
-                    self.renderView(renderFn, hashParams);
-                });
-            } else {
+        if (self.monStorageView == null) {
+            requirejs([pathMSView], function (MonitorStorageView) {
+                self.monStorageView = new MonitorStorageView();
                 self.renderView(renderFn, hashParams);
-            }
-        });
+            });
+        } else {
+            self.renderView(renderFn, hashParams);
+        }
     };
     this.renderView = function (renderFn, hashParams) {
         $(contentContainer).html("");

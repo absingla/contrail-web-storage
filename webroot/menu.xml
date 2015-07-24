@@ -28,7 +28,6 @@ and need to add the iconClass tag wherever we need to show some icons
                         </resource>
                         <resource>
                             <rootDir>/common/ui</rootDir>
-                            <js>storage.app.js</js>
                             <template>storage.tmpl</template>
                             <class>msPageLoader</class>
                         </resource>
@@ -171,7 +170,6 @@ and need to add the iconClass tag wherever we need to show some icons
                     <resources>
                         <resource>
                             <rootDir>/common/ui</rootDir>
-                            <js>storage.app.js</js>
                             <template>storage.tmpl</template>
                             <class>storagePageLoader</class>
                         </resource>
