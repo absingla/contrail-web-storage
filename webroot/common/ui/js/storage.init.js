@@ -26,5 +26,9 @@ define([
     swdt = new DetailTemplates();
     sInitComplete = true;
 
-    menuHandler.initFeatureAppDefObjMap[FEATURE_PCK_WEB_STORAGE].resolve();
+    var deferredObj = contentHandler.initFeatureAppDefObjMap[FEATURE_PCK_WEB_STORAGE];
+
+    if(contrail.checkIfExist(deferredObj)) {
+        deferredObj.resolve()
+    }
 });
