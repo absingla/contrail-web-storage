@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var StorageMonGridView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var StorageMonGridView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -22,12 +22,11 @@ define([
 
             var ucid = storageNodeName != null ? (swc.UCID_PREFIX_MS_LISTS + storageNodeName + ":monitor") : swc.UCID_ALL_MONITOR_LIST;
 
-            cowu.renderView4Config(self.$el, self.model, getStorageMonsGridViewConfig(monitorRemoteConfig, ucid, pagerOptions));
-
+            self.renderView4Config(self.$el, self.model, getStorageMonsGridViewConfig(monitorRemoteConfig, ucid, pagerOptions));
         }
     });
 
-    var getStorageMonsGridViewConfig = function (monitorRemoteConfig, ucid, pagerOptions) {
+    function getStorageMonsGridViewConfig(monitorRemoteConfig, ucid, pagerOptions) {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGE_MONITOR_LIST_VIEW_ID]),
             view: "SectionView",

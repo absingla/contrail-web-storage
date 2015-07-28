@@ -4,16 +4,16 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var DiskTabView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var DiskTabView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
                 modelMap = contrail.handleIfNull(this.modelMap, {});
 
-            cowu.renderView4Config(self.$el, null, swvc.getDiskTabViewConfig(viewConfig), null, null, modelMap);
+            self.renderView4Config(self.$el, null, swvc.getDiskTabViewConfig(viewConfig), null, null, modelMap);
         }
     });
 

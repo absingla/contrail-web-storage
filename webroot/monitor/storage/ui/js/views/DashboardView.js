@@ -4,20 +4,19 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var DashboardView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var DashboardView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
             var self = this;
-            cowu.renderView4Config(self.$el, null, getDashboardViewConfig());
+            self.renderView4Config(self.$el, null, getDashboardViewConfig());
         }
     });
 
-    var getDashboardViewConfig = function () {
-
+    function getDashboardViewConfig() {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGE_DASHBOARD_LIST_ID]),
             view: "SectionView",

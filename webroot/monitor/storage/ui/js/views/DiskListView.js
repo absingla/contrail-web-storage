@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var DiskListView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var DiskListView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -29,11 +29,11 @@ define([
             };
 
             var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(self.$el, contrailListModel, getDiskListViewConfig());
+            self.renderView4Config(self.$el, contrailListModel, getDiskListViewConfig());
         }
     });
 
-    var getDiskListViewConfig = function () {
+    function getDiskListViewConfig() {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_DISK_LIST_ID]),
             view: "SectionView",
@@ -52,7 +52,7 @@ define([
                                         xLabelFormat: d3.format(".01f"),
                                         forceX: [0, 1],
                                         yLabel: 'Avg. Bandwidth [R + W] ',
-                                        yLabelFormat: function(yValue) {
+                                        yLabelFormat: function (yValue) {
                                             var formattedValue = formatThroughput(yValue, true);
                                             return formattedValue;
                                         },
@@ -76,7 +76,11 @@ define([
                                 title: swl.TITLE_DISKS,
                                 view: "DiskGridView",
                                 app: cowc.APP_CONTRAIL_STORAGE,
-                                viewConfig: {storageNode: null, parentType: 'storageNode', pagerOptions: { options: { pageSize: 10, pageSizeSelect: [10, 50, 100] } }}
+                                viewConfig: {
+                                    storageNode: null,
+                                    parentType: 'storageNode',
+                                    pagerOptions: {options: {pageSize: 10, pageSizeSelect: [10, 50, 100]}}
+                                }
                             }
                         ]
                     }
@@ -88,7 +92,7 @@ define([
     function onScatterChartClick(chartConfig) {
         var diskFQN = chartConfig['name'],
             storagenodeFQN = chartConfig['host'];
-        swcc.setDiskURLHashParams(null, {fqName: diskFQN, fqHost:storagenodeFQN}, true);
+        swcc.setDiskURLHashParams(null, {fqName: diskFQN, fqHost: storagenodeFQN}, true);
     };
 
     function getDiskTooltipConfig(data) {
@@ -103,10 +107,10 @@ define([
                 iconClass: 'icon-contrail-storage-disk',
                 info: [
                     {label: 'Name', value: data['name']},
-                    {label:'Total', value: data['total']},
-                    {label:'Used', value: data['used']},
-                    {label:'Available', value: data['available']},
-                    {label:'Avg BW (Read+Write)', value:formatThroughput(data['y'])}
+                    {label: 'Total', value: data['total']},
+                    {label: 'Used', value: data['used']},
+                    {label: 'Available', value: data['available']},
+                    {label: 'Avg BW (Read+Write)', value: formatThroughput(data['y'])}
                 ],
                 actions: [
                     {

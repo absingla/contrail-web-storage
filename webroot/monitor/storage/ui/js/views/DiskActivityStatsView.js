@@ -4,12 +4,12 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model',
     'js/views/LineWithFocusChartView',
     'js/views/LineBarWithFocusChartView',
-], function (_, Backbone, ContrailListModel, LineWithFocusChartView, LineBarWithFocusChartView) {
-    var DiskActivityStatsView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel, LineWithFocusChartView, LineBarWithFocusChartView) {
+    var DiskActivityStatsView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -74,7 +74,7 @@ define([
                         return swu.addUnits2IOPs(d, false, false, 1);
                     },
                     y2AxisLabel: swl.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
-                    y2Formatter: function(y2Value) {
+                    y2Formatter: function (y2Value) {
                         return formatBytes(y2Value, true);
                     },
                     showLegend: false

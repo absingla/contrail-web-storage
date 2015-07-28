@@ -4,15 +4,14 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var ClusterUsageView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var ClusterUsageView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
-            var self = this,
-                viewConfig = self.attributes.viewConfig;
-            var selector = $(self.$el),
+            var self = this, viewConfig = self.attributes.viewConfig,
+                selector = $(self.$el),
                 clusterUsageTemplate = contrail.getTemplate4Id(swc.TMPL_CLUSTER_USAGE_STATS);
 
             $(selector).append(clusterUsageTemplate({
@@ -23,11 +22,11 @@ define([
             }));
             selector = swu.getSelector4Id(swl.CLUSTER_USAGE_CHART_ID);
 
-            cowu.renderView4Config(selector, null, getClusterUsageViewConfig(viewConfig));
+            self.renderView4Config(selector, null, getClusterUsageViewConfig(viewConfig));
         }
     });
 
-    var getClusterUsageViewConfig = function (viewConfig) {
+    function getClusterUsageViewConfig(viewConfig) {
 
         var clusterUsageViewConfig = {
             elementId: swl.CLUSTER_USAGE_CHART_ID,

@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var PoolGridView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var PoolGridView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -22,7 +22,7 @@ define([
 
             var ucid = poolName != null ? (swc.UCID_PREFIX_MS_LISTS + poolName + ":pool") : swc.UCID_ALL_POOL_LIST;
 
-            cowu.renderView4Config(self.$el, self.model, getPoolsGridViewConfig(monitorRemoteConfig, ucid, pagerOptions));
+            self.renderView4Config(self.$el, self.model, getPoolsGridViewConfig(monitorRemoteConfig, ucid, pagerOptions));
 
         }
     });

@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var ClusterActivityStatsView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var ClusterActivityStatsView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -15,7 +15,7 @@ define([
                 viewConfig = this.attributes.viewConfig,
                 modelConfig = viewConfig.modelConfig;
 
-            if(self.model === null) {
+            if (self.model === null) {
                 self.model = new ContrailListModel(modelConfig);
             }
 
@@ -36,12 +36,12 @@ define([
 
         renderCharts: function () {
             var self = this;
-            cowu.renderView4Config(self.$el, self.model, getClusterActivityStatsViewConfig());
+            self.renderView4Config(self.$el, self.model, getClusterActivityStatsViewConfig());
         }
 
     });
 
-    var getClusterActivityStatsViewConfig = function () {
+    function getClusterActivityStatsViewConfig() {
         return {
             elementId: cowu.formatElementId([swl.CLUSTER_DISK_ACTIVITY_STATS_ID, '-section']),
             view: "SectionView",
@@ -73,7 +73,7 @@ define([
                                                     height: 300,
                                                     y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
                                                     y1AxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
-                                                    y2Formatter: function(y2Value) {
+                                                    y2Formatter: function (y2Value) {
                                                         return formatBytes(y2Value, true);
                                                     },
                                                     y1Formatter: function (d) {

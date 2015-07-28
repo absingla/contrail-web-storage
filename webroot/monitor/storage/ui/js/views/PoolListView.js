@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var PoolListView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var PoolListView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -29,11 +29,11 @@ define([
             };
 
             var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(self.$el, contrailListModel, getPoolListViewConfig());
+            self.renderView4Config(self.$el, contrailListModel, getPoolListViewConfig());
         }
     });
 
-    var getPoolListViewConfig = function () {
+    function getPoolListViewConfig() {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_POOL_LIST_ID]),
             view: "SectionView",

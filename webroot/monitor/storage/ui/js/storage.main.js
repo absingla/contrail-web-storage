@@ -12,15 +12,12 @@ function MonitorStorageLoader() {
             pathMSView = rootDir + '/js/views/MonitorStorageView.js',
             renderFn = paramObject['function'];
 
-        if (self.monStorageView == null) {
-            requirejs([pathMSView], function (MonitorStorageView) {
-                self.monStorageView = new MonitorStorageView();
-                self.renderView(renderFn, hashParams);
-            });
-        } else {
+        requirejs([pathMSView], function (MonitorStorageView) {
+            self.monStorageView = new MonitorStorageView();
             self.renderView(renderFn, hashParams);
-        }
+        });
     };
+
     this.renderView = function (renderFn, hashParams) {
         $(contentContainer).html("");
         switch (renderFn) {
@@ -67,13 +64,13 @@ function MonitorStorageLoader() {
     this.updateViewByHash = function (hashObj, lastHashObj) {
         var renderFn;
 
-        if (hashObj.type == "disk"){
+        if (hashObj.type == "disk") {
             renderFn = "renderDisks";
-        } else if (hashObj.type == "monitor"){
+        } else if (hashObj.type == "monitor") {
             renderFn = "renderMonitors";
-        } else if (hashObj.type == "pool"){
+        } else if (hashObj.type == "pool") {
             renderFn = "renderPools";
-        } else if (hashObj.type == "storage"){
+        } else if (hashObj.type == "storage") {
             renderFn = "renderStorageDashboard";
         }
 

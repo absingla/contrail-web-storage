@@ -366,118 +366,118 @@ define([
             return formatStr;
         };
 
-        self.renderView = function (viewName, parentElement, model, viewAttributes, modelMap) {
+        self.renderView = function (viewName, parentElement, model, viewAttributes, modelMap, rootView) {
             var elementView;
 
             switch (viewName) {
                 case "StorageNodeListView" :
-                    elementView = new StorageNodeListView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new StorageNodeListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "StorageNodeGridView" :
-                    elementView = new StorageNodeGridView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new StorageNodeGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "StorageNodeView" :
-                    elementView = new StorageNodeView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new StorageNodeView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "StorageNodeTabView" :
-                    elementView = new StorageNodeTabView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new StorageNodeTabView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
 
                 case "DiskListView" :
-                    elementView = new DiskListView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DiskListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "DiskGridView" :
-                    elementView = new DiskGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DiskGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "DiskView" :
-                    elementView = new DiskView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DiskView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "DiskTabView" :
-                    elementView = new DiskTabView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DiskTabView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "DiskDetailsView" :
-                    elementView = new DiskDetailsView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DiskDetailsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "DiskActivityStatsView" :
-                    elementView = new DiskActivityStatsView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DiskActivityStatsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "StorageMonListView" :
-                    elementView = new StorageMonListView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new StorageMonListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "StorageMonGridView" :
-                    elementView = new StorageMonGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new StorageMonGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "PoolListView" :
-                    elementView = new PoolListView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new PoolListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "PoolGridView" :
-                    elementView = new PoolGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new PoolGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "PoolStatsView" :
-                    elementView = new PoolStatsView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new PoolStatsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "DashboardView" :
-                    elementView = new DashboardView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new DashboardView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ClusterActivityStatsView" :
-                    elementView = new ClusterActivityStatsView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new ClusterActivityStatsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ClusterUsageView" :
-                    elementView = new ClusterUsageView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView = new ClusterUsageView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
             }
         }
     };

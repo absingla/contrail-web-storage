@@ -4,12 +4,12 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var DiskDetailsView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var DiskDetailsView = ContrailView.extend({
         el: $(contentContainer),
 
-        render: function() {
+        render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
                 diskName = viewConfig.disk,
@@ -18,10 +18,11 @@ define([
             self.renderDiskDetails(diskName, storageNodeName);
         },
 
-        renderDiskDetails: function(diskName, storageNodeName) {
+        renderDiskDetails: function (diskName, storageNodeName) {
             var self = this,
                 detailsConfig = swvc.getDetailsViewConfig(swc.DETAILS_ELEMENT_DISK, {disk: diskName, storageNode: storageNodeName});
-            cowu.renderView4Config(self.$el, null, detailsConfig, null, null, null);
+
+            self.renderView4Config(self.$el, null, detailsConfig, null, null, null);
         }
 
     });

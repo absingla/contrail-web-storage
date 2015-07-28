@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var DiskGridView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var DiskGridView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -22,12 +22,12 @@ define([
 
             var ucid = storageNodeName != null ? (swc.UCID_PREFIX_MS_LISTS + storageNodeName + ":disks") : swc.UCID_ALL_DISK_LIST;
 
-            cowu.renderView4Config(self.$el, self.model, getDisksGridViewConfig(diskRemoteConfig, ucid, pagerOptions));
+            self.renderView4Config(self.$el, self.model, getDisksGridViewConfig(diskRemoteConfig, ucid, pagerOptions));
 
         }
     });
 
-    var getDisksGridViewConfig = function (diskRemoteConfig, ucid, pagerOptions) {
+    function getDisksGridViewConfig(diskRemoteConfig, ucid, pagerOptions) {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_DISK_LIST_VIEW_ID]),
             view: "SectionView",
@@ -87,7 +87,7 @@ define([
                 columns: swgc.disksColumns
             },
             footer: {
-                pager: contrail.handleIfNull(pagerOptions, { options: { pageSize: 5, pageSizeSelect: [5, 10, 50, 100] } })
+                pager: contrail.handleIfNull(pagerOptions, {options: {pageSize: 5, pageSizeSelect: [5, 10, 50, 100]}})
             }
         };
         return gridElementConfig;

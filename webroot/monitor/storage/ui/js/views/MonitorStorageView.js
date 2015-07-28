@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     '../../../../infrastructure/ui/js/views/StorageBreadcrumbView.js'
-], function (_, Backbone, BreadcrumbView) {
-    var MonitorStorageView = Backbone.View.extend({
+], function (_, ContrailView, BreadcrumbView) {
+    var MonitorStorageView = ContrailView.extend({
         el: $(contentContainer),
 
         renderDisk: function (viewConfig) {
@@ -17,29 +17,27 @@ define([
                 breadcrumbView = new BreadcrumbView();
 
             // TBD update breadcrumb
-
-            cowu.renderView4Config(this.$el, null, getDiskViewConfig(hashParams));
+            self.renderView4Config(this.$el, null, getDiskViewConfig(hashParams));
         },
 
         renderDiskList: function () {
-            cowu.renderView4Config(this.$el, null, getDiskListConfig());
+            this.renderView4Config(this.$el, null, getDiskListConfig());
         },
 
         renderMonitorList: function (viewConfig) {
             var self = this;
-            cowu.renderView4Config(self.$el, null, getStorageMonitorListViewConfig());
+            this.renderView4Config(self.$el, null, getStorageMonitorListViewConfig());
         },
 
         renderPoolList: function (viewConfig) {
             var self = this;
-            cowu.renderView4Config(self.$el, null, getPoolListViewConfig());
+            this.renderView4Config(self.$el, null, getPoolListViewConfig());
         },
 
         renderStorageDashboard: function (viewConfig) {
             var self = this;
-            cowu.renderView4Config(self.$el, null, getDashboardViewConfig());
+            this.renderView4Config(self.$el, null, getDashboardViewConfig());
         }
-
     });
 
     function getDiskViewConfig(hashParams) {

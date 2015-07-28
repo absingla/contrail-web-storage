@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var StorageMonListView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var StorageMonListView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -29,11 +29,11 @@ define([
             };
 
             var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(self.$el, contrailListModel, getStorageMonListViewConfig());
+            self.renderView4Config(self.$el, contrailListModel, getStorageMonListViewConfig());
         }
     });
 
-    var getStorageMonListViewConfig = function () {
+    function getStorageMonListViewConfig() {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGE_MONITOR_LIST_ID]),
             view: "SectionView",
@@ -49,7 +49,7 @@ define([
                                     loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Total ',
-                                        xLabelFormat: function(xValue) {
+                                        xLabelFormat: function (xValue) {
                                             return formatBytes(xValue, true);
                                         },
                                         yLabel: 'Usage (%)',
@@ -90,7 +90,7 @@ define([
     return StorageMonListView;
 });
 
-function getStorageMonitorTooltipConfig (data) {
+function getStorageMonitorTooltipConfig(data) {
     var storagenodeFQNObj = data.name.split(':');
 
     return {
@@ -102,10 +102,10 @@ function getStorageMonitorTooltipConfig (data) {
             iconClass: 'icon-contrail-storage-node',
             info: [
                 {label: 'Name', value: data['name']},
-                {label:'Latency', value: data['latency']},
-                {label:'Clock Skew', value: data['skew']},
-                {label:'Available', value: data['avail_percent']},
-                {label:'Root HD Total', value:formatBytes(data['x'])}
+                {label: 'Latency', value: data['latency']},
+                {label: 'Clock Skew', value: data['skew']},
+                {label: 'Available', value: data['avail_percent']},
+                {label: 'Root HD Total', value: formatBytes(data['x'])}
             ],
             actions: []
         },

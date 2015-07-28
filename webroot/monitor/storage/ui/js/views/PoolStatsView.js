@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var PoolStatsView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var PoolStatsView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -14,12 +14,11 @@ define([
                 viewConfig = self.attributes.viewConfig,
                 selector = $(self.$el);
 
-            cowu.renderView4Config(selector, null, getPoolStatsViewConfig(viewConfig));
+            self.renderView4Config(selector, null, getPoolStatsViewConfig(viewConfig));
         }
     });
 
-    var getPoolStatsViewConfig = function (viewConfig) {
-
+    function getPoolStatsViewConfig(viewConfig) {
         var poolStatsViewConfig = {
             elementId: swl.POOL_STATS_CHART_ID,
             view: "DonutChartView",
@@ -46,7 +45,7 @@ define([
         return poolStatsViewConfig;
     };
 
-    function getPoolBarTooltipConfig () {
+    function getPoolBarTooltipConfig() {
         //TODO
     };
 

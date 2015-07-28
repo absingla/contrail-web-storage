@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var DiskView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var DiskView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function() {
@@ -21,7 +21,8 @@ define([
         renderDiskTabs: function(elementObj) {
             var self = this,
                 tabConfig = swvc.getTabsViewConfig(swc.TAB_ELEMENT_DISK, elementObj);
-            cowu.renderView4Config(self.$el, null, tabConfig, null, null, null);
+
+            self.renderView4Config(self.$el, null, tabConfig, null, null, null);
         }
 
     });
