@@ -552,6 +552,7 @@ define([
         this.clusterUsageWithReplicaFactor = function (usage, clusterReplicaFactor) {
             if (usage != null && clusterReplicaFactor != null) {
                 usage = usage[0];
+                usage['cluster_replica_factor'] = clusterReplicaFactor;
                 usage['kb'] = usage['kb'] / clusterReplicaFactor;
                 usage['kb_used'] = usage['kb_used'] / clusterReplicaFactor;
                 usage['kb_avail'] = usage['kb_avail'] / clusterReplicaFactor;
@@ -567,6 +568,16 @@ define([
             var retObj = {};
 
             response = response[0];
+
+            var current_status = "";
+            if (response['used_perc'] < response['near_full_ratio']) {
+                current_status = "Normal";
+            } else if ((response['used_perc'] > response['near_full_ratio']) &&
+                (response['used_perc'] < response['full_ratio'])) {
+                current_status = "Warning";
+            } else {
+                current_status = "Critical";
+            }
 
             retObj['innerData'] = [
                 {
@@ -604,6 +615,7 @@ define([
                     name: "Normal Ratio",
                     status: "Normal",
                     value: parseInt(response['near_full_ratio']),
+                    current_status: current_status,
                     tooltip_data: [
                         {
                             lbl: "Range",
@@ -615,6 +627,7 @@ define([
                     name: "Near Full Ratio",
                     status: "Warning",
                     value: parseInt(response['full_ratio'] - response['near_full_ratio']),
+                    current_status: current_status,
                     tooltip_data: [
                         {
                             lbl: "Range",
@@ -626,6 +639,7 @@ define([
                     name: "Full Ratio",
                     status: "Critical",
                     value: parseInt(100 - response['full_ratio']),
+                    current_status: current_status,
                     tooltip_data: [
                         {
                             lbl: "Range",
@@ -635,14 +649,7 @@ define([
                 }
             ];
 
-            if (response['used_perc'] < response['near_full_ratio']) {
-                retObj['flagKey'] = "Normal";
-            } else if ((response['used_perc'] > response['near_full_ratio']) &&
-                (response['used_perc'] < response['full_ratio'])) {
-                retObj['flagKey'] = "Warning";
-            } else {
-                retObj['flagKey'] = "Critical";
-            }
+            retObj['flagKey'] = current_status;
 
             return retObj;
         };
