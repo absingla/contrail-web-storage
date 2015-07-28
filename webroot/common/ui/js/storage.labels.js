@@ -169,6 +169,7 @@ define([
         this.POOL_STATS_CHART_ID = "pool-stats-chart";
 
         this.CLUSTER_USAGE_CHART_ID = "storage-cluster-usage-chart";
+        this.CLUSTER_REPLICA_FACTOR_LABEL_ID = "storage-cluster-replica-factor-label";
         this.CLUSTER_REPLICA_FACTOR_ID = "storage-cluster-replica-factor";
 
     };

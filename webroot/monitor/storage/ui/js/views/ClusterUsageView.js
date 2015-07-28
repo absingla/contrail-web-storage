@@ -4,8 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'contrail-list-model'
+], function (_, Backbone, ContrailListModel) {
     var ClusterUsageView = Backbone.View.extend({
         el: $(contentContainer),
 
@@ -18,12 +19,65 @@ define([
             $(selector).append(clusterUsageTemplate({
                 title: swl.TITLE_CLUSTER_USAGE,
                 usageChartId: swl.CLUSTER_USAGE_CHART_ID,
-                replicaFactorId: swl.CLUSTER_REPLICA_FACTOR_ID,
+                replicaFactorLabelId: swl.CLUSTER_REPLICA_FACTOR_LABEL_ID,
                 replicaFactorTitle: swl.TITLE_CLUSTER_REPLICA_FACTOR,
+                replicaFactorId: swl.CLUSTER_REPLICA_FACTOR_ID
             }));
+
+            var defaultModelConfig = {
+                modelKey: swc.UMID_CLUSTER_USAGE,
+                remote: {
+                    ajaxConfig: {
+                        url: swc.URL_CLUSTER_USAGE,
+                        type: 'GET'
+                    },
+                    dataParser: swp.clusterUsageDataParser
+                },
+                cacheConfig: {
+                    ucid: swc.UCID_CLUSTER_USAGE
+                },
+                vlRemoteConfig: {
+                    vlRemoteList: [{
+                        getAjaxConfig: function (response) {
+                            var lazyAjaxConfig = {
+                                url: swc.URL_POOLS_SUMMARY,
+                                type: 'GET'
+                            };
+                            return lazyAjaxConfig;
+                        },
+                        dataParser: swp.clusterReplicaFactorParser,
+                        successCallback: function (clusterReplicationFactor, contrailListModel) {
+                            var usageSummary = contrailListModel.getItems();
+                            contrailListModel.updateData(swp.clusterUsageWithReplicaFactor(usageSummary, clusterReplicationFactor))
+                        }
+                    }]
+                }
+            };
+
+            viewConfig.modelConfig = $.extend(true, {}, viewConfig.modelConfig, defaultModelConfig);
+            self.model = new ContrailListModel(viewConfig.modelConfig);
+
+            if (self.model !== null) {
+                if (self.model.loadedFromCache || !(self.model.isRequestInProgress())) {
+                    var chartData = self.model.getItems();
+                    selector = swu.getSelector4Id(swl.CLUSTER_REPLICA_FACTOR_ID);
+                    self.renderReplicaFactor(selector, viewConfig, chartData);
+                }
+
+                self.model.onAllRequestsComplete.subscribe(function () {
+                    var chartData = self.model.getItems();
+                    selector = swu.getSelector4Id(swl.CLUSTER_REPLICA_FACTOR_ID);
+                    self.renderReplicaFactor(selector, viewConfig, chartData);
+                });
+            }
+
             selector = swu.getSelector4Id(swl.CLUSTER_USAGE_CHART_ID);
 
-            cowu.renderView4Config(selector, null, getClusterUsageViewConfig(viewConfig));
+            cowu.renderView4Config(selector, self.model, getClusterUsageViewConfig(viewConfig));
+        },
+
+        renderReplicaFactor: function(selector, viewConfig, data) {
+            $(selector).text(data[0]['cluster_replica_factor']);
         }
     });
 
@@ -36,25 +90,6 @@ define([
             viewConfig: {
                 loadChartInChunks: true,
                 parseFn: swp.clusterUsageDonutChartParser,
-                modelConfig: {
-                    modelKey: swc.UMID_CLUSTER_USAGE,
-                    vlRemoteConfig: {
-                        vlRemoteList: [{
-                            getAjaxConfig: function (response) {
-                                var lazyAjaxConfig = {
-                                    url: swc.URL_POOLS_SUMMARY,
-                                    type: 'GET'
-                                };
-                                return lazyAjaxConfig;
-                            },
-                            dataParser: swp.clusterReplicaFactorParser,
-                            successCallback: function (clusterReplicationFactor, contrailListModel) {
-                                var usageSummary = contrailListModel.getItems();
-                                contrailListModel.updateData(swp.clusterUsageWithReplicaFactor(usageSummary, clusterReplicationFactor))
-                            }
-                        }]
-                    }
-                },
                 chartOptions: {
                     margin: {top: 35, right: 30, bottom: 20, left: 60},
                     height: 150,
@@ -84,6 +119,10 @@ define([
         tooltipContent.series.push({
             key: "Status",
             value: currObj.data.status
+        });
+        tooltipContent.series.push({
+            key: "Current Status",
+            value: currObj.data.current_status
         });
         return tooltipContent;
     }
