@@ -124,6 +124,14 @@ define([
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
+                                                    key: 'status_tmpl',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'cluster_status_tmpl',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
                                                     key: 'public_addr',
                                                     templateGenerator: 'TextGenerator'
                                                 },
@@ -156,6 +164,14 @@ define([
                                                 },
                                                 {
                                                     key: 'available',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'apply_latency',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'commit_latency',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]

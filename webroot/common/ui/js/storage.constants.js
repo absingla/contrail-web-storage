@@ -72,6 +72,8 @@ define([
         this.TMPL_POOL_STATS = this.TMPL_BASIC_STATS_WIDGET;
         this.TMPL_CLUSTER_USAGE_STATS = 'cluster-usage-widget-template';
 
+        this.DISK_USAGE_WARN = 85.00;
+        this.DISK_USAGE_CRITICAL = 95.00;
         this.DISK_OKAY_COLOR = 'okay';
         this.DISK_WARNING_COLOR = 'warning';
         this.DISK_ERROR_COLOR = 'error';

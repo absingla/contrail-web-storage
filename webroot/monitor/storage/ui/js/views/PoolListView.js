@@ -61,7 +61,7 @@ define([
                                             return response;
                                         },
                                         tooltipConfigCB: getPoolTooltipConfig,
-                                        clickCB: function() {},
+                                        clickCB: function (){ return; },
                                         sizeFieldName: 'y',
                                         margin: {left: 60},
                                         noDataMessage: "Unable to get pool data."

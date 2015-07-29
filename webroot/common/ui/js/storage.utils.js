@@ -72,7 +72,14 @@ define([
         self.getDiskColor = function (disk) {
             if (disk['status'] == 'up') {
                 if (disk['cluster_status'] == 'in') {
-                    return swc.DISK_OKAY_COLOR;
+                    //Check usage now
+                    if (disk['used_perc'] >= swc.DISK_USAGE_CRITICAL) {
+                        return swc.DISK_ERROR_COLOR;
+                    } else if (disk['used_perc'] >= swc.DISK_USAGE_WARN) {
+                        return swc.DISK_WARNING_COLOR;
+                    } else {
+                        return swc.DISK_OKAY_COLOR;
+                    }
                 } else if (disk['cluster_status'] == 'out') {
                     return swc.DISK_WARNING_COLOR;
                 } else {
@@ -81,6 +88,38 @@ define([
             } else if (disk['status'] == 'down') {
                 return swc.DISK_ERROR_COLOR;
             }
+        };
+
+        self.getDiskTooltipConfig = function (obj) {
+            var data = obj.data;
+            var diskFQNObj = data.name.split(':');
+
+            return {
+                title: {
+                    name: diskFQNObj[0],
+                    type: swl.TITLE_CHART_ELEMENT_DISK
+                },
+                content: {
+                    iconClass: 'icon-contrail-storage-disk',
+                    info: [
+                        {label: 'Total', value: data['total']},
+                        {label: 'Used', value: data['used']},
+                        {label: 'Available', value: data['available']},
+                        {label: 'Avg BW (Read+Write)', value: formatThroughput(data['y'])}
+                    ],
+                    actions: [
+                        {
+                            type: 'link',
+                            text: 'View',
+                            iconClass: 'icon-external-link',
+                            callback: obj.actions.linkCallbackFn
+                        }
+                    ]
+                },
+                dimension: {
+                    width: 350
+                }
+            };
         };
 
         self.getStorageNodeColor = function (d, obj) {

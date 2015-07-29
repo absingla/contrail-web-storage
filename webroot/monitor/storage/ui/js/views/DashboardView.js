@@ -197,6 +197,7 @@ define([
                 width: 350
             }
         };
+        return swu.getDiskTooltipConfig({data: data, actions: {linkCallbackFn: onScatterChartClick}});
     };
 
     return DashboardView;
