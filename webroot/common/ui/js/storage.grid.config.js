@@ -54,11 +54,6 @@ define([
 
         this.disksColumns = [
             {
-                field: "id",
-                name: "Disk ID",
-                width: 50
-            },
-            {
                 field: "name",
                 name: "Disk Name",
                 formatter: function (r, c, v, cd, dc) {
@@ -144,11 +139,6 @@ define([
         ];
 
         this.poolsColumns = [
-            {
-                field: "pool",
-                name: "ID",
-                minWidth: 30
-            },
             {
                 field: "name",
                 name: "Name",

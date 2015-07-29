@@ -366,6 +366,38 @@ define([
             return formatStr;
         };
 
+        self.getDiskTooltipConfig = function (obj) {
+            var data = obj.data;
+            var diskFQNObj = data.name.split(':');
+
+            return {
+                title: {
+                    name: diskFQNObj[0],
+                    type: swl.TITLE_CHART_ELEMENT_DISK
+                },
+                content: {
+                    iconClass: 'icon-contrail-storage-disk',
+                    info: [
+                        {label: 'Total', value: data['total']},
+                        {label: 'Used', value: data['used']},
+                        {label: 'Available', value: data['available']},
+                        {label: 'Avg BW (Read+Write)', value: formatThroughput(data['y'])}
+                    ],
+                    actions: [
+                        {
+                            type: 'link',
+                            text: 'View',
+                            iconClass: 'icon-external-link',
+                            callback: obj.actions.linkCallbackFn
+                        }
+                    ]
+                },
+                dimension: {
+                    width: 350
+                }
+            };
+        };
+
         self.renderView = function (viewName, parentElement, model, viewAttributes, modelMap, rootView) {
             var elementView;
 
