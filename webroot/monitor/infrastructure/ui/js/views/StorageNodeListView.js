@@ -103,7 +103,6 @@ define([
             content: {
                 iconClass: 'icon-contrail-storage-node',
                 info: [
-                    {label: 'Name', value: data['name']},
                     {label:'Disks', value: data['osds'].length},
                     {label:'Total', value: data['osds_total']},
                     {label:'Available', value: data['osds_available']},

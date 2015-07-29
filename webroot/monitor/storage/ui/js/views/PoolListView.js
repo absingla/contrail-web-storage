@@ -106,7 +106,6 @@ define([
             content: {
                 iconClass: 'icon-contrail-storage-pool',
                 info: [
-                    {label: 'Name', value: data['name']},
                     {label: 'ID', value: data['pool']},
                     {label: 'Used', value: data['used']},
                     {label: 'Max Available', value: data['max_avail']},

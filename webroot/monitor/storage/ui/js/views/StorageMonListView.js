@@ -101,7 +101,6 @@ function getStorageMonitorTooltipConfig(data) {
         content: {
             iconClass: 'icon-contrail-storage-node',
             info: [
-                {label: 'Name', value: data['name']},
                 {label: 'Latency', value: data['latency']},
                 {label: 'Clock Skew', value: data['skew']},
                 {label: 'Available', value: data['avail_percent']},
