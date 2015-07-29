@@ -145,15 +145,15 @@ define([
                                             templateGenerator: 'BlockListTemplateGenerator',
                                             templateGeneratorConfig: [
                                                 {
+                                                    key: 'avail_percent',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
                                                     key: 'used',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
                                                     key: 'total',
-                                                    templateGenerator: 'TextGenerator'
-                                                },
-                                                {
-                                                    key: 'avail_percent',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]

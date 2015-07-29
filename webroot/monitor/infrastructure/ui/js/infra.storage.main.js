@@ -13,14 +13,10 @@ function MonitorInfraStorageLoader() {
             renderFn = paramObject['function'];
 
         check4StorageInit(function () {
-            if (self.infraStorageView == null) {
-                requirejs([pathMSView], function (MonitorInfraStorageView) {
-                    self.infraStorageView = new MonitorInfraStorageView();
-                    self.renderView(renderFn, hashParams);
-                });
-            } else {
+            requirejs([pathMSView], function (MonitorInfraStorageView) {
+                self.infraStorageView = new MonitorInfraStorageView();
                 self.renderView(renderFn, hashParams);
-            }
+            });
         });
     };
     this.renderView = function (renderFn, hashParams) {
@@ -48,13 +44,13 @@ function MonitorInfraStorageLoader() {
     this.updateViewByHash = function (hashObj, lastHashObj) {
         var renderFn;
 
-        if(hashObj.type == "storagenode"){
+        if (hashObj.type == "storagenode") {
             renderFn = "renderStorageNodes";
-        } else if (hashObj.type == "disk"){
+        } else if (hashObj.type == "disk") {
             renderFn = "renderDisks";
-        } else if (hashObj.type == "monitor"){
+        } else if (hashObj.type == "monitor") {
             renderFn = "renderMonitors";
-        } else if (hashObj.type == "dashboard"){
+        } else if (hashObj.type == "dashboard") {
             renderFn = "renderDashboard";
         }
 

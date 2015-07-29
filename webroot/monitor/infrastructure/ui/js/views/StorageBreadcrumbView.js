@@ -4,18 +4,16 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var BreadcrumbView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var BreadcrumbView = ContrailView.extend({
 
-        renderDomainBreadcrumbDropdown: function(fqName, initCB, changeCB) {
-
-        }
+        renderDomainBreadcrumbDropdown: function (fqName, initCB, changeCB) {}
 
     });
 
-    var populateDomainBreadcrumbDropdown = function(contrailListModel, fqName, initCB, changeCB) {
+    function populateDomainBreadcrumbDropdown(contrailListModel, fqName, initCB, changeCB) {
         var dropdownData = contrailListModel.getItems();
 
         if (dropdownData.length > 0) {
@@ -26,22 +24,22 @@ define([
 
     };
 
-    var constructBreadcrumbDropdownDOM = function(breadcrumbDropdownId) {
+    function constructBreadcrumbDropdownDOM(breadcrumbDropdownId) {
         var breadcrumbElement = $('#breadcrumb'); //TODO - move to constants
 
         destroyBreadcrumbDropdownDOM(breadcrumbDropdownId);
 
         breadcrumbElement.children('li').removeClass('active');
         breadcrumbElement.children('li:last').append('<span class="divider"><i class="icon-angle-right"></i></span>');
-        breadcrumbElement.append('<li class="active ' + breadcrumbDropdownId +'"><div id="' + breadcrumbDropdownId + '"></div></li>');
+        breadcrumbElement.append('<li class="active ' + breadcrumbDropdownId + '"><div id="' + breadcrumbDropdownId + '"></div></li>');
 
         return $('#' + breadcrumbDropdownId);
     };
 
-    var destroyBreadcrumbDropdownDOM = function(breadcrumbDropdownId){
+    function destroyBreadcrumbDropdownDOM(breadcrumbDropdownId) {
         if (contrail.checkIfExist($('#' + breadcrumbDropdownId).data('contrailDropdown'))) {
             $('#' + breadcrumbDropdownId).data('contrailDropdown').destroy();
-            if($('li.' + breadcrumbDropdownId).hasClass('active')) {
+            if ($('li.' + breadcrumbDropdownId).hasClass('active')) {
                 $('li.' + breadcrumbDropdownId).prev().addClass('active')
             }
             $('li.' + breadcrumbDropdownId).prev().find('.divider').remove();

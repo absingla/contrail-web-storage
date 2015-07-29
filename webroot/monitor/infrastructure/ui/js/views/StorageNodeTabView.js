@@ -4,17 +4,17 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-view-model'
-], function (_, Backbone, ContrailViewModel) {
-    var StorageNodeTabView = Backbone.View.extend({
+], function (_, ContrailView, ContrailViewModel) {
+    var StorageNodeTabView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
                 modelMap = contrail.handleIfNull(this.modelMap, {});
 
-            cowu.renderView4Config(self.$el, null, swvc.getStorageNodeTabViewConfig(viewConfig), null, null, modelMap);
+            self.renderView4Config(self.$el, null, swvc.getStorageNodeTabViewConfig(viewConfig), null, null, modelMap);
         }
     });
 

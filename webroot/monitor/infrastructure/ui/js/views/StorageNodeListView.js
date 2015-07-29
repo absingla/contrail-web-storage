@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var StorageNodeListView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var StorageNodeListView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -27,7 +27,7 @@ define([
             };
 
             var contrailListModel = new ContrailListModel(listModelConfig);
-            cowu.renderView4Config(this.$el, contrailListModel, getStorageNodeListViewConfig());
+            self.renderView4Config(this.$el, contrailListModel, getStorageNodeListViewConfig());
         }
     });
 
@@ -49,7 +49,8 @@ define([
                                         xLabel: 'Used (%)',
                                         xLabelFormat: d3.format(".01f"),
                                         forceX: [0, 1],
-                                        yLabel: 'Avg 30Min BW (Read+Write)',
+                                        forceY: [0, 10],
+                                        yLabel: 'Avg. Bandwidth [Last 30 mins.]',
                                         yLabelFormat: function(yValue) {
                                             var formattedValue = formatThroughput(yValue, true);
                                             return formattedValue;
@@ -78,7 +79,7 @@ define([
                                 title: swl.TITLE_STORAGENODES,
                                 view: "StorageNodeGridView",
                                 app: cowc.APP_CONTRAIL_STORAGE,
-                                viewConfig: {pagerOptions: { options: { pageSize: 10, pageSizeSelect: [10, 50, 100] } }}
+                                viewConfig: {pagerOptions: { options: { pageSize: 8, pageSizeSelect: [8, 50, 100] } }}
                             }
                         ]
                     }
@@ -87,12 +88,12 @@ define([
         }
     };
 
-    var onScatterChartClick = function(chartConfig) {
+    function onScatterChartClick(chartConfig) {
         var storagenodeFQN = chartConfig['name'];
         swcc.setStorageNodeURLHashParams(null, storagenodeFQN, true);
     };
 
-    var getStorageNodeTooltipConfig = function(data) {
+    function getStorageNodeTooltipConfig(data) {
         var storageNodeFQNObj = data.name.split(':');
 
         return {
@@ -103,11 +104,10 @@ define([
             content: {
                 iconClass: 'icon-contrail-storage-node',
                 info: [
-                    {label: 'Name', value: data['name']},
-                    {label:'Disks', value: data['osds'].length},
-                    {label:'Total', value: data['osds_total']},
+                    {label:'Disk Count', value: data['osds'].length},
                     {label:'Available', value: data['osds_available']},
-                    {label:'Avg 30Min BW (Read+Write)', value:formatThroughput(data['y'])}
+                    {label:'Total', value: data['osds_total']},
+                    {label:'Avg. Bandwidth [Last 30 mins.]', value:formatThroughput(data['y'])}
                 ],
                 actions: [
                     {

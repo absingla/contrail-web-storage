@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var StorageNodeView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var StorageNodeView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function() {
@@ -21,7 +21,8 @@ define([
         renderStorageNodeTabs: function(storageNodeName) {
             var self = this,
                 tabConfig = swvc.getTabsViewConfig(swc.TAB_ELEMENT_STORAGENODE, {storageNode: storageNodeName});
-            cowu.renderView4Config(self.$el, null, tabConfig, null, null, null);
+
+            self.renderView4Config(self.$el, null, tabConfig, null, null, null);
         }
 
     });

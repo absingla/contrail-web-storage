@@ -46,7 +46,8 @@ define([
                                         xLabel: 'Usage (%)',
                                         xLabelFormat: d3.format(".01f"),
                                         forceX: [0, 1],
-                                        yLabel: 'Avg. Bandwidth [R + W] ',
+                                        forceY: [0, 10],
+                                        yLabel: 'Avg. Bandwidth',
                                         yLabelFormat: function (yValue) {
                                             return formatThroughput(yValue, true);
                                         },
@@ -179,11 +180,9 @@ define([
             content: {
                 iconClass: 'icon-contrail-storage-disk',
                 info: [
-                    {label: 'Name', value: data['name']},
-                    {label: 'Total', value: data['total']},
-                    {label: 'Used', value: data['used']},
                     {label: 'Available', value: data['available']},
-                    {label: 'Avg BW (Read+Write)', value: formatThroughput(data['y'])}
+                    {label: 'Total', value: data['total']},
+                    {label: 'Avg. Bandwidth', value: formatThroughput(data['y'])}
                 ],
                 actions: [
                     {

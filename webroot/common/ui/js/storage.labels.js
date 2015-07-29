@@ -41,8 +41,8 @@ define([
             name: 'Name',
             osds_total: 'Total',
             osds_used: 'Used',
-            osds_count: 'Count',
-            osds_status: 'Status/Membership',
+            osds_count: 'Disk Count',
+            osds_status: 'Status',
             status_tmpl: 'Status',
             cluster_status_tmpl: 'Membership',
             public_addr: 'Public Address',
@@ -105,6 +105,7 @@ define([
 
         this.TITLE_DISKS = "Disks";
         this.TITLE_DISK_SUMMARY = "Disk Summary";
+        this.TITLE_DISK_STATUS = "Disk Status";
         this.TITLE_DISK_DETAILS = "Disk Details";
         this.TITLE_DISK_USAGE = "Disk Usage";
         this.TITLE_DISK_ACTIVITY_STATS = "Disk Activity";

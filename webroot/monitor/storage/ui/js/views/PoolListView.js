@@ -51,6 +51,7 @@ define([
                                         xLabel: 'Usage %',
                                         xLabelFormat: d3.format(".01f"),
                                         forceX: [0, 10],
+                                        forceY: [0, 10],
                                         yLabel: 'Objects',
                                         yLabelFormat: function (yValue) {
                                             var formattedValue = swu.addUnits2Number(yValue, false, false, 2);
@@ -60,7 +61,7 @@ define([
                                             return response;
                                         },
                                         tooltipConfigCB: getPoolTooltipConfig,
-                                        clickCB: '',//TODO
+                                        clickCB: function() {},
                                         sizeFieldName: 'y',
                                         margin: {left: 60},
                                         noDataMessage: "Unable to get pool data."
@@ -106,8 +107,6 @@ define([
             content: {
                 iconClass: 'icon-contrail-storage-pool',
                 info: [
-                    {label: 'Name', value: data['name']},
-                    {label: 'ID', value: data['pool']},
                     {label: 'Used', value: data['used']},
                     {label: 'Max Available', value: data['max_avail']},
                     {label: 'Objects', value: formatNumberByCommas(data['y'])}

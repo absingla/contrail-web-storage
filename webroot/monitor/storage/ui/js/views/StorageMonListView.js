@@ -52,13 +52,14 @@ define([
                                         xLabelFormat: function (xValue) {
                                             return formatBytes(xValue, true);
                                         },
+                                        forceY: [0,10],
                                         yLabel: 'Usage (%)',
                                         yLabelFormat: d3.format(".01f"),
                                         dataParser: function (response) {
                                             return response;
                                         },
                                         tooltipConfigCB: getStorageMonitorTooltipConfig,
-                                        clickCB: '',
+                                        clickCB: function() {},
                                         sizeFieldName: '',
                                         margin: {left: 70},
                                         noDataMessage: "Unable to get Monitor data."
@@ -101,10 +102,9 @@ function getStorageMonitorTooltipConfig(data) {
         content: {
             iconClass: 'icon-contrail-storage-node',
             info: [
-                {label: 'Name', value: data['name']},
+                {label: 'Available', value: data['avail_percent']},
                 {label: 'Latency', value: data['latency']},
                 {label: 'Clock Skew', value: data['skew']},
-                {label: 'Available', value: data['avail_percent']},
                 {label: 'Root HD Total', value: formatBytes(data['x'])}
             ],
             actions: []

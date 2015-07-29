@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     './StorageBreadcrumbView.js'
-], function (_, Backbone, BreadcrumbView) {
-    var MonitorStorageView = Backbone.View.extend({
+], function (_, ContrailView, BreadcrumbView) {
+    var MonitorStorageView = ContrailView.extend({
         el: $(contentContainer),
 
         renderStorageNode: function (viewConfig) {
@@ -19,7 +19,7 @@ define([
             breadcrumbView.renderDomainBreadcrumbDropdown(fqName, function (domainSelectedValueData, domainBreadcrumbChanged) {
 
             });
-            cowu.renderView4Config(this.$el, null, getStorageNodeViewConfig(hashParams));
+            self.renderView4Config(this.$el, null, getStorageNodeViewConfig(hashParams));
         },
 
         renderStorageNodeList: function () {
@@ -33,7 +33,7 @@ define([
 
             //TBD breadcrumb update
 
-            cowu.renderView4Config(self.$el, null, getDiskViewConfig(hashParams));
+            self.renderView4Config(self.$el, null, getDiskViewConfig(hashParams));
         }
     });
 

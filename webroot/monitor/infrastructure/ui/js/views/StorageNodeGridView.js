@@ -4,12 +4,12 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var StorageNodeGridView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var StorageNodeGridView = ContrailView.extend({
         el: $(contentContainer),
 
-        render: function() {
+        render: function () {
             var self = this,
                 viewConfig = self.attributes.viewConfig,
                 pagerOptions = viewConfig['pagerOptions'],
@@ -20,12 +20,11 @@ define([
                 type: "GET"
             };
 
-            cowu.renderView4Config(self.$el, self.model, getStorageNodeGridViewConfig(storageNodesRemoteConfig, ucid, pagerOptions));
-
+            self.renderView4Config(self.$el, self.model, getStorageNodeGridViewConfig(storageNodesRemoteConfig, ucid, pagerOptions));
         }
     });
 
-    var getStorageNodeGridViewConfig = function(storagenodesRemoteConfig, ucid, pagerOptions) {
+    var getStorageNodeGridViewConfig = function (storagenodesRemoteConfig, ucid, pagerOptions) {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_LIST_VIEW_ID]),
             view: "SectionView",
@@ -49,7 +48,7 @@ define([
 
     };
 
-    var getStorageNodeGridConfig = function(storageNodesRemoteConfig, ucid, pagerOptions) {
+    var getStorageNodeGridConfig = function (storageNodesRemoteConfig, ucid, pagerOptions) {
         var gridElementConfig = {
             header: {
                 title: {
@@ -86,7 +85,7 @@ define([
                         text: 'Loading Storage Nodes..'
                     },
                     empty: {
-                        text: 'No Storage Nodes to display'
+                        text: 'No storage nodes to display.'
                     },
                     errorGettingData: {
                         type: 'error',
@@ -96,10 +95,10 @@ define([
                 }
             },
             columnHeader: {
-                columns: swgc.storagenodesColumns
+                columns: swgc.storageNodeColumns
             },
             footer: {
-                pager:  contrail.handleIfNull(pagerOptions, { options: { pageSize: 5, pageSizeSelect: [5, 10, 50, 100] } })
+                pager: contrail.handleIfNull(pagerOptions, {options: {pageSize: 8, pageSizeSelect: [8, 50, 100]}})
             }
         };
         return gridElementConfig;
@@ -127,11 +126,11 @@ define([
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'status',
+                                                    key: 'version',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'version',
+                                                    key: 'status',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]
@@ -150,15 +149,15 @@ define([
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
-                                                    key: 'osds_status',
-                                                    templateGenerator: 'TextGenerator'
-                                                },
-                                                {
                                                     key: 'osds_used',
                                                     templateGenerator: 'TextGenerator'
                                                 },
                                                 {
                                                     key: 'osds_total',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
+                                                    key: 'osds_status',
                                                     templateGenerator: 'TextGenerator'
                                                 }
                                             ]

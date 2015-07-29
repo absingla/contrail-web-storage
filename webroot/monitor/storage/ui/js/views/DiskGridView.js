@@ -112,6 +112,10 @@ define([
                                             templateGenerator: 'BlockListTemplateGenerator',
                                             templateGeneratorConfig: [
                                                 {
+                                                    key: 'id',
+                                                    templateGenerator: 'TextGenerator'
+                                                },
+                                                {
                                                     key: 'name',
                                                     templateGenerator: 'TextGenerator'
                                                 },

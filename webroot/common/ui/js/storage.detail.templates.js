@@ -29,23 +29,22 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
+                                            key: 'uuid',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
                                             key: 'public_addr',
                                             templateGenerator: 'TextGenerator'
-                                        },
+                                        }
+                                    ]
+                                },
+                                {
+                                    templateGenerator: 'BlockListTemplateGenerator',
+                                    title: swl.TITLE_DISK_STATUS,
+                                    theme: detailTheme,
+                                    templateGeneratorConfig: [
                                         {
-                                            key: 'status_tmpl',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'cluster_status_tmpl',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'state',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'total',
+                                            key: 'available',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
@@ -53,11 +52,7 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'available',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'uuid',
+                                            key: 'total',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
@@ -66,6 +61,18 @@ define([
                                         },
                                         {
                                             key: 'commit_latency',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'state',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'cluster_status_tmpl',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'status_tmpl',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
