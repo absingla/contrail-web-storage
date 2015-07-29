@@ -58,7 +58,7 @@ define([
                                             return response;
                                         },
                                         tooltipConfigCB: getStorageMonitorTooltipConfig,
-                                        clickCB: '',
+                                        clickCB: function (){ return; },
                                         sizeFieldName: '',
                                         margin: {left: 70},
                                         noDataMessage: "Unable to get Monitor data."
