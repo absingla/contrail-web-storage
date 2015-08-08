@@ -23,7 +23,7 @@ define([
         },
 
         renderStorageNodeList: function () {
-            this.renderView4Config(this.$el, null, getStorageNodeListConfig());
+            cowu.renderView4Config(this.$el, null, getStorageNodeListConfig());
         },
 
         renderDisk: function (viewConfig) {
@@ -41,7 +41,6 @@ define([
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_LIST_PAGE_ID]),
             view: "StorageNodeListView",
-            viewPathPrefix: 'monitor/infrastructure/ui/js/views/',
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {}
         }
@@ -51,7 +50,6 @@ define([
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_VIEW_ID]),
             view: "StorageNodeView",
-            viewPathPrefix: 'monitor/infrastructure/ui/js/views/',
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {
                 storageNode: hashParams.focusedElement.fqName

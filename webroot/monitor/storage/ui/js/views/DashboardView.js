@@ -97,6 +97,7 @@ define([
                                                 {
                                                     elementId: swl.POOL_STATS_CHART_ID,
                                                     view: "DonutChartView",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
                                                         title: swl.TITLE_POOL_STATS,
                                                         class: 'span3',

@@ -2,7 +2,32 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+define([
+    'underscore',
+    'contrail-view-model',
+    'monitor/infrastructure/ui/js/views/StorageNodeGridView',
+    'monitor/infrastructure/ui/js/views/StorageNodeListView',
+    'monitor/infrastructure/ui/js/views/StorageNodeView',
+    'monitor/infrastructure/ui/js/views/StorageNodeTabView',
+    'monitor/storage/ui/js/views/DiskListView',
+    'monitor/storage/ui/js/views/DiskGridView',
+    'monitor/storage/ui/js/views/DiskView',
+    'monitor/storage/ui/js/views/DiskTabView',
+    'monitor/storage/ui/js/views/DiskDetailsView',
+    'monitor/storage/ui/js/views/DiskActivityStatsView',
+    'monitor/storage/ui/js/views/StorageMonListView',
+    'monitor/storage/ui/js/views/StorageMonGridView',
+    'monitor/storage/ui/js/views/PoolListView',
+    'monitor/storage/ui/js/views/PoolGridView',
+    'monitor/storage/ui/js/views/DashboardView',
+    'monitor/storage/ui/js/views/ClusterActivityStatsView',
+    'monitor/storage/ui/js/views/PoolStatsView',
+    'monitor/storage/ui/js/views/ClusterUsageView',
+], function (_, ContrailViewModel, StorageNodeGridView, StorageNodeListView, StorageNodeView, StorageNodeTabView,
+             DiskListView, DiskGridView, DiskView, DiskTabView, DiskDetailsView, DiskActivityStatsView,
+             StorageMonListView, StorageMonGridView, PoolListView, PoolGridView, DashboardView, ClusterActivityStatsView,
+             PoolStatsView, ClusterUsageView
+            ) {
     var SUtils = function () {
         var self = this;
 
@@ -380,25 +405,119 @@ define(['underscore'], function (_) {
             return formatStr;
         };
 
-        self.renderView = function (renderConfig, renderCallback) {
-            var parentElement = renderConfig['parentElement'],
-                viewName = renderConfig['viewName'],
-                viewPathPrefix = contrail.checkIfExist(renderConfig['viewPathPrefix']) ? renderConfig['viewPathPrefix'] : 'monitor/storage/ui/js/views/',
-                model = renderConfig['model'],
-                viewAttributes = renderConfig['viewAttributes'],
-                modelMap = renderConfig['modelMap'],
-                rootView = renderConfig['rootView'],
-                viewPath =  viewPathPrefix + viewName,
-                elementView;
+        self.renderView = function (viewName, parentElement, model, viewAttributes, modelMap, rootView) {
+            var elementView;
 
-            require([viewPath], function(ElementView) {
-                elementView = new ElementView({el: parentElement, model: model, attributes: viewAttributes, rootView: rootView});
-                elementView.modelMap = modelMap;
-                elementView.render();
-                if(contrail.checkIfFunction(renderCallback)) {
-                    renderCallback(elementView);
-                }
-            });
+            switch (viewName) {
+                case "StorageNodeListView" :
+                    elementView = new StorageNodeListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "StorageNodeGridView" :
+                    elementView = new StorageNodeGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "StorageNodeView" :
+                    elementView = new StorageNodeView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "StorageNodeTabView" :
+                    elementView = new StorageNodeTabView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+
+                case "DiskListView" :
+                    elementView = new DiskListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "DiskGridView" :
+                    elementView = new DiskGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "DiskView" :
+                    elementView = new DiskView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "DiskTabView" :
+                    elementView = new DiskTabView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "DiskDetailsView" :
+                    elementView = new DiskDetailsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "DiskActivityStatsView" :
+                    elementView = new DiskActivityStatsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "StorageMonListView" :
+                    elementView = new StorageMonListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "StorageMonGridView" :
+                    elementView = new StorageMonGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "PoolListView" :
+                    elementView = new PoolListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "PoolGridView" :
+                    elementView = new PoolGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "PoolStatsView" :
+                    elementView = new PoolStatsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "DashboardView" :
+                    elementView = new DashboardView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "ClusterActivityStatsView" :
+                    elementView = new ClusterActivityStatsView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+
+                case "ClusterUsageView" :
+                    elementView = new ClusterUsageView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView });
+                    elementView.modelMap = modelMap;
+                    elementView.render();
+                    return elementView;
+            }
         }
     };
 
