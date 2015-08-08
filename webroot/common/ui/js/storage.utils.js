@@ -389,15 +389,19 @@ define(['underscore'], function (_) {
                 modelMap = renderConfig['modelMap'],
                 rootView = renderConfig['rootView'],
                 viewPath =  viewPathPrefix + viewName,
+                onAllRenderCompleteCB = renderConfig['onAllRenderCompleteCB'],
                 elementView;
 
             require([viewPath], function(ElementView) {
-                elementView = new ElementView({el: parentElement, model: model, attributes: viewAttributes, rootView: rootView});
+                elementView = new ElementView({el: parentElement, model: model, attributes: viewAttributes, rootView: rootView, onAllRenderCompleteCB: onAllRenderCompleteCB});
+                elementView.viewName = viewName;
                 elementView.modelMap = modelMap;
+                elementView.beginMyRendering();
                 elementView.render();
                 if(contrail.checkIfFunction(renderCallback)) {
                     renderCallback(elementView);
                 }
+                elementView.endMyRendering()
             });
         }
     };
