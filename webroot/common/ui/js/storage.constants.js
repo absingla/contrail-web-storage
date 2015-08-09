@@ -68,7 +68,6 @@ define([
 
         this.TMPL_BASIC_STATS_WIDGET = 'basic-stats-widget-template';
         this.TMPL_DISK_ACTIVITY_STATS = 'disk-activity-stats-template';
-        this.TMPL_CLUSTER_DISK_ACTIVITY_STATS = 'cluster-disk-activity-stats-template';
         this.TMPL_POOL_STATS = this.TMPL_BASIC_STATS_WIDGET;
         this.TMPL_CLUSTER_USAGE_STATS = 'cluster-usage-widget-template';
 
