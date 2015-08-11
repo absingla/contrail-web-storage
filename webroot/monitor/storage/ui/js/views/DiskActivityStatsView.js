@@ -5,10 +5,8 @@
 define([
     'underscore',
     'contrail-view',
-    'contrail-list-model',
-    'js/views/LineWithFocusChartView',
-    'js/views/LineBarWithFocusChartView',
-], function (_, ContrailView, ContrailListModel, LineWithFocusChartView, LineBarWithFocusChartView) {
+    'contrail-list-model'
+], function (_, ContrailView, ContrailListModel) {
     var DiskActivityStatsView = ContrailView.extend({
         el: $(contentContainer),
 
@@ -17,95 +15,116 @@ define([
                 viewConfig = this.attributes.viewConfig,
                 selector = $(self.$el);
 
-
-            self.initializeChartElementsAndLoadSpinner(selector);
-
             if (viewConfig.modelConfig != null) {
                 self.model = new ContrailListModel(viewConfig['modelConfig']);
+                self.renderCharts();
                 if (self.model.loadedFromCache || !(self.model.isRequestInProgress())) {
-                    var chartData = self.model.getItems();
-                    self.renderCharts(viewConfig, chartData);
+                    self.renderCharts();
                 }
 
                 self.model.onAllRequestsComplete.subscribe(function () {
-                    var chartData = self.model.getItems();
-                    self.renderCharts(viewConfig, chartData);
+                    self.renderCharts();
                 });
 
                 if (viewConfig.loadChartInChunks) {
                     self.model.onDataUpdate.subscribe(function () {
-                        var chartData = self.model.getItems();
-                        self.renderCharts(viewConfig, chartData);
+                        self.renderCharts();
                     });
                 }
             }
         },
 
-        initializeChartElementsAndLoadSpinner: function (selector) {
-            var diskActivityStatsTemplate = contrail.getTemplate4Id(swc.TMPL_DISK_ACTIVITY_STATS),
-                loadingSpinnerTemplate = contrail.getTemplate4Id(cowc.TMPL_LOADING_SPINNER);
-
-            $(selector).append(diskActivityStatsTemplate({
-                chartId: swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID
-            }));
-
-            $(selector).append(diskActivityStatsTemplate({
-                chartId: swl.DISK_ACTIVITY_LATENCY_CHART_ID
-            }));
-
-            $(swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID)).append(loadingSpinnerTemplate);
-            $(swu.getSelector4Id(swl.DISK_ACTIVITY_LATENCY_CHART_ID)).append(loadingSpinnerTemplate);
-
-        },
-
-        renderCharts: function (viewConfig, chartData) {
-            var lineWithFocusChartView = new LineWithFocusChartView(),
-                lineBarWithFocusChartView = new LineBarWithFocusChartView(),
-                selector, add2ViewConfig, yFormatterFn;
-            /**
-             * Disk Activity Throughput & IOPs Line Bar chart
-             */
-            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID);
-            add2ViewConfig = {
-                chartOptions: {
-                    height: 350,
-                    y1AxisLabel: swl.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
-                    y1Formatter: function (d) {
-                        return swu.addUnits2IOPs(d, false, false, 1);
-                    },
-                    y2AxisLabel: swl.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
-                    y2Formatter: function (y2Value) {
-                        return formatBytes(y2Value, true);
-                    },
-                    showLegend: false
-
-                },
-                parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
-            }
-            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
-            lineBarWithFocusChartView.renderChart(selector, viewConfig, chartData);
-
-            /**
-             * Disk Activity Latency line chart
-             */
-            selector = swu.getSelector4Id(swl.DISK_ACTIVITY_LATENCY_CHART_ID);
-            yFormatterFn = function (d) {
-                return swu.addUnits2Latency(d, false, false, 1);
-            };
-            add2ViewConfig = {
-                chartOptions: {
-                    height: 250,
-                    yAxisLabel: swl.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
-                    yFormatter: yFormatterFn,
-                    y2Formatter: yFormatterFn
-                },
-                parseFn: swp.diskActivityLatencyLineBarChartDataParser
-            }
-            var viewConfig = $.extend(true, {}, viewConfig, add2ViewConfig);
-            lineWithFocusChartView.renderChart(selector, viewConfig, chartData);
+        renderCharts: function () {
+            var self = this;
+            self.renderView4Config(self.$el, self.model, getDiskActivityStatsViewConfig());
         }
 
     });
+
+    function getDiskActivityStatsViewConfig() {
+        var yFormatterFn = function (d) {
+            return swu.addUnits2Latency(d, false, false, 1);
+        };
+
+        return {
+            elementId: cowu.formatElementId([swl.MONITOR_DISK_ACTIVITY_STATS_ID]),
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {
+                                elementId: swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID,
+                                view: "LineBarWithFocusChartView",
+                                viewConfig: {
+                                    widgetConfig: {
+                                        elementId: swl.DISK_ACTIVITY_THRPT_IOPS_CHART_ID + '-widget',
+                                        view: "WidgetView",
+                                        viewConfig: {
+                                            header: {
+                                                title: swl.TITLE_DISK_ACTIVITY_THRPT_STATS,
+                                                iconClass: false
+                                            },
+                                            controls: {
+                                                top: {
+                                                    default: {
+                                                        collapseable: true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    chartOptions: {
+                                        height: 350,
+                                        y1AxisLabel: swl.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
+                                        y1Formatter: function (d) {
+                                            return swu.addUnits2IOPs(d, false, false, 1);
+                                        },
+                                        y2AxisLabel: swl.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
+                                        y2Formatter: function (y2Value) {
+                                            return formatBytes(y2Value, true);
+                                        },
+                                        showLegend: false
+
+                                    },
+                                    parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser                                }
+                            },
+                            {
+                                elementId: swl.DISK_ACTIVITY_LATENCY_CHART_ID,
+                                view: "LineWithFocusChartView",
+                                viewConfig: {
+                                    widgetConfig: {
+                                        elementId: swl.DISK_ACTIVITY_LATENCY_CHART_ID + '-widget',
+                                        view: "WidgetView",
+                                        viewConfig: {
+                                            header: {
+                                                title: swl.TITLE_DISK_ACTIVITY_LATENCY_STATS,
+                                                iconClass: false
+                                            },
+                                            controls: {
+                                                top: {
+                                                    default: {
+                                                        collapseable: true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    chartOptions: {
+                                        height: 250,
+                                        yAxisLabel: swl.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
+                                        yFormatter: yFormatterFn,
+                                        y2Formatter: yFormatterFn
+                                    },
+                                    parseFn: swp.diskActivityLatencyLineBarChartDataParser
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+    };
 
     return DiskActivityStatsView;
 });

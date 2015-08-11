@@ -75,6 +75,7 @@ define([
         this.MONITOR_DISK_VIEW_ID = "monitor-disk-view";
         this.MONITOR_DISK_LIST_ID = "monitor-disk-list";
         this.MONITOR_DISK_GRID_ID = "monitor-disk-grid";
+        this.MONITOR_DISK_ACTIVITY_STATS_ID = "monitor-disk-activity-stats";
 
         this.MONITOR_STORAGE_MONITORS_ID = "monitor-storagemons";
         this.MONITOR_STORAGE_MONITOR_LIST_PAGE_ID = "monitor-storagemon-list-page";
@@ -126,14 +127,14 @@ define([
         this.TITLE_CLUSTER_USAGE = "Cluster Usage";
         this.TITLE_CLUSTER_THROUGHPUT = "Cluster Throughput";
         this.TITLE_CLUSTER_LATENCY = "Cluster Latency";
-        this.TITLE_CLUSTER_REPLICA_FACTOR = "Replication Factor: "
+        this.TITLE_CLUSTER_REPLICA_FACTOR = "Replication Factor: ";
 
         this.TITLE_CHART_ELEMENT_STORAGENODE = "storage node";
         this.TITLE_CHART_ELEMENT_STORAGENODE_MONITOR = "storage node monitor";
         this.TITLE_CHART_ELEMENT_DISK = "disk";
         this.TITLE_CHART_ELEMENT_POOL = "pool";
 
-        this.STORAGENODE_TAB_VIEW_ID = "storagenode-tab-view"
+        this.STORAGENODE_TAB_VIEW_ID = "storagenode-tab-view";
         this.STORAGENODE_TAB_ID = "storagenode";
         this.STORAGENODES_SCATTER_CHART_ID  = "storagenodes-scatter-chart";
         this.STORAGENODES_GRID_ID = "storagenodes-grid";

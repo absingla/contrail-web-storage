@@ -79,7 +79,7 @@ define([
                                                     view: "ClusterUsageView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
-                                                        class: 'span3',
+                                                        class: 'span6',
                                                         modelConfig: {
                                                             remote: {
                                                                 ajaxConfig: {
@@ -97,9 +97,26 @@ define([
                                                 {
                                                     elementId: swl.POOL_STATS_CHART_ID,
                                                     view: "DonutChartView",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
-                                                        title: swl.TITLE_POOL_STATS,
-                                                        class: 'span3',
+                                                        class: 'span6',
+                                                        widgetConfig: {
+                                                            elementId: swl.POOL_STATS_CHART_ID + '-widget',
+                                                            view: "WidgetView",
+                                                            viewConfig: {
+                                                                header: {
+                                                                    title: swl.TITLE_POOL_STATS,
+                                                                    iconClass: false
+                                                                },
+                                                                controls: {
+                                                                    top: {
+                                                                        default: {
+                                                                            collapseable: true
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
                                                         modelConfig: {
                                                             remote: {
                                                                 ajaxConfig: {
@@ -127,14 +144,34 @@ define([
 
                                                         }
                                                     }
-                                                },
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            columns: [
                                                 {
-                                                    elementId: swl.MONITOR_STORAGE_DASHBOARD_CLUSTER_STATS_ID,
-                                                    title: swl.TITLE_DISK_ACTIVITY_STATS,
-                                                    view: "ClusterActivityStatsView",
-                                                    app: cowc.APP_CONTRAIL_STORAGE,
+                                                    elementId: swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID,
+                                                    title: swl.TITLE_CLUSTER_THROUGHPUT,
+                                                    view: "LineBarWithFocusChartView",
                                                     viewConfig: {
                                                         class: 'span6',
+                                                        widgetConfig: {
+                                                            elementId: swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID + '-widget',
+                                                            view: "WidgetView",
+                                                            viewConfig: {
+                                                                header: {
+                                                                    title: swl.TITLE_CLUSTER_THROUGHPUT,
+                                                                    iconClass: false
+                                                                },
+                                                                controls: {
+                                                                    top: {
+                                                                        default: {
+                                                                            collapseable: true
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
                                                         modelConfig: {
                                                             modelKey: swc.UMID_CLUSTER_DISK_UVE,
                                                             remote: {
@@ -147,7 +184,66 @@ define([
                                                             cacheConfig: {
                                                                 ucid: swc.UCID_CLUSTER_DISK_STATS
                                                             }
-                                                        }
+                                                        },
+                                                        chartOptions: {
+                                                            height: 300,
+                                                            y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
+                                                            y1AxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
+                                                            y2Formatter: function (y2Value) {
+                                                                return formatBytes(y2Value, true);
+                                                            },
+                                                            y1Formatter: function (d) {
+                                                                return swu.addUnits2IOPs(d, false, false, 1);
+                                                            },
+                                                            showLegend: false
+                                                        },
+                                                        parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
+                                                    }
+                                                },
+                                                {
+                                                    elementId: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID,
+                                                    title: swl.TITLE_CLUSTER_LATENCY,
+                                                    view: "LineWithFocusChartView",
+                                                    viewConfig: {
+                                                        class: 'span6',
+                                                        widgetConfig: {
+                                                            elementId: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID + '-widget',
+                                                            view: "WidgetView",
+                                                            viewConfig: {
+                                                                header: {
+                                                                    title: swl.TITLE_CLUSTER_LATENCY,
+                                                                    iconClass: false
+                                                                },
+                                                                controls: {
+                                                                    top: {
+                                                                        default: {
+                                                                            collapseable: true
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
+                                                        modelConfig: {
+                                                            modelKey: swc.UMID_CLUSTER_DISK_UVE,
+                                                            remote: {
+                                                                ajaxConfig: {
+                                                                    url: swc.URL_CLUSTER_DISK_ACTIVITY_STATS,
+                                                                    type: 'GET'
+                                                                },
+                                                                dataParser: swp.diskActivityStatsParser
+                                                            },
+                                                            cacheConfig: {
+                                                                ucid: swc.UCID_CLUSTER_DISK_STATS
+                                                            }
+                                                        },
+                                                        chartOptions: {
+                                                            height: 300,
+                                                            yAxisLabel: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
+                                                            yFormatter: function (d) {
+                                                                return swu.addUnits2Latency(d, false, false, 1);
+                                                            }
+                                                        },
+                                                        parseFn: swp.diskActivityLatencyLineBarChartDataParser
                                                     }
                                                 }
                                             ]

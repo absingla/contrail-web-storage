@@ -49,59 +49,26 @@ define([
                 rows: [
                     {
                         columns: [
-                            {
-                                elementId: swl.CLUSTER_DISK_ACTIVITY_STATS_TAB_ID,
-                                view: "TabsView",
-                                viewConfig: {
-                                    theme: 'widget-classic',
-                                    active: 0,
-                                    activate: function (e, ui) {
-                                        var selTab = $(ui.newTab.context).text();
-                                        if (selTab == swl.TITLE_CLUSTER_THROUGHPUT) {
-                                            $('#' + swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID).find('svg').trigger('refresh');
-                                        } else if (selTab == swl.TITLE_CLUSTER_LATENCY) {
-                                            $('#' + swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID).find('svg').trigger('refresh');
-                                        }
-                                    },
-                                    tabs: [
-                                        {
-                                            elementId: swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID,
-                                            title: swl.TITLE_CLUSTER_THROUGHPUT,
-                                            view: "LineBarWithFocusChartView",
-                                            viewConfig: {
-                                                chartOptions: {
-                                                    height: 300,
-                                                    y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
-                                                    y1AxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
-                                                    y2Formatter: function (y2Value) {
-                                                        return formatBytes(y2Value, true);
-                                                    },
-                                                    y1Formatter: function (d) {
-                                                        return swu.addUnits2IOPs(d, false, false, 1);
-                                                    },
-                                                    showLegend: false
-                                                },
-                                                parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
-                                            }
-                                        },
-                                        {
-                                            elementId: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID,
-                                            title: swl.TITLE_CLUSTER_LATENCY,
-                                            view: "LineWithFocusChartView",
-                                            viewConfig: {
-                                                chartOptions: {
-                                                    height: 300,
-                                                    yAxisLabel: swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL,
-                                                    yFormatter: function (d) {
-                                                        return swu.addUnits2Latency(d, false, false, 1);
-                                                    }
-                                                },
-                                                parseFn: swp.diskActivityLatencyLineBarChartDataParser
-                                            }
-                                        },
-                                    ]
-                                }
-                            }
+                            //{
+                            //    elementId: swl.CLUSTER_DISK_ACTIVITY_STATS_TAB_ID,
+                            //    view: "TabsView",
+                            //    viewConfig: {
+                            //        theme: 'widget-classic',
+                            //        active: 0,
+                            //        activate: function (e, ui) {
+                            //            var selTab = $(ui.newTab.context).text();
+                            //            if (selTab == swl.TITLE_CLUSTER_THROUGHPUT) {
+                            //                $('#' + swl.CLUSTER_DISK_ACTIVITY_THRPT_IOPS_CHART_ID).find('svg').trigger('refresh');
+                            //            } else if (selTab == swl.TITLE_CLUSTER_LATENCY) {
+                            //                $('#' + swl.CLUSTER_DISK_ACTIVITY_LATENCY_CHART_ID).find('svg').trigger('refresh');
+                            //            }
+                            //        },
+                            //        tabs: [
+                            //            ,
+                            //        ]
+                            //    }
+                            //}
+
                         ]
                     }
                 ]

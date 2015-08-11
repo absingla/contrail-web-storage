@@ -9,7 +9,7 @@ define([
         this.getDiskDetailsTemplate = function (detailTheme, detailActions) {
             var detailTheme = contrail.checkIfExist(detailTheme) ? detailTheme : cowc.THEME_DETAIL_DEFAULT;
             return {
-                actions: contrail.handleIfNull(detailActions, []),
+                advancedViewOptions: false,
                 templateGenerator: 'ColumnSectionTemplateGenerator',
                 templateGeneratorConfig: {
                     columns: [
@@ -19,6 +19,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: swl.TITLE_DISK_SUMMARY,
                                     theme: detailTheme,
+                                    templateGeneratorData: 'rawData',
                                     templateGeneratorConfig: [
                                         {
                                             key: 'name',
@@ -42,6 +43,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: swl.TITLE_DISK_STATUS,
                                     theme: detailTheme,
+                                    templateGeneratorData: 'rawData',
                                     templateGeneratorConfig: [
                                         {
                                             key: 'available',
