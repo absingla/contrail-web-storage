@@ -97,6 +97,7 @@ define([
                                                 {
                                                     elementId: swl.POOL_STATS_CHART_ID,
                                                     view: "DonutChartView",
+                                                    viewPathPrefix: "core-basedir/js/views/",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
                                                         class: 'span6',
