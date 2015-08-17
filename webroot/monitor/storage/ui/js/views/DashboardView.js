@@ -22,48 +22,48 @@ define([
             view: "SectionView",
             viewConfig: {
                 rows: [
-                    {
-                        columns: [
-                            {
-                                elementId: swl.DISK_SCATTER_CHART_ID,
-                                title: swl.TITLE_DISKS,
-                                view: "ZoomScatterChartView",
-                                viewConfig: {
-                                    modelConfig: {
-                                        remote: {
-                                            ajaxConfig: {
-                                                url: swc.URL_DISKS_SUMMARY,
-                                                type: "GET"
-                                            },
-                                            dataParser: swp.disksDataParser
-                                        },
-                                        cacheConfig: {
-                                            ucid: swc.UCID_ALL_DISK_LIST
-                                        }
-                                    },
-                                    loadChartInChunks: true,
-                                    chartOptions: {
-                                        xLabel: 'Usage (%)',
-                                        xLabelFormat: d3.format(".01f"),
-                                        forceX: [0, 1],
-                                        forceY: [0, 10],
-                                        yLabel: 'Avg. Bandwidth',
-                                        yLabelFormat: function (yValue) {
-                                            return formatThroughput(yValue, true);
-                                        },
-                                        dataParser: function (response) {
-                                            return response;
-                                        },
-                                        tooltipConfigCB: getDiskTooltipConfig,
-                                        clickCB: onScatterChartClick,
-                                        sizeFieldName: 'used_perc',
-                                        margin: {left: 70},
-                                        noDataMessage: "Unable to get disk data."
-                                    }
-                                }
-                            }
-                        ]
-                    },
+                    //{
+                    //    columns: [
+                    //        {
+                    //            elementId: swl.DISK_SCATTER_CHART_ID,
+                    //            title: swl.TITLE_DISKS,
+                    //            view: "ZoomScatterChartView",
+                    //            viewConfig: {
+                    //                modelConfig: {
+                    //                    remote: {
+                    //                        ajaxConfig: {
+                    //                            url: swc.URL_DISKS_SUMMARY,
+                    //                            type: "GET"
+                    //                        },
+                    //                        dataParser: swp.disksDataParser
+                    //                    },
+                    //                    cacheConfig: {
+                    //                        ucid: swc.UCID_ALL_DISK_LIST
+                    //                    }
+                    //                },
+                    //                loadChartInChunks: true,
+                    //                chartOptions: {
+                    //                    xLabel: 'Usage (%)',
+                    //                    xLabelFormat: d3.format(".01f"),
+                    //                    forceX: [0, 1],
+                    //                    forceY: [0, 10],
+                    //                    yLabel: 'Avg. Bandwidth',
+                    //                    yLabelFormat: function (yValue) {
+                    //                        return formatThroughput(yValue, true);
+                    //                    },
+                    //                    dataParser: function (response) {
+                    //                        return response;
+                    //                    },
+                    //                    tooltipConfigCB: getDiskTooltipConfig,
+                    //                    clickCB: onScatterChartClick,
+                    //                    sizeFieldName: 'used_perc',
+                    //                    margin: {left: 70},
+                    //                    noDataMessage: "Unable to get disk data."
+                    //                }
+                    //            }
+                    //        }
+                    //    ]
+                    //},
                     {
                         columns: [
                             {
@@ -79,7 +79,7 @@ define([
                                                     view: "ClusterUsageView",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
-                                                        class: 'span6',
+                                                        class: 'span3',
                                                         modelConfig: {
                                                             remote: {
                                                                 ajaxConfig: {
@@ -100,7 +100,7 @@ define([
                                                     viewPathPrefix: "core-basedir/js/views/",
                                                     app: cowc.APP_CONTRAIL_STORAGE,
                                                     viewConfig: {
-                                                        class: 'span6',
+                                                        class: 'span3',
                                                         widgetConfig: {
                                                             elementId: swl.POOL_STATS_CHART_ID + '-widget',
                                                             view: "WidgetView",
@@ -135,8 +135,9 @@ define([
                                                         chartOptions: {
                                                             //margin: {top: 10, right: 10, bottom: 20, left: 40},
                                                             donutRatio: 0.6,
-                                                            height: 250,
-                                                            showLegend: true,
+                                                            height: 200,
+                                                            showLegend: false,
+                                                            legendPosition: 'right',
                                                             showLabels: false,
                                                             legendRightAlign: true,
                                                             legendPadding: 32,
@@ -190,6 +191,8 @@ define([
                                                             height: 300,
                                                             y2AxisLabel: swl.CLUSTER_DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL,
                                                             y1AxisLabel: swl.CLUSTER_DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL,
+                                                            forceY1: [0, 10],
+                                                            forceY2: [0, 1024],
                                                             y2Formatter: function (y2Value) {
                                                                 return formatBytes(y2Value, true);
                                                             },
