@@ -10,11 +10,15 @@ function MonitorStorageLoader() {
             hashParams = paramObject['hashParams'],
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathMSView = rootDir + '/js/views/MonitorStorageView.js',
-            renderFn = paramObject['function'];
+            renderFn = paramObject['function'],
+            loadingStartedDefObj = paramObject['loadingStartedDefObj'];
 
         requirejs([pathMSView], function (MonitorStorageView) {
             self.monStorageView = new MonitorStorageView();
             self.renderView(renderFn, hashParams);
+            if(contrail.checkIfExist(loadingStartedDefObj)) {
+                loadingStartedDefObj.resolve();
+            }
         });
     };
 

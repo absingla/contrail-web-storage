@@ -10,12 +10,16 @@ function MonitorInfraStorageLoader() {
             hashParams = paramObject['hashParams'],
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathMSView = rootDir + '/js/views/MonitorInfraStorageView.js',
-            renderFn = paramObject['function'];
+            renderFn = paramObject['function'],
+            loadingStartedDefObj = paramObject['loadingStartedDefObj'];
 
         check4StorageInit(function () {
             requirejs([pathMSView], function (MonitorInfraStorageView) {
                 self.infraStorageView = new MonitorInfraStorageView();
                 self.renderView(renderFn, hashParams);
+                if(contrail.checkIfExist(loadingStartedDefObj)) {
+                    loadingStartedDefObj.resolve();
+                }
             });
         });
     };
