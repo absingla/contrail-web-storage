@@ -40,6 +40,7 @@ define([
     function getStorageNodeListConfig() {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_LIST_PAGE_ID]),
+            viewPathPrefix: 'monitor/infrastructure/ui/js/views/',
             view: "StorageNodeListView",
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {}
@@ -49,6 +50,7 @@ define([
     function getStorageNodeViewConfig(hashParams) {
         return {
             elementId: cowu.formatElementId([swl.MONITOR_STORAGENODE_VIEW_ID]),
+            viewPathPrefix: 'monitor/infrastructure/ui/js/views/',
             view: "StorageNodeView",
             app: cowc.APP_CONTRAIL_STORAGE,
             viewConfig: {

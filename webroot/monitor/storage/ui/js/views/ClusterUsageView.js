@@ -5,8 +5,9 @@
 define([
     'underscore',
     'contrail-view',
-    'contrail-list-model'
-], function (_, ContrailView, ContrailListModel) {
+    'contrail-list-model',
+    'monitor-storage-basedir/js/models/UsageAndStatusDonutChartModel'
+], function (_, ContrailView, ContrailListModel, UsageAndStatusDonutChart) {
     var ClusterUsageView = ContrailView.extend({
         el: $(contentContainer),
 
@@ -53,6 +54,28 @@ define([
             };
 
             viewConfig.modelConfig = $.extend(true, {}, viewConfig.modelConfig, defaultModelConfig);
+
+            var chartOptions = {
+                margin: {top: 15, right: 30, bottom: 20, left: 60},
+                height: 150,
+                outerArc: {
+                    tooltipFn: getClusterStatusTooltip
+                },
+                innerArc: {
+                    tooltipFn: getClusterUsageTooltip
+                },
+                clickCB: function () {
+                    return;
+                },
+                detailsTemplate: swc.TMPL_CLUSTER_USAGE_DETAILS,
+                noDataMessage: "Unable to get cluster usage data."
+            };
+            viewConfig.chartOptions = $.extend(true, {}, viewConfig.chartOptions, chartOptions);
+
+            if (!contrail.checkIfExist(viewConfig.parseFn)) {
+                viewConfig.parseFn = swp.clusterUsageDonutChartParser;
+            }
+
             self.model = new ContrailListModel(viewConfig.modelConfig);
 
             if (self.model !== null) {
@@ -60,70 +83,138 @@ define([
                     var chartData = self.model.getItems();
                     selector = swu.getSelector4Id(swl.CLUSTER_REPLICA_FACTOR_ID);
                     self.renderReplicaFactor(selector, viewConfig, chartData);
+
+                    selector = swu.getSelector4Id(swl.CLUSTER_USAGE_CHART_ID);
+                    self.renderChart(selector, viewConfig, chartData);
                 }
 
                 self.model.onAllRequestsComplete.subscribe(function () {
                     var chartData = self.model.getItems();
                     selector = swu.getSelector4Id(swl.CLUSTER_REPLICA_FACTOR_ID);
                     self.renderReplicaFactor(selector, viewConfig, chartData);
+
+                    selector = swu.getSelector4Id(swl.CLUSTER_USAGE_CHART_ID);
+                    self.renderChart(selector, viewConfig, chartData);
                 });
             }
-
-            selector = swu.getSelector4Id(swl.CLUSTER_USAGE_CHART_ID);
-
-            self.renderView4Config(selector, null, getClusterUsageViewConfig(viewConfig));
         },
 
-        renderReplicaFactor: function(selector, viewConfig, data) {
+        renderReplicaFactor: function (selector, viewConfig, data) {
             $(selector).text(data[0]['cluster_replica_factor']);
+        },
+
+        renderChart: function (selector, viewConfig, data) {
+            var chartViewConfig, chartModel, chartData, chartOptions, svgHeight;
+
+            if (contrail.checkIfFunction(viewConfig['parseFn'])) {
+                data = viewConfig['parseFn'](data);
+            }
+
+            chartOptions = ifNull(viewConfig['chartOptions'], {});
+
+            chartViewConfig = getChartViewConfig(data, chartOptions);
+            chartData = chartViewConfig['chartData'];
+            chartOptions = chartViewConfig['chartOptions'];
+            chartModel = new UsageAndStatusDonutChart(chartOptions);
+            this.chartModel = chartModel;
+            svgHeight = chartOptions.height + 40;
+
+            if ($(selector).find("svg") != null) {
+                $(selector).empty();
+            }
+
+            $(selector).append("<svg style='height:" + svgHeight + "px;'></svg>");
+
+            //Store the chart object as a data attribute so that the chart can be updated dynamically
+            $(selector).data('chart', chartModel);
+
+            if (!($(selector).is(':visible'))) {
+                $(selector).find('svg').bind("refresh", function () {
+                    d3.select($(selector)[0]).select('svg').datum(chartData).call(chartModel);
+                });
+            } else {
+                d3.select($(selector)[0]).select('svg').datum(chartData).call(chartModel);
+            }
+
+            if (contrail.checkIfExist(chartOptions.detailsTemplate)) {
+                var detailsTemplate = contrail.getTemplate4Id(chartOptions.detailsTemplate);
+                $(selector).find(".usage-details-container").empty();
+                $(selector).append(detailsTemplate(chartData.detailsData));
+            }
+
+            nv.utils.windowResize(function () {
+                updateChartOnResize(selector, chartModel);
+            });
+
+            if (chartOptions['deferredObj'] != null)
+                chartOptions['deferredObj'].resolve();
+
+            $(selector).find('.loading-spinner').remove();
         }
     });
 
-    function getClusterUsageViewConfig(viewConfig) {
+    function getChartViewConfig(chartData, chartOptions) {
+        var chartViewConfig = {};
 
-        var clusterUsageViewConfig = {
-            elementId: swl.CLUSTER_USAGE_CHART_ID,
-            title: swl.TITLE_CLUSTER_USAGE,
-            view: "MultiDonutChartView",
-            viewConfig: {
-                loadChartInChunks: true,
-                parseFn: swp.clusterUsageDonutChartParser,
-                modelConfig: {
-                    modelKey: swc.UMID_CLUSTER_USAGE,
-                    vlRemoteConfig: {
-                        vlRemoteList: [{
-                            getAjaxConfig: function (response) {
-                                var lazyAjaxConfig = {
-                                    url: swc.URL_POOLS_SUMMARY,
-                                    type: 'GET'
-                                };
-                                return lazyAjaxConfig;
-                            },
-                            dataParser: swp.clusterReplicaFactorParser,
-                            successCallback: function (clusterReplicationFactor, contrailListModel) {
-                                var usageSummary = contrailListModel.getItems();
-                                contrailListModel.updateData(swp.clusterUsageWithReplicaFactor(usageSummary, clusterReplicationFactor))
-                            }
+        var chartDefaultOptions = {
+            margin: {top: 20, right: 20, bottom: 20, left: 30},
+            width: 150,
+            height: 150,
+            innerArc: {
+                color: d3.scale.ordinal().range(["#1F77B4", "#C6DBEF", "#ADD6FB", "#6BAED6", "#D6EBFD", "#5DAEF8"]),
+                opacity: 0,
+                tooltipFn: function (d) {
+                    return {
+                        series: [{
+                            key: d.data.name,
+                            value: '',
+                            color: d.data.color
                         }]
-                    }
-                },
-                chartOptions: {
-                    margin: {top: 35, right: 30, bottom: 20, left: 60},
-                    height: 150,
-                    outerArc: {
-                        tooltipFn: getClusterStatusTooltip
-                    },
-                    innerArc: {
-                        tooltipFn: getClusterUsageTooltip
-                    },
-                    clickCB: '',//TODO
-                    noDataMessage: "Unable to get cluster usage data."
+                    };
                 }
+            },
+            outerArc: {
+                color: d3.scale.ordinal().range(["#2CA02C", "#FF7F0E", "#D62728"]),
+                opacity: 0.5,
+                tooltipFn: function (d) {
+                    return {
+                        series: [{
+                            key: d.data.name,
+                            value: '',
+                            color: d.data.color
+                        }]
+                    };
+                },
+                flagKey: 'Normal'
             }
         };
-        clusterUsageViewConfig.viewConfig = $.extend(true, {}, clusterUsageViewConfig.viewConfig, viewConfig);
+        var chartDefaultData = {
+            innerData: [{
+                name: "used",
+                value: 0
+            }, {
+                name: "available",
+                value: 100
+            }],
+            outerData: [{
+                name: "Normal",
+                value: 75
+            }, {
+                name: "Warning",
+                value: 15
+            }, {
+                name: "Critical",
+                value: 10
+            }]
+        };
 
-        return clusterUsageViewConfig;
+        var chartOptions = $.extend(true, {}, chartDefaultOptions, chartOptions);
+        var chartData = $.extend(true, {}, chartDefaultData, chartData);
+
+        chartViewConfig['chartData'] = chartData;
+        chartViewConfig['chartOptions'] = chartOptions;
+
+        return chartViewConfig;
     };
 
     function getClusterStatusTooltip(currObj) {

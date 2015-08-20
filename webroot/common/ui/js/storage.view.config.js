@@ -18,6 +18,7 @@ define([
                     };
                     config = {
                         elementId: swl.MONITOR_STORAGENODE_VIEW_ID,
+                        viewPathPrefix: 'monitor/infrastructure/ui/js/views/',
                         view: "StorageNodeTabView",
                         app: cowc.APP_CONTRAIL_STORAGE,
                         viewConfig: options

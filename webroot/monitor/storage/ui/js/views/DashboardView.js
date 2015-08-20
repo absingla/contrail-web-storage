@@ -74,6 +74,43 @@ define([
                                         {
                                             columns: [
                                                 {
+                                                    elementId: swl.CLUSTER_STATUS_ID,
+                                                    view: "ClusterStatusView",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
+                                                    viewConfig: {
+                                                        class: 'span3',
+                                                        widgetConfig: {
+                                                            elementId: swl.CLUSTER_STATUS_ID + '-widget',
+                                                            view: "WidgetView",
+                                                            viewConfig: {
+                                                                header: {
+                                                                    title: swl.TITLE_CLUSTER_STATUS,
+                                                                    iconClass: false
+                                                                },
+                                                                controls: {
+                                                                    top: {
+                                                                        default: {
+                                                                            collapseable: true
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
+                                                        modelConfig: {
+                                                            remote: {
+                                                                ajaxConfig: {
+                                                                    url: swc.URL_CLUSTER_STATUS,
+                                                                    type: 'GET'
+                                                                },
+                                                                dataParser: swp.clusterStatusDataParser
+                                                            },
+                                                            cacheConfig: {
+                                                                ucid: swc.UCID_CLUSTER_STATUS_LIST
+                                                            }
+                                                        },
+                                                    }
+                                                },
+                                                {
                                                     elementId: swl.MONITOR_CLUSTER_USAGE_ID,
                                                     title: swl.TITLE_CLUSTER_USAGE,
                                                     view: "ClusterUsageView",
@@ -144,6 +181,56 @@ define([
                                                             noDataMessage: "Unable to get pool data.",
                                                             valueFormat: formatBytes
 
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    elementId: swl.DISK_STATUS_CHART_ID,
+                                                    view: "DonutChartView",
+                                                    viewPathPrefix: "core-basedir/js/views/",
+                                                    app: cowc.APP_CONTRAIL_STORAGE,
+                                                    viewConfig: {
+                                                        class: 'span3',
+                                                        widgetConfig: {
+                                                            elementId: swl.DISK_STATUS_CHART_ID + '-widget',
+                                                            view: "WidgetView",
+                                                            viewConfig: {
+                                                                header: {
+                                                                    title: swl.TITLE_DISK_STATUS,
+                                                                    iconClass: false
+                                                                },
+                                                                controls: {
+                                                                    top: {
+                                                                        default: {
+                                                                            collapseable: true
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
+                                                        modelConfig: {
+                                                            remote: {
+                                                                ajaxConfig: {
+                                                                    url: swc.URL_DISK_STATUS,
+                                                                    type: 'GET'
+                                                                },
+                                                                dataParser: swp.disksStatusDonutChartDataParser
+                                                            },
+                                                            cacheConfig: {
+                                                                ucid: swc.UCID_ALL_DISK_STATUS_LIST
+                                                            }
+                                                        },
+                                                        loadChartInChunks: true,
+                                                        chartOptions: {
+                                                            donutRatio: 0.6,
+                                                            height: 200,
+                                                            showLegend: false,
+                                                            legendPosition: 'right',
+                                                            showLabels: false,
+                                                            legendRightAlign: true,
+                                                            legendPadding: 32,
+                                                            noDataMessage: "Unable to get disk stats data.",
+                                                            valueFormat: swu.addUnits2Disks
                                                         }
                                                     }
                                                 }

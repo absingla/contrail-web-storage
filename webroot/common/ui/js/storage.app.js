@@ -7,6 +7,7 @@ var swc, swgc, swcc, swl, swu, swm, swp, swvc, swdt;
 require.config({
     baseUrl: '/',
     paths: {
+        'monitor-storage-basedir' : 'monitor/storage/ui',
         'storage-constants': 'common/ui/js/storage.constants',
         'storage-grid-config': 'common/ui/js/storage.grid.config',
         'storage-chart-config': 'common/ui/js/storage.chart.config',

@@ -77,6 +77,7 @@ define([
                             {
                                 elementId: swl.MONITOR_STORAGENODES_ID,
                                 title: swl.TITLE_STORAGENODES,
+                                viewPathPrefix: 'monitor/infrastructure/ui/js/views/',
                                 view: "StorageNodeGridView",
                                 app: cowc.APP_CONTRAIL_STORAGE,
                                 viewConfig: {pagerOptions: { options: { pageSize: 8, pageSizeSelect: [8, 50, 100] } }}

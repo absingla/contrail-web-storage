@@ -170,6 +170,7 @@ and need to add the iconClass tag wherever we need to show some icons
                     <resources>
                         <resource>
                             <rootDir>/common/ui</rootDir>
+                            <css>contrail.storage.css</css>
                             <template>storage.tmpl</template>
                             <class>storagePageLoader</class>
                         </resource>

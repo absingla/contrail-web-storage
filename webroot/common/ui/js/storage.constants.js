@@ -12,6 +12,7 @@ define([
 
         this.URL_DISKS_SUMMARY = '/api/tenant/storage/cluster/osds/summary';
         this.URL_DISK_DETAILS = '/api/tenant/storage/cluster/osd/details?name={0}';
+        this.URL_DISK_STATUS = '/api/tenant/storage/cluster/osd/status';
         this.URL_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/osd/flow-series?osdName={0}&minsSince=60&sampleCnt=60&hostName={1}&endTime=now';
 
         this.URL_STORAGENODE_MONITORS_SUMMARY = '/api/tenant/storage/cluster/monitors/summary';
@@ -21,6 +22,7 @@ define([
         this.URL_POOL_DETAILS = '/api/tenant/storage/cluster/pool/details?name={0}'; //TBD
 
         this.URL_CLUSTER_USAGE = '/api/tenant/storage/cluster/usage';
+        this.URL_CLUSTER_STATUS = '/api/tenant/storage/cluster/status';
         this.URL_CLUSTER_THROUGHPUT_SUMMARY = '/api/tenant/storage/cluster/throughput/summary';
         this.URL_CLUSTER_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/osd/activity?minsSince=60&sampleCnt=60&endTime=now';
         this.URL_CLUSTER_RAW_DISK_ACTIVITY_STATS = '/api/tenant/storage/cluster/disk/activity?minsSince=60&sampleCnt=60&endTime=now';
@@ -53,11 +55,13 @@ define([
 
         this.UCID_ALL_STORAGENODE_LIST = this.UCID_PREFIX_MS_LISTS + 'all-storagenodes';
         this.UCID_ALL_DISK_LIST = this.UCID_PREFIX_MS_LISTS + "all-disks";
+        this.UCID_ALL_DISK_STATUS_LIST = this.UCID_PREFIX_MS_LISTS + "all-disks-status";
         this.UCID_DISK_STATS = this.UCID_PREFIX_MS_CHARTS + "{0}:{1}:disk_stats";
         this.UCID_ALL_MONITOR_LIST = this.UCID_PREFIX_MS_LISTS + "all-monitors";
         this.UCID_ALL_POOL_LIST = this.UCID_PREFIX_MS_LISTS + "all-pools";
-        this.UCID_CLUSTER_DISK_STATS = this.UCID_PREFIX_MS_CHARTS + "cluster_disk_stats";
-        this.UCID_CLUSTER_USAGE = this.UCID_PREFIX_MS_CHARTS + "cluster_usage"
+        this.UCID_CLUSTER_STATUS_LIST = this.UCID_PREFIX_MS_LISTS + "cluster-status";
+        this.UCID_CLUSTER_DISK_STATS = this.UCID_PREFIX_MS_CHARTS + "cluster-disk-stats";
+        this.UCID_CLUSTER_USAGE = this.UCID_PREFIX_MS_CHARTS + "cluster-usage"
 
         this.CHART_ELEMENT_STORAGENODE = 'storagenode';
 
@@ -70,6 +74,8 @@ define([
         this.TMPL_DISK_ACTIVITY_STATS = 'disk-activity-stats-template';
         this.TMPL_POOL_STATS = this.TMPL_BASIC_STATS_WIDGET;
         this.TMPL_CLUSTER_USAGE_STATS = 'cluster-usage-widget-template';
+        this.TMPL_CLUSTER_USAGE_DETAILS = 'cluster-usage-details-template';
+        this.TMPL_CLUSTER_STATUS = 'cluster-status-template';
 
         this.DISK_USAGE_WARN = 85.00;
         this.DISK_USAGE_CRITICAL = 95.00;

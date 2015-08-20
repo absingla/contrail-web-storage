@@ -139,7 +139,7 @@ define([
                 osdObj.used = formatBytes(osdObj.kb_used * 1024);
                 osdObj.available = formatBytes(osdObj.kb_avail * 1024) + " (" + osdObj.available_perc + "%)";
                 osdObj.gb_used = swu.kiloByteToGB(osdObj.kb_used);
-                osdObj.color = swu.getDiskColor(osdObj);
+                osdObj.color = swu.getDiskColorByStatus(osdObj);
                 osdObj.shape = 'circle';
                 osdObj.size = 1;
             } else {
@@ -258,6 +258,34 @@ define([
             });
 
             return osdArr;
+        };
+
+        this.disksStatusDonutChartDataParser = function (response) {
+            var retArr = [];
+            if (response != null) {
+                var output = response.osd_stat.output;
+                retArr.push({
+                    label: "Up",
+                    value: output.num_up_osds,
+                    color: d3Colors.blue
+                });
+                retArr.push({
+                    label: "Down",
+                    value: output.num_down_osds,
+                    color: d3Colors.red
+                });
+                retArr.push({
+                    label: "In",
+                    value: output.num_in_osds,
+                    color: d3Colors.green
+                });
+                retArr.push({
+                    label: "Out",
+                    value: output.num_out_osds,
+                    color: d3Colors.orange
+                });
+            }
+            return retArr;
         };
 
         this.diskActivityStatsParser = function (response) {
@@ -565,94 +593,111 @@ define([
         }
 
         this.clusterUsageDonutChartParser = function (response) {
-            var retObj = {};
+            var retObj = {},
+                response = response[0],
+                current_status = "";
+            if (response != null) {
+                if (response['used_perc'] < response['near_full_ratio']) {
+                    current_status = "Normal";
+                } else if ((response['used_perc'] > response['near_full_ratio']) &&
+                    (response['used_perc'] < response['full_ratio'])) {
+                    current_status = "Warning";
+                } else {
+                    current_status = "Critical";
+                }
 
-            response = response[0];
+                retObj['innerData'] = [
+                    {
+                        name: "Used",
+                        value: Math.ceil(response['used_perc']),
+                        tooltip_data: [
+                            {
+                                lbl: "Used",
+                                value: response['total_used']
+                            },
+                            {
+                                lbl: "Percentage",
+                                value: response['used_perc'] + "%"
+                            }
+                        ]
+                    },
+                    {
+                        name: "Available",
+                        value: 100 - Math.ceil(response['used_perc']),
+                        tooltip_data: [
+                            {
+                                lbl: "Available",
+                                value: response['total_avail']
+                            },
+                            {
+                                lbl: "Percentage",
+                                value: (100 - response['used_perc']).toFixed(2) + "%"
+                            }
+                        ]
+                    }
+                ];
 
-            var current_status = "";
-            if (response['used_perc'] < response['near_full_ratio']) {
-                current_status = "Normal";
-            } else if ((response['used_perc'] > response['near_full_ratio']) &&
-                (response['used_perc'] < response['full_ratio'])) {
-                current_status = "Warning";
-            } else {
-                current_status = "Critical";
+                retObj['outerData'] = [
+                    {
+                        name: "Normal Ratio",
+                        status: "Normal",
+                        value: parseInt(response['near_full_ratio']),
+                        current_status: current_status,
+                        tooltip_data: [
+                            {
+                                lbl: "Range",
+                                value: '0 - ' + response['near_full_ratio'] + ' %'
+                            }
+                        ]
+                    },
+                    {
+                        name: "Near Full Ratio",
+                        status: "Warning",
+                        value: parseInt(response['full_ratio'] - response['near_full_ratio']),
+                        current_status: current_status,
+                        tooltip_data: [
+                            {
+                                lbl: "Range",
+                                value: response['near_full_ratio'] + ' - ' + response['full_ratio'] + ' %'
+                            }
+                        ]
+                    },
+                    {
+                        name: "Full Ratio",
+                        status: "Critical",
+                        value: parseInt(100 - response['full_ratio']),
+                        current_status: current_status,
+                        tooltip_data: [
+                            {
+                                lbl: "Range",
+                                value: response['full_ratio'] + ' - 100 %'
+                            }
+                        ]
+                    }
+                ];
+
+                retObj['detailsData'] = {
+                    percentage: response['used_perc'] + "%",
+                    used: response['total_used'],
+                    available: response['total_avail']
+                };
+
+                retObj['flagKey'] = current_status;
             }
-
-            retObj['innerData'] = [
-                {
-                    name: "Used",
-                    value: Math.ceil(response['used_perc']),
-                    tooltip_data: [
-                        {
-                            lbl: "Used",
-                            value: response['total_used']
-                        },
-                        {
-                            lbl: "Percentage",
-                            value: response['used_perc'] + "%"
-                        }
-                    ]
-                },
-                {
-                    name: "Available",
-                    value: 100 - Math.ceil(response['used_perc']),
-                    tooltip_data: [
-                        {
-                            lbl: "Available",
-                            value: response['total_avail']
-                        },
-                        {
-                            lbl: "Percentage",
-                            value: (100 - response['used_perc']).toFixed(2) + "%"
-                        }
-                    ]
-                }
-            ];
-
-            retObj['outerData'] = [
-                {
-                    name: "Normal Ratio",
-                    status: "Normal",
-                    value: parseInt(response['near_full_ratio']),
-                    current_status: current_status,
-                    tooltip_data: [
-                        {
-                            lbl: "Range",
-                            value: '0 - ' + response['near_full_ratio'] + ' %'
-                        }
-                    ]
-                },
-                {
-                    name: "Near Full Ratio",
-                    status: "Warning",
-                    value: parseInt(response['full_ratio'] - response['near_full_ratio']),
-                    current_status: current_status,
-                    tooltip_data: [
-                        {
-                            lbl: "Range",
-                            value: response['near_full_ratio'] + ' - ' + response['full_ratio'] + ' %'
-                        }
-                    ]
-                },
-                {
-                    name: "Full Ratio",
-                    status: "Critical",
-                    value: parseInt(100 - response['full_ratio']),
-                    current_status: current_status,
-                    tooltip_data: [
-                        {
-                            lbl: "Range",
-                            value: response['full_ratio'] + ' - 100 %'
-                        }
-                    ]
-                }
-            ];
-
-            retObj['flagKey'] = current_status;
-
             return retObj;
         };
+
+        this.clusterStatusDataParser = function (response) {
+            var retObj = [];
+            if (response != null) {
+                retObj.push({
+                    health_status: swu.getClusterHealthTitle(response['cluster_status']['overall_status']),
+                    health: response['cluster_status']['health'],
+                    alerts: swu.processStorageHealthAlerts(response['cluster_status'])
+                });
+            }
+            return retObj;
+        }
     };
 
 

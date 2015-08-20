@@ -109,6 +109,7 @@ define([
         this.TITLE_DISK_STATUS = "Disk Status";
         this.TITLE_DISK_DETAILS = "Disk Details";
         this.TITLE_DISK_USAGE = "Disk Usage";
+        this.TITLE_DISK_STATUS = "Disk Status";
         this.TITLE_DISK_ACTIVITY_STATS = "Disk Activity";
         this.TITLE_DISK_ACTIVITY_THRPT_STATS = "Disk Throughput";
         this.TITLE_DISK_ACTIVITY_IOPS_STATS = "Disk IOPs";
@@ -143,6 +144,7 @@ define([
         this.DISK_TAB_VIEW_ID = "disk-tab-view";
         this.DISK_SCATTER_CHART_ID = "disk-scatter-chart";
         this.DISK_DETAILS_ID = "disk-details";
+        this.DISK_STATUS_CHART_ID = "disk-status-chart";
         this.DISK_ACTIVITY_STATS_ID = "disk-activity-stats";
         this.DISK_ACTIVITY_VIEW_ID = "disk-activity-view";
         this.DISK_ACTIVITY_THRPT_CHART_ID =  "disk-activity-thrpt-chart";
@@ -153,6 +155,9 @@ define([
         this.DISK_ACTIVITY_THRPT_CHART_YAXIS_LABEL = "Throughput";
         this.DISK_ACTIVITY_IOPS_CHART_YAXIS_LABEL = "IOPs";
         this.DISK_ACTIVITY_LATENCY_CHART_YAXIS_LABEL = "Latency";
+
+        this.CLUSTER_STATUS_ID = "cluster-status";
+        this.TITLE_CLUSTER_STATUS = "Cluster Status";
 
         this.CLUSTER_DISK_ACTIVITY_STATS_ID = "cluster-disk-activity-stats";
         this.CLUSTER_DISK_ACTIVITY_STATS_TAB_ID = "cluster-disk-activity-stats-tab";
@@ -170,9 +175,8 @@ define([
         this.POOL_BAR_CHART_ID = "pool-bar-chart";
         this.POOL_STATS_CHART_ID = "pool-stats-chart";
 
-        this.CLUSTER_USAGE_CHART_ID = "storage-cluster-usage-chart";
-        this.CLUSTER_REPLICA_FACTOR_LABEL_ID = "storage-cluster-replica-factor-label";
-        this.CLUSTER_REPLICA_FACTOR_ID = "storage-cluster-replica-factor";
+        this.CLUSTER_USAGE_CHART_ID = "cluster-usage-chart";
+        this.CLUSTER_REPLICA_FACTOR_ID = "cluster-replica-factor";
 
     };
     return SLabels;

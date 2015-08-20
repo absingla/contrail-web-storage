@@ -32,6 +32,48 @@ define(['underscore'], function (_) {
                 return 'NOTICE';
         };
 
+        self.getClusterHealthTitle = function (status) {
+            if (status == 'HEALTH_WARN')
+                retStatus = 'WARN';
+            else if (status == 'HEALTH_OK' || status == 'OK')
+                retStatus = 'OK';
+            else if (status == 'HEALTH_CRIT' || status == 'HEALTH_ERR')
+                retStatus = 'CRITICAL';
+            else
+                retStatus = status;
+            return retStatus;
+        };
+
+        self.getHealthIconClass = function (status) {
+            var labelClass;
+            if (status == 'OK')
+                labelClass = "icon-arrow-up";
+            else if (status == 'WARN' || status == 'CRITICAL')
+                labelClass = "icon-warning-sign";
+            else if (status == 'DOWN')
+                labelClass = "icon-arrow-down";
+            else if (status == 'CLUSTER IDLE')
+                labelClass = "icon-info-sign";
+            else {
+                labelClass = "icon-pause";
+            }
+            return labelClass;
+        };
+
+        self.getHealthIconColorClass = function (status) {
+            var labelClass;
+            if (status == 'OK')
+                labelClass = "success-color";
+            else if (status == 'WARN')
+                labelClass = "warning-color";
+            else if (status == 'DOWN' || status == 'CRITICAL')
+                labelClass = "down-color";
+            else {
+                labelClass = "info-color";
+            }
+            return labelClass;
+        };
+
         self.byteToGB = function (bytes) {
             return (bytes / 1073741824).toFixed(2);
         };
@@ -44,7 +86,21 @@ define(['underscore'], function (_) {
             return ip.split(':')[0] + ', Port: ' + ip.split(':')[1];
         }
 
-        self.getDiskColor = function (disk) {
+        self.getDiskColorByStatus = function (disk) {
+            if (disk['status'] == 'up') {
+                if (disk['cluster_status'] == 'in') {
+                    return swc.DISK_OKAY_COLOR;
+                } else if (disk['cluster_status'] == 'out') {
+                    return swc.DISK_WARNING_COLOR;
+                } else {
+                    return swc.DISK_DEFAULT_COLOR;
+                }
+            } else if (disk['status'] == 'down') {
+                return swc.DISK_ERROR_COLOR;
+            }
+        };
+
+        self.getDiskColorByStatusAndUsage = function (disk) {
             if (disk['status'] == 'up') {
                 if (disk['cluster_status'] == 'in') {
                     //Check usage now
@@ -237,6 +293,30 @@ define(['underscore'], function (_) {
             return alertsList.sort(dashboardUtils.sortInfraAlerts);
         };
 
+        self.showStorageAlertsPopup = function (alerts) {
+
+            if (! globalObj['dataSources'].hasOwnProperty('alertsDS')) {
+                globalObj['dataSources']['alertsDS'] = {
+                    dataSource: new ContrailDataView(),
+                    //depends: ['storageNodeDS'],
+                    deferredObj: $.Deferred()
+                };
+            }
+            var alertsDS = globalObj['dataSources']['alertsDS'];
+
+            /*
+             * will create alerts only from cluster health. will not append to existing msgs.
+             */
+            /*
+             var origAlerts = alertsDS['dataSource'].getItems();
+             $.each(alerts, function(idx, alert) {
+                origAlerts.push(alert);
+             });
+             */
+            alertsDS['dataSource'].setData(alerts);
+            loadAlertsContent();
+        };
+
         self.byteToGB = function (bytes) {
             var gb = (bytes / 1073741824).toFixed(2);
             return gb;
@@ -378,6 +458,14 @@ define(['underscore'], function (_) {
                 }
             });
             return formatStr;
+        };
+
+        self.addUnits2Disks = function(data) {
+            if (!$.isNumeric(data)) {
+                return '-';
+            } else {
+                return "{disk;disks}".format(data);
+            }
         };
 
         self.renderView = function (renderConfig, renderCallback) {
