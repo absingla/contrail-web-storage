@@ -107,7 +107,7 @@ define([
                                                             cacheConfig: {
                                                                 ucid: swc.UCID_CLUSTER_STATUS_LIST
                                                             }
-                                                        },
+                                                        }
                                                     }
                                                 },
                                                 {
@@ -173,7 +173,7 @@ define([
                                                             //margin: {top: 10, right: 10, bottom: 20, left: 40},
                                                             donutRatio: 0.6,
                                                             height: 200,
-                                                            showLegend: false,
+                                                            showLegend: true,
                                                             legendPosition: 'right',
                                                             showLabels: false,
                                                             legendRightAlign: true,
@@ -224,7 +224,7 @@ define([
                                                         chartOptions: {
                                                             donutRatio: 0.6,
                                                             height: 200,
-                                                            showLegend: false,
+                                                            showLegend: true,
                                                             legendPosition: 'right',
                                                             showLabels: false,
                                                             legendRightAlign: true,

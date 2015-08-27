@@ -49,9 +49,9 @@ define([
                                     loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Usage (%)',
-                                        xLabelFormat: d3.format(".01f"),
-                                        forceX: [0, 1],
                                         yLabel: 'Avg. Bandwidth [R + W] ',
+                                        forceX: [0, 100],
+                                        forceY: [0, 10],
                                         yLabelFormat: function (yValue) {
                                             var formattedValue = formatThroughput(yValue, true);
                                             return formattedValue;
