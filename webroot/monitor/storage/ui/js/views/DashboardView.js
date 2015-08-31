@@ -262,8 +262,7 @@ define([
                                                             },
                                                             y1Formatter: function (d) {
                                                                 return swu.addUnits2IOPs(d, false, false, 1);
-                                                            },
-                                                            showLegend: false
+                                                            }
                                                         },
                                                         parseFn: swp.diskActivityThrptIOPsLineBarChartDataParser
                                                     }
