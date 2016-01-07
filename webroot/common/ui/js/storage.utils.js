@@ -474,7 +474,12 @@ define(['underscore'], function (_) {
         self.renderView = function (renderConfig, renderCallback) {
             var parentElement = renderConfig['parentElement'],
                 viewName = renderConfig['viewName'],
-                viewPathPrefix = contrail.checkIfExist(renderConfig['viewPathPrefix']) ? renderConfig['viewPathPrefix'] : 'monitor/storage/ui/js/views/',
+                /**
+                 * if views are dynamically loaded using viewPathPrefix in a viewConfig, the path should prefix
+                 * with 'core-basedir' as depending on the env, the root dir from which the files are served changes.
+                 * TODO handle case when viewPathPrefix already has controller-basedir set.
+                 */
+                viewPathPrefix = contrail.checkIfExist(renderConfig['viewPathPrefix']) ? 'storage-basedir/' + renderConfig['viewPathPrefix'] : 'monitor/storage/ui/js/views/',
                 model = renderConfig['model'],
                 viewAttributes = renderConfig['viewAttributes'],
                 modelMap = renderConfig['modelMap'],
