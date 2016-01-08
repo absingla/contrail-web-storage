@@ -344,7 +344,7 @@ module.exports = function (grunt) {
         options: {
             files: [],
             preprocessors: {
-                //'contrail-web-core/webroot/js/**/*.js': ['coverage'],
+                'contrail-web-core/webroot/js/**/*.js': ['coverage'],
                 'contrail-web-storage/webroot/monitor/**/ui/js/**/*.js': ['coverage']
             },
             junitReporter: {
