@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # We will use the grunt binary from the node_modules locally installed.
 
 TEST_CONFIG=./../contrail-web-core/webroot/test/ui/js/co.test.config.js
