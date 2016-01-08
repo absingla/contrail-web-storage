@@ -491,7 +491,8 @@ define(['underscore'], function (_) {
             if (contrail.checkIfExist(renderConfig['viewPathPrefix'])){
                 viewPathPrefix = renderConfig['viewPathPrefix'];
                 // If viewPathPrefix doesn't start with core-basedir or storage-basedir add storage-basedir
-                if (!viewPathPrefix.startsWith('core-basedir') && !viewPathPrefix.startsWith('storage-basedir')) {
+                if (!(viewPathPrefix.slice(0, 'core-basedir'.length) === 'core-basedir') &&
+                    !(viewPathPrefix.slice(0, 'storage-basedir'.length) === 'storage-basedir')) {
                     viewPathPrefix =  'storage-basedir/' + viewPathPrefix;
                 }
             } else {
