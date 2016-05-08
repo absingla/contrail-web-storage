@@ -10,12 +10,8 @@ var coreBaseDir = "/base/contrail-web-core/webroot",
 var swu, swc, swgc, swl, swm, swp, swvc;
 
 require([
-    coreBaseDir + '/js/common/core.app.js',
     coreBaseDir + '/test/ui/js/co.test.app.utils.js'
 ], function () {
-    /**
-     * require -ing the test config separately to make core.app starting point for the app.
-     */
     require([coreBaseDir + '/test/ui/js/co.test.config.js'], function (testConf) {
         globalObj['env'] = testConf['env'];
 
