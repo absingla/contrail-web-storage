@@ -10,6 +10,8 @@ module.exports = function (grunt) {
     //this option is to avoid interruption of test case execution on failure of one in sequence
     //grunt.option('force',true);
     grunt.option('stack', true);
+    //grunt nodejs server
+    grunt.loadNpmTasks('grunt-express-server');
 
     var commonFiles = [
         {pattern: 'contrail-web-core/webroot/assets/**/!(tests)/*.js', included: false},
@@ -387,6 +389,19 @@ module.exports = function (grunt) {
             },
             files: ["Gruntfile.js"]
         },
+        express: {
+            options: {
+                options: {
+                    // Override the command used to start the server.
+                    background: true,
+                }
+            },
+            dev: {
+                options: {
+                    script: __dirname + "/../../../../contrail-web-core/webroot/test/server/testServer.js"
+                }
+            }
+        },
         stgmNoMerge : {
            // storageNodeListView:'storageNodeListView',
             storageDiskListView: 'storageDiskListView',
@@ -419,6 +434,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('run', 'Web Storage Test Cases', function (feature) {
+        grunt.task.run('express:dev');
         if (feature == null) {
             grunt.log.writeln('>>>>>>>> No feature specified. will run all the feature tests. <<<<<<<');
             grunt.log.writeln('If you need to run specific feature tests only; then run: grunt run:stgm\n\n');
@@ -437,6 +453,7 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('stgm', 'Storage Monitoring Test Cases', function (target) {
+        grunt.task.run('express:dev');
         if (target == null) {
             grunt.log.writeln('>>>>>>>> Running Storage Monitoring feature tests. <<<<<<<');
             grunt.task.run('karma:runAllStgmTests');

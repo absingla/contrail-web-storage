@@ -6,11 +6,10 @@ module.exports = function (config) {
         basePath: __dirname + '/../../../..',
         urlRoot: '/',
         autoWatch: false,
-        frameworks: ['requirejs', 'qunit', 'sinon'],
+        frameworks: ['requirejs', 'qunit'],
         plugins: [
             'karma-coverage',
             'karma-qunit',
-            'karma-sinon',
             'karma-htmlfile-reporter',
             //'karma-html-reporter',
             'karma-requirejs',
@@ -29,7 +28,9 @@ module.exports = function (config) {
             '**/node_modules/**/*.test.js',
         ],
         //port: 8143,
-
+        proxies : {
+            '/api': 'http://localhost:9090/api/'
+        },
         reporters: ['progress', 'html', 'coverage', 'junit'],
         // the default configuration
         junitReporter: {

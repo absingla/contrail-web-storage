@@ -6,43 +6,43 @@ define([
     'co-test-runner',
     'strg-test-utils',
     'strg-test-messages',
-    'strg-disk-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-details-view-test-suite',
     'co-chart-view-line-bar-test-suite',
     'co-chart-view-line-test-suite',
-], function (cotc, CUnit, stu, stm, TestMockdata, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite, 
+], function (cotc, CUnit, stu, stm, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite,
     LineWithFocusBarChartViewTestSuite, LineWithFocusChartViewTestSuite) {
 
     var moduleId = stm.STORAGE_DETAILS_VIEW_COMMON_TEST_MODULE;
     var testType = cotc.VIEW_TEST;
-    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
+    var testServerConfig = CUnit.getDefaultTestServerConfig();
 
-    var fakeServerResponsesConfig = function() {
-        var responses = [];
+    var testServerRoutes = function() {
+        var routes = [];
 
         /*
          /api/tenant/storage/cluster/osd/details?name=osd.0&_=1445480521756
          /api/tenant/storage/cluster/osd/flow-series?osdName=osd.0&minsSince=60&sampleCnt=60&hostName=cmbu-vxa2100-proto3&endTime=now&_=1445480521763                                                                                           done
          */
 
-        responses.push(CUnit.createFakeServerResponse({
-            url: /\/api\/tenant\/storage\/cluster\/osd\/details.*$/,
-            body: JSON.stringify(TestMockdata.diskMockData)
-        }));
+        routes.push({
+            url: '/api/tenant/storage/cluster/osd/details',
+            fnName: 'diskMockData'
+        });
 
-        responses.push(CUnit.createFakeServerResponse({
-            url: /\/api\/tenant\/storage\/cluster\/osd\/flow\-series.*$/,
-            body: JSON.stringify(TestMockdata.flowSeriesForFrontendDiskMockData)
-        }));
-        responses.push(CUnit.createFakeServerResponse({
-            url: /\/api\/tenant\/storage\/cluster\/osd-raw-disk\/flow\-series.*$/,
-            body: JSON.stringify(TestMockdata.flowSeriesForFrontendRawDiskMockData)
-        }));
-        return responses;
+        routes.push({
+            url: '/api/tenant/storage/cluster/osd/flow-series',
+            fnName: 'flowSeriesForFrontendDiskMockData'
+        });
+        routes.push({
+            url: '/api/tenant/storage/cluster/osd-raw-disk/flow-series',
+            fnName: 'flowSeriesForFrontendRawDiskMockData'
+        });
+        return routes;
     };
-    fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
+    testServerConfig.getRoutesConfig = testServerRoutes;
+    testServerConfig.responseDataFile ='monitor/storage/test/ui/views/DiskView.mock.data.js';
 
     var pageConfig = CUnit.getDefaultPageConfig();
     pageConfig.hashParams = {
@@ -135,10 +135,7 @@ define([
 
     };
 
-
-
-    var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType, fakeServerConfig, pageConfig, getTestConfig);
-
-    CUnit.startTestRunner(pageTestConfig);
+    var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType,testServerConfig, pageConfig, getTestConfig);
+    return pageTestConfig;
 
 });

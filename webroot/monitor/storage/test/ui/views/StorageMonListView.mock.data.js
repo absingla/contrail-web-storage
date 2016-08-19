@@ -2,9 +2,13 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+    var methods = {};
+    module.exports= {
+      methods : methods
+    };
     
-    this.strMonsMockData = {
+    methods.strMonsMockData = function(){
+      return {
           "overall_status": "HEALTH_ERR",
           "details": false,
           "monitors": [
@@ -50,10 +54,6 @@ define(['underscore'], function (_) {
               "act_health": "HEALTH_OK",
               "kb_avail": 381144568
             }
-          ]
+          ]}
     };
     
-    return {
-        strMonsMockData: strMonsMockData,
-    };
-});

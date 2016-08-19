@@ -2,9 +2,13 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+    var methods = {};
+    module.exports= {
+      methods : methods
+    };
     
-    this.disksMockData = {
+    methods.disksMockData = function(){
+      return {
       "osds": [
         {
           "status": "up",
@@ -559,8 +563,6 @@ define(['underscore'], function (_) {
           }
         }
       ]
+      }
     };
-    return {
-        disksMockData: disksMockData,
-    };
-});
+

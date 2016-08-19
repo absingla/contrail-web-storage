@@ -6,56 +6,58 @@ define([
     'co-test-runner',
     'strg-test-utils',
     'strg-test-messages',
-    'strg-dashboard-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-chart-view-line-bar-test-suite',
     'co-chart-view-line-test-suite',
     'strg-dashboard-piechart-custom-test-suite',
     'strg-dashboard-cluster-status-custom-test-suite'
-], function (cotc, CUnit, stu, stm, TestMockdata, GridListModelTestSuite, GridViewTestSuite, LineWithFocusBarChartViewTestSuite, 
+], function (cotc, CUnit, stu, stm, GridListModelTestSuite, GridViewTestSuite, LineWithFocusBarChartViewTestSuite,
     LineWithFocusChartViewTestSuite, CustomTestSuite1, CustomTestSuite2) {
 
     var moduleId = stm.STORAGE_DASHBOARD_COMMON_TEST_MODULE;
     var testType = cotc.VIEW_TEST;
-    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
 
-    var fakeServerResponsesConfig = function() {
+    var testServerConfig = CUnit.getDefaultTestServerConfig();
+
+    var testServerRoutes = function() {
     
-        var responses = [];
+        var routes = [];
 
-        responses.push(CUnit.createFakeServerResponse( {
-            url: stu.getRegExForUrl('/api/tenant/storage/cluster/status'),
-            body: JSON.stringify(TestMockdata.clusterStatusMockData)
-        }));
+        routes.push( {
+            url: '/api/tenant/storage/cluster/status',
+            fnName: 'clusterStatusMockData'
+        });
         
-        responses.push(CUnit.createFakeServerResponse( {
-            url: stu.getRegExForUrl('/api/tenant/storage/cluster/usage'),
-            body: JSON.stringify(TestMockdata.clusterUsageMockData)
-        }));
+        routes.push( {
+            url: '/api/tenant/storage/cluster/usage',
+            fnName: 'clusterUsageMockData'
+        });
 
-        responses.push(CUnit.createFakeServerResponse( {
-            url: stu.getRegExForUrl('/api/tenant/storage/cluster/pools/summary'),
-            body: JSON.stringify(TestMockdata.clusterPoolSummaryMockData)
-        }));
+        routes.push( {
+            url: '/api/tenant/storage/cluster/pools/summary',
+            fnName: 'clusterPoolSummaryMockData'
+        });
 
-        responses.push(CUnit.createFakeServerResponse( {
-            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osd/status'),
-            body: JSON.stringify(TestMockdata.clusterOSDStatusMockData)
-        }));
+        routes.push( {
+            url: '/api/tenant/storage/cluster/osd/status',
+            fnName: 'clusterOSDStatusMockData'
+        });
    
-        responses.push(CUnit.createFakeServerResponse({
-            url: /\/api\/tenant\/storage\/cluster\/ceph\/activity.*$/,
-            body: JSON.stringify(TestMockdata.flowSeriesForClusterOsdActivityMockData)
-        }));
-        responses.push(CUnit.createFakeServerResponse({
-            url: /\/api\/tenant\/storage\/cluster\/raw\/disk\/activity.*$/,
-            body: JSON.stringify(TestMockdata.flowSeriesForClusterRawActivityMockData)
-        }));
+        routes.push({
+            url: '/api/tenant/storage/cluster/ceph/activity',
+            fnName: 'flowSeriesForClusterOsdActivityMockData'
+        });
+        routes.push({
+            url: '/api/tenant/storage/cluster/raw/disk/activity',
+            fnName: 'flowSeriesForClusterRawActivityMockData'
+        });
 
-        return responses;
+        return routes;
     };
-    fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
+
+    testServerConfig.getRoutesConfig = testServerRoutes;
+    testServerConfig.responseDataFile ='monitor/storage/test/ui/views/DashBoardView.mock.data.js';
 
     var pageConfig = CUnit.getDefaultPageConfig();
     pageConfig.hashParams = {
@@ -146,8 +148,7 @@ define([
 
     };
 
-    var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType, fakeServerConfig, pageConfig, getTestConfig);
-
-    CUnit.startTestRunner(pageTestConfig);
+    var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType,testServerConfig, pageConfig, getTestConfig);
+    return pageTestConfig;
 
 });

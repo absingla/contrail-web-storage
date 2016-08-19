@@ -2,9 +2,13 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+    var methods = {};
+    module.exports= {
+      methods : methods
+    };
 
-    this.diskMockData = {
+    methods.diskMockData = function(){
+      return {
       "osd_details": {
         "status": "up",
         "name": "osd.0",
@@ -51,9 +55,11 @@ define(['underscore'], function (_) {
           "op_w_latency": 0
         }
       }
+      }
     };
 
-    this.flowSeriesForFrontendDiskMockData = {
+    methods.flowSeriesForFrontendDiskMockData = function(){
+      return {
       "summary": {
         "start_time": "2016-01-25T20:36:07.708Z",
         "end_time": "2016-01-25T20:49:31.591Z",
@@ -663,10 +669,11 @@ define(['underscore'], function (_) {
           "op_r_latency": 363,
           "op_w_latency": 1066
         }
-      ]
+      ]}
     };
 
-    this.flowSeriesForFrontendRawDiskMockData ={
+    methods.flowSeriesForFrontendRawDiskMockData = function(){
+        return {
       "summary": {
         "start_time": "2016-01-25T20:36:00.614Z",
         "end_time": "2016-01-25T20:42:19.705Z",
@@ -986,11 +993,5 @@ define(['underscore'], function (_) {
           "op_r_latency": 0,
           "op_w_latency": 4827
         }
-      ]
+      ]}
     };
-    return {
-        diskMockData: diskMockData,
-        flowSeriesForFrontendDiskMockData: flowSeriesForFrontendDiskMockData,
-        flowSeriesForFrontendRawDiskMockData: flowSeriesForFrontendRawDiskMockData,
-    };
-});

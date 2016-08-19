@@ -6,30 +6,31 @@ define([
     'co-test-runner',
     'strg-test-utils',
     'strg-test-messages',
-    'strg-disks-list-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-chart-view-zoom-scatter-test-suite',
     'strg-disks-list-view-custom-test-suite'
-], function (cotc, CUnit, stu, stm, TestMockdata, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartTestSuite, 
+], function (cotc, CUnit, stu, stm, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartTestSuite,
     CustomTestSuite) {
 
     var moduleId = stm.STORAGE_DISK_LIST_VIEW_COMMON_TEST_MODULE;
 
     var testType = cotc.VIEW_TEST;
 
-    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
+    var testServerConfig = CUnit.getDefaultTestServerConfig();
 
-    var fakeServerResponsesConfig = function() {
-        var responses = [];
+    var testServerRoutes = function() {
+        var routes = [];
 
-        responses.push(CUnit.createFakeServerResponse( {
-            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osds/summary'),
-            body: JSON.stringify(TestMockdata.disksMockData)
-        }));
-        return responses;
+        routes.push( {
+            url: '/api/tenant/storage/cluster/osds/summary',
+            fnName: 'disksMockData'
+        });
+        return routes;
     };
-    fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
+
+    testServerConfig.getRoutesConfig = testServerRoutes;
+    testServerConfig.responseDataFile ='monitor/storage/test/ui/views/DiskListView.mock.data.js';
 
     var pageConfig = CUnit.getDefaultPageConfig();
     pageConfig.hashParams = {
@@ -87,7 +88,7 @@ define([
 
     };
 
-    var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType, fakeServerConfig, pageConfig, getTestConfig);
-    CUnit.startTestRunner(pageTestConfig);
+    var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType,testServerConfig, pageConfig, getTestConfig);
+    return pageTestConfig;
 
 });

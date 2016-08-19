@@ -16,18 +16,17 @@ define([
 
     var moduleId = stm.STORAGE_DISK_LIST_VIEW_COMMON_TEST_MODULE;
     var testType = cotc.VIEW_TEST;
-    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
 
-    var fakeServerResponsesConfig = function() {
+
+    var testServerRoutes = function() {
         var responses = [];
 //https://10.87.140.28:8143/api/admin/monitor/infrastructure/storagenode/disks?hostname=cmbu-vxa2010-17&_=1446501160023
-        responses.push(CUnit.createFakeServerResponse( {
-            url: /\/api\/admin\/monitor\/infrastructure\/storagenode\/disks.*$/,
-            body: JSON.stringify(TestMockdata.disksMockData)
-        }));
+        responses.push({
+            url: '/api/admin/monitor/infrastructure/storagenode/disks',
+            fnName: 'disksMockData'
+        });
         return responses;
     };
-    fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
 
     var pageConfig = CUnit.getDefaultPageConfig();
     pageConfig.hashParams = {
@@ -87,6 +86,9 @@ define([
     };
 
     var pageTestConfig = CUnit.createPageTestConfig(moduleId, testType, fakeServerConfig, pageConfig, getTestConfig);
-    CUnit.startTestRunner(pageTestConfig);
+    pageTestConfig.mockDataFile = TestMockdata+'.js';
+
+    pageTestConfig.getTestServerRoutes = testServerRoutes;
+    return pageTestConfig;
 
 });

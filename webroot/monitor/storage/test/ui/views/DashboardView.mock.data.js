@@ -2,9 +2,13 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+    var methods = {};
+    module.exports= {
+      methods : methods
+    };
     
-    this.clusterStatusMockData = {
+    methods.clusterStatusMockData = function(){
+      return {
       "cluster_status": {
         "last_updated_time": "2015-10-28T22:50:51.356Z",
         "overall_status": "HEALTH_ERR",
@@ -27,10 +31,11 @@ define(['underscore'], function (_) {
             }
           ]
         }
-      }
+      }}
     };
 
-    this.clusterOSDStatusMockData = {
+    methods.clusterOSDStatusMockData = function(){
+      return {
       "osd_stat": {
         "status": "OK",
         "output": {
@@ -45,9 +50,12 @@ define(['underscore'], function (_) {
         },
         "last_updated_time": "2015-10-28T22:50:51.657Z"
       }
+      }
+
     };
     
-    this.clusterUsageMockData = {
+    methods.clusterUsageMockData = function(){
+        return {
       "usage_summary": {
         "osd_status": {
           "status": "OK",
@@ -83,9 +91,11 @@ define(['underscore'], function (_) {
           "near_full_ratio": "0.850000"
         }
       }
+      }
     };
 
-    this.clusterPoolSummaryMockData ={
+    methods.clusterPoolSummaryMockData = function(){
+        return {
       "pools": [
         {
           "cache_target_full_ratio_micro": 800000,
@@ -189,10 +199,11 @@ define(['underscore'], function (_) {
             "kb_used": 2122855189
           }
         }
-      ]
+      ]}
     };
 
-    this.flowSeriesForClusterOsdActivityMockData ={
+    methods.flowSeriesForClusterOsdActivityMockData =function(){
+        return {
       "summary": {
         "start_time": "2016-01-25T19:48:39.000Z",
         "end_time": "2016-01-25T20:48:39.000Z",
@@ -875,704 +886,695 @@ define(['underscore'], function (_) {
           "op_r_latency": 512.5,
           "op_w_latency": 886
         }
-      ]
+      ]}
     };
     
-    this.flowSeriesForClusterRawActivityMockData ={
-      "summary": {
-        "start_time": "2016-01-25T19:46:18.000Z",
-        "end_time": "2016-01-25T20:46:18.000Z",
-        "timeGran_microsecs": 60000000,
-        "average_interval": "60 Seconds",
-        "sources": [
-          "ubuntu14-compute1",
-          "ubuntu14-compute2"
-        ]
-      },
-      "flow-series": [
-        {
-          "Date": "2016-01-25T19:46:00.000Z",
-          "MessageTS": 1453751160000000,
-          "sampleCnt": 3,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:47:00.000Z",
-          "MessageTS": 1453751220000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:48:00.000Z",
-          "MessageTS": 1453751280000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:49:00.000Z",
-          "MessageTS": 1453751340000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:50:00.000Z",
-          "MessageTS": 1453751400000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:51:00.000Z",
-          "MessageTS": 1453751460000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:52:00.000Z",
-          "MessageTS": 1453751520000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:53:00.000Z",
-          "MessageTS": 1453751580000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:54:00.000Z",
-          "MessageTS": 1453751640000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:55:00.000Z",
-          "MessageTS": 1453751700000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:56:00.000Z",
-          "MessageTS": 1453751760000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:57:00.000Z",
-          "MessageTS": 1453751820000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:58:00.000Z",
-          "MessageTS": 1453751880000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T19:59:00.000Z",
-          "MessageTS": 1453751940000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:00:00.000Z",
-          "MessageTS": 1453752000000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:01:00.000Z",
-          "MessageTS": 1453752060000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:02:00.000Z",
-          "MessageTS": 1453752120000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:03:00.000Z",
-          "MessageTS": 1453752180000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:04:00.000Z",
-          "MessageTS": 1453752240000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:05:00.000Z",
-          "MessageTS": 1453752300000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:06:00.000Z",
-          "MessageTS": 1453752360000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:07:00.000Z",
-          "MessageTS": 1453752420000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:08:00.000Z",
-          "MessageTS": 1453752480000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:09:00.000Z",
-          "MessageTS": 1453752540000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:10:00.000Z",
-          "MessageTS": 1453752600000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:11:00.000Z",
-          "MessageTS": 1453752660000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:12:00.000Z",
-          "MessageTS": 1453752720000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:13:00.000Z",
-          "MessageTS": 1453752780000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:14:00.000Z",
-          "MessageTS": 1453752840000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:15:00.000Z",
-          "MessageTS": 1453752900000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:16:00.000Z",
-          "MessageTS": 1453752960000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:17:00.000Z",
-          "MessageTS": 1453753020000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:18:00.000Z",
-          "MessageTS": 1453753080000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:19:00.000Z",
-          "MessageTS": 1453753140000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:20:00.000Z",
-          "MessageTS": 1453753200000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:21:00.000Z",
-          "MessageTS": 1453753260000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:22:00.000Z",
-          "MessageTS": 1453753320000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:23:00.000Z",
-          "MessageTS": 1453753380000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:24:00.000Z",
-          "MessageTS": 1453753440000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:25:00.000Z",
-          "MessageTS": 1453753500000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:26:00.000Z",
-          "MessageTS": 1453753560000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:27:00.000Z",
-          "MessageTS": 1453753620000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:28:00.000Z",
-          "MessageTS": 1453753680000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:29:00.000Z",
-          "MessageTS": 1453753740000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:30:00.000Z",
-          "MessageTS": 1453753800000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:31:00.000Z",
-          "MessageTS": 1453753860000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:32:00.000Z",
-          "MessageTS": 1453753920000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:33:00.000Z",
-          "MessageTS": 1453753980000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:34:00.000Z",
-          "MessageTS": 1453754040000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 0,
-          "reads_kbytes": 0,
-          "writes_kbytes": 0,
-          "op_r_latency": 0,
-          "op_w_latency": 0
-        },
-        {
-          "Date": "2016-01-25T20:35:00.000Z",
-          "MessageTS": 1453754100000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 5,
-          "reads_kbytes": 0,
-          "writes_kbytes": 5343.4,
-          "op_r_latency": 0,
-          "op_w_latency": 374645.75
-        },
-        {
-          "Date": "2016-01-25T20:36:00.000Z",
-          "MessageTS": 1453754160000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 20,
-          "reads_kbytes": 0,
-          "writes_kbytes": 24326,
-          "op_r_latency": 0,
-          "op_w_latency": 4652164.55
-        },
-        {
-          "Date": "2016-01-25T20:37:00.000Z",
-          "MessageTS": 1453754220000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 19,
-          "reads_kbytes": 0,
-          "writes_kbytes": 23101.949999999997,
-          "op_r_latency": 0,
-          "op_w_latency": 3713.0999999999995
-        },
-        {
-          "Date": "2016-01-25T20:38:00.000Z",
-          "MessageTS": 1453754280000000,
-          "sampleCnt": 18,
-          "reads": 0,
-          "writes": 20,
-          "reads_kbytes": 0,
-          "writes_kbytes": 24256,
-          "op_r_latency": 0,
-          "op_w_latency": 3698.277777777778
-        },
-        {
-          "Date": "2016-01-25T20:39:00.000Z",
-          "MessageTS": 1453754340000000,
-          "sampleCnt": 5,
-          "reads": 0,
-          "writes": 80,
-          "reads_kbytes": 0,
-          "writes_kbytes": 104817.6,
-          "op_r_latency": 0,
-          "op_w_latency": 15474.400000000001
-        },
-        {
-          "Date": "2016-01-25T20:40:00.000Z",
-          "MessageTS": 1453754400000000,
-          "sampleCnt": 18,
-          "reads": 0,
-          "writes": 22,
-          "reads_kbytes": 0,
-          "writes_kbytes": 24686.27777777778,
-          "op_r_latency": 0,
-          "op_w_latency": 3474.333333333333
-        },
-        {
-          "Date": "2016-01-25T20:41:00.000Z",
-          "MessageTS": 1453754460000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 22,
-          "reads_kbytes": 0,
-          "writes_kbytes": 28821.100000000002,
-          "op_r_latency": 0,
-          "op_w_latency": 3942.6
-        },
-        {
-          "Date": "2016-01-25T20:42:00.000Z",
-          "MessageTS": 1453754520000000,
-          "sampleCnt": 20,
-          "reads": 0,
-          "writes": 22,
-          "reads_kbytes": 0,
-          "writes_kbytes": 28740.4,
-          "op_r_latency": 0,
-          "op_w_latency": 4388
-        },
-        {
-          "Date": "2016-01-25T20:43:00.000Z",
-          "MessageTS": 1453754580000000,
-          "sampleCnt": 4,
-          "reads": 0,
-          "writes": 24,
-          "reads_kbytes": 0,
-          "writes_kbytes": 21000,
-          "op_r_latency": 0,
-          "op_w_latency": 3760.5
-        },
-        {
-          "Date": "2016-01-25T20:44:00.000Z",
-          "MessageTS": 1453754640000000,
-          "sampleCnt": 3,
-          "reads": 67,
-          "writes": 5,
-          "reads_kbytes": 24655,
-          "writes_kbytes": 391.3333333333333,
-          "op_r_latency": 9407.333333333332,
-          "op_w_latency": 14361.333333333334
-        },
-        {
-          "Date": "2016-01-25T20:45:00.000Z",
-          "MessageTS": 1453754700000000,
-          "sampleCnt": 4,
-          "reads": 62,
-          "writes": 76,
-          "reads_kbytes": 23367,
-          "writes_kbytes": 49080,
-          "op_r_latency": 5458,
-          "op_w_latency": 6295.25
-        },
-        {
-          "Date": "2016-01-25T20:46:00.000Z",
-          "MessageTS": 1453754760000000,
-          "sampleCnt": 1,
-          "reads": 22,
-          "writes": 17,
-          "reads_kbytes": 7209,
-          "writes_kbytes": 15393,
-          "op_r_latency": 1644,
-          "op_w_latency": 816
-        }
-      ]
+    methods.flowSeriesForClusterRawActivityMockData = function() {
+        return {
+            "summary": {
+                "start_time": "2016-01-25T19:46:18.000Z",
+                "end_time": "2016-01-25T20:46:18.000Z",
+                "timeGran_microsecs": 60000000,
+                "average_interval": "60 Seconds",
+                "sources": [
+                    "ubuntu14-compute1",
+                    "ubuntu14-compute2"
+                ]
+            },
+            "flow-series": [
+                {
+                    "Date": "2016-01-25T19:46:00.000Z",
+                    "MessageTS": 1453751160000000,
+                    "sampleCnt": 3,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:47:00.000Z",
+                    "MessageTS": 1453751220000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:48:00.000Z",
+                    "MessageTS": 1453751280000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:49:00.000Z",
+                    "MessageTS": 1453751340000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:50:00.000Z",
+                    "MessageTS": 1453751400000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:51:00.000Z",
+                    "MessageTS": 1453751460000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:52:00.000Z",
+                    "MessageTS": 1453751520000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:53:00.000Z",
+                    "MessageTS": 1453751580000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:54:00.000Z",
+                    "MessageTS": 1453751640000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:55:00.000Z",
+                    "MessageTS": 1453751700000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:56:00.000Z",
+                    "MessageTS": 1453751760000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:57:00.000Z",
+                    "MessageTS": 1453751820000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:58:00.000Z",
+                    "MessageTS": 1453751880000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T19:59:00.000Z",
+                    "MessageTS": 1453751940000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:00:00.000Z",
+                    "MessageTS": 1453752000000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:01:00.000Z",
+                    "MessageTS": 1453752060000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:02:00.000Z",
+                    "MessageTS": 1453752120000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:03:00.000Z",
+                    "MessageTS": 1453752180000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:04:00.000Z",
+                    "MessageTS": 1453752240000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:05:00.000Z",
+                    "MessageTS": 1453752300000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:06:00.000Z",
+                    "MessageTS": 1453752360000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:07:00.000Z",
+                    "MessageTS": 1453752420000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:08:00.000Z",
+                    "MessageTS": 1453752480000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:09:00.000Z",
+                    "MessageTS": 1453752540000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:10:00.000Z",
+                    "MessageTS": 1453752600000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:11:00.000Z",
+                    "MessageTS": 1453752660000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:12:00.000Z",
+                    "MessageTS": 1453752720000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:13:00.000Z",
+                    "MessageTS": 1453752780000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:14:00.000Z",
+                    "MessageTS": 1453752840000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:15:00.000Z",
+                    "MessageTS": 1453752900000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:16:00.000Z",
+                    "MessageTS": 1453752960000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:17:00.000Z",
+                    "MessageTS": 1453753020000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:18:00.000Z",
+                    "MessageTS": 1453753080000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:19:00.000Z",
+                    "MessageTS": 1453753140000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:20:00.000Z",
+                    "MessageTS": 1453753200000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:21:00.000Z",
+                    "MessageTS": 1453753260000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:22:00.000Z",
+                    "MessageTS": 1453753320000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:23:00.000Z",
+                    "MessageTS": 1453753380000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:24:00.000Z",
+                    "MessageTS": 1453753440000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:25:00.000Z",
+                    "MessageTS": 1453753500000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:26:00.000Z",
+                    "MessageTS": 1453753560000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:27:00.000Z",
+                    "MessageTS": 1453753620000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:28:00.000Z",
+                    "MessageTS": 1453753680000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:29:00.000Z",
+                    "MessageTS": 1453753740000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:30:00.000Z",
+                    "MessageTS": 1453753800000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:31:00.000Z",
+                    "MessageTS": 1453753860000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:32:00.000Z",
+                    "MessageTS": 1453753920000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:33:00.000Z",
+                    "MessageTS": 1453753980000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:34:00.000Z",
+                    "MessageTS": 1453754040000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 0,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 0,
+                    "op_r_latency": 0,
+                    "op_w_latency": 0
+                },
+                {
+                    "Date": "2016-01-25T20:35:00.000Z",
+                    "MessageTS": 1453754100000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 5,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 5343.4,
+                    "op_r_latency": 0,
+                    "op_w_latency": 374645.75
+                },
+                {
+                    "Date": "2016-01-25T20:36:00.000Z",
+                    "MessageTS": 1453754160000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 20,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 24326,
+                    "op_r_latency": 0,
+                    "op_w_latency": 4652164.55
+                },
+                {
+                    "Date": "2016-01-25T20:37:00.000Z",
+                    "MessageTS": 1453754220000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 19,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 23101.949999999997,
+                    "op_r_latency": 0,
+                    "op_w_latency": 3713.0999999999995
+                },
+                {
+                    "Date": "2016-01-25T20:38:00.000Z",
+                    "MessageTS": 1453754280000000,
+                    "sampleCnt": 18,
+                    "reads": 0,
+                    "writes": 20,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 24256,
+                    "op_r_latency": 0,
+                    "op_w_latency": 3698.277777777778
+                },
+                {
+                    "Date": "2016-01-25T20:39:00.000Z",
+                    "MessageTS": 1453754340000000,
+                    "sampleCnt": 5,
+                    "reads": 0,
+                    "writes": 80,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 104817.6,
+                    "op_r_latency": 0,
+                    "op_w_latency": 15474.400000000001
+                },
+                {
+                    "Date": "2016-01-25T20:40:00.000Z",
+                    "MessageTS": 1453754400000000,
+                    "sampleCnt": 18,
+                    "reads": 0,
+                    "writes": 22,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 24686.27777777778,
+                    "op_r_latency": 0,
+                    "op_w_latency": 3474.333333333333
+                },
+                {
+                    "Date": "2016-01-25T20:41:00.000Z",
+                    "MessageTS": 1453754460000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 22,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 28821.100000000002,
+                    "op_r_latency": 0,
+                    "op_w_latency": 3942.6
+                },
+                {
+                    "Date": "2016-01-25T20:42:00.000Z",
+                    "MessageTS": 1453754520000000,
+                    "sampleCnt": 20,
+                    "reads": 0,
+                    "writes": 22,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 28740.4,
+                    "op_r_latency": 0,
+                    "op_w_latency": 4388
+                },
+                {
+                    "Date": "2016-01-25T20:43:00.000Z",
+                    "MessageTS": 1453754580000000,
+                    "sampleCnt": 4,
+                    "reads": 0,
+                    "writes": 24,
+                    "reads_kbytes": 0,
+                    "writes_kbytes": 21000,
+                    "op_r_latency": 0,
+                    "op_w_latency": 3760.5
+                },
+                {
+                    "Date": "2016-01-25T20:44:00.000Z",
+                    "MessageTS": 1453754640000000,
+                    "sampleCnt": 3,
+                    "reads": 67,
+                    "writes": 5,
+                    "reads_kbytes": 24655,
+                    "writes_kbytes": 391.3333333333333,
+                    "op_r_latency": 9407.333333333332,
+                    "op_w_latency": 14361.333333333334
+                },
+                {
+                    "Date": "2016-01-25T20:45:00.000Z",
+                    "MessageTS": 1453754700000000,
+                    "sampleCnt": 4,
+                    "reads": 62,
+                    "writes": 76,
+                    "reads_kbytes": 23367,
+                    "writes_kbytes": 49080,
+                    "op_r_latency": 5458,
+                    "op_w_latency": 6295.25
+                },
+                {
+                    "Date": "2016-01-25T20:46:00.000Z",
+                    "MessageTS": 1453754760000000,
+                    "sampleCnt": 1,
+                    "reads": 22,
+                    "writes": 17,
+                    "reads_kbytes": 7209,
+                    "writes_kbytes": 15393,
+                    "op_r_latency": 1644,
+                    "op_w_latency": 816
+                }
+            ]}
     };
 
 
 
-    return {
-      clusterStatusMockData: clusterStatusMockData,
-        clusterOSDStatusMockData: clusterOSDStatusMockData,
-        clusterUsageMockData: clusterUsageMockData,
-        clusterPoolSummaryMockData: clusterPoolSummaryMockData,
-        flowSeriesForClusterOsdActivityMockData: flowSeriesForClusterOsdActivityMockData,
-        flowSeriesForClusterRawActivityMockData: flowSeriesForClusterRawActivityMockData
-
-    };
-});

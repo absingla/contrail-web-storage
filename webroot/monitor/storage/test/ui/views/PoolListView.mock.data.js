@@ -2,9 +2,13 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
-    
-    this.poolsMockData = {
+    var methods = {};
+    module.exports= {
+      methods : methods
+    };
+
+    methods.poolsMockData = function(){
+      return {
           "pools": [
             {
               "cache_target_full_ratio_micro": 800000,
@@ -108,10 +112,7 @@ define(['underscore'], function (_) {
                 "kb_used": 2122855189
               }
             }
-          ]
+          ]}
     };
     
-    return {
-        poolsMockData: poolsMockData,
-    };
-});
+
