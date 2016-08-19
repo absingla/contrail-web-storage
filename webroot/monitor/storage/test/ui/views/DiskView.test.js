@@ -27,16 +27,16 @@ define([
          */
 
         routes.push({
-            url: '/api/tenant/storage/cluster/osd/details',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osd/details').toString(),
             fnName: 'diskMockData'
         });
 
         routes.push({
-            url: '/api/tenant/storage/cluster/osd/flow-series',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osd/flow-series').toString(),
             fnName: 'flowSeriesForFrontendDiskMockData'
         });
         routes.push({
-            url: '/api/tenant/storage/cluster/osd-raw-disk/flow-series',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osd-raw-disk/flow-series').toString(),
             fnName: 'flowSeriesForFrontendRawDiskMockData'
         });
         return routes;
