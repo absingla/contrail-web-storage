@@ -84,16 +84,6 @@ define([
                     ]
                 },
                 {
-                    viewId: swl.CLUSTER_CEPH_DISK_ACTIVITY_LATENCY_CHART_ID,
-                    suites: [
-                        {
-                            class: LineWithFocusChartViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
-                        }
-                    ]
-                },
-                {
                     viewId: swl.CLUSTER_RAW_DISK_ACTIVITY_THRPT_IOPS_CHART_ID,
                     suites: [
                         {
@@ -102,17 +92,7 @@ define([
                             severity: cotc.SEVERITY_LOW
                         }
                     ]
-                },
-                {
-                    viewId: swl.CLUSTER_RAW_DISK_ACTIVITY_LATENCY_CHART_ID,
-                    suites: [
-                        {
-                            class: LineWithFocusChartViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
-                        }
-                    ]
-                },
+                },/*,
                 {
                     viewId: swl.POOL_STATS_CHART_ID,
                     suites: [
@@ -122,7 +102,7 @@ define([
                             severity: cotc.SEVERITY_LOW
                         }
                     ]
-                },
+                },*/
                 {
                     viewId: swl.DISK_STATUS_CHART_ID,
                     suites: [
