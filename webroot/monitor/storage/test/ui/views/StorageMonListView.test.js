@@ -22,7 +22,7 @@ define([
         var routes = [];
 
         routes.push({
-            url: '/api/tenant/storage/cluster/monitors/summary',
+            url:  stu.getRegExForUrl('/api/tenant/storage/cluster/monitors/summary').toString(),
             fnName:'strMonsMockData'
         });
         return routes;

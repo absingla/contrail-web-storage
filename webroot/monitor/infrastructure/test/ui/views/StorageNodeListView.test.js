@@ -22,7 +22,7 @@ define([
         var responses = [];
 //https://10.87.140.28:8143/api/admin/monitor/infrastructure/storagenode/disks?hostname=cmbu-vxa2010-17&_=1446501160023
         responses.push({
-            url: '/api/admin/monitor/infrastructure/storagenode/disks',
+            url: stu.getRegExForUrl('/api/admin/monitor/infrastructure/storagenode/disks').toString(),
             fnName: 'disksMockData'
         });
         return responses;

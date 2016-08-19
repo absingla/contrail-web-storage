@@ -23,7 +23,7 @@ define([
         var routes = [];
 
         routes.push( {
-            url: '/api/tenant/storage/cluster/osds/summary',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osds/summary').toString(),
             fnName: 'disksMockData'
         });
         return routes;

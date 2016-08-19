@@ -8,12 +8,18 @@ define([
 ], function (cotu, ContrailListModel, ContrailViewModel) {
     this.getRegExForUrl = function (url) {
         var regexUrlMap = {
-            '/api/tenant/storage/cluster/osd/status': /\/api\/tenant\/storage\/cluster\/osd\/status.*$/,
-            '/api/tenant/storage/cluster/status': /\/api\/tenant\/storage\/cluster\/status.*$/,
-            '/api/tenant/storage/cluster/usage': /\/api\/tenant\/storage\/cluster\/usage.*$/,
-            '/api/tenant/storage/cluster/osds/summary': /\/api\/tenant\/storage\/cluster\/osds\/summary.*$/,
+            '/api/admin/monitor/infrastructure/storagenode/disks':/\/api\/admin\/monitor\/infrastructure\/storagenode\/disks.*$/,
+            '/api/tenant/storage/cluster/ceph/activity' : /\/api\/tenant\/storage\/cluster\/ceph\/activity.*$/,
+            '/api/tenant/storage/cluster/raw/disk/activity' : /\/api\/tenant\/storage\/cluster\/raw\/disk\/activity.*$/,
+            '/api/tenant/storage/cluster/status' : /\/api\/tenant\/storage\/cluster\/status.*$/,
+            '/api/tenant/storage/cluster/usage' : /\/api\/tenant\/storage\/cluster\/usage.*$/,
             '/api/tenant/storage/cluster/pools/summary': /\/api\/tenant\/storage\/cluster\/pools\/summary.*$/,
-            '/api/tenant/storage/cluster/monitors/summary': /\/api\/tenant\/storage\/cluster\/monitors\/summary.*$/,
+            '/api/tenant/storage/cluster/osd/status' : /\/api\/tenant\/storage\/cluster\/osd\/status.*$/,
+            '/api/tenant/storage/cluster/osds/summary' : /\/api\/tenant\/storage\/cluster\/osds\/summary.*$/,
+            '/api/tenant/storage/cluster/osd/details': /\/api\/tenant\/storage\/cluster\/osd\/details.*$/,
+            '/api/tenant/storage/cluster/osd/flow-series':/\/api\/tenant\/storage\/cluster\/osd\/flow\-series.*$/,
+            '/api/tenant/storage/cluster/osd-raw-disk/flow-series':/\/api\/tenant\/storage\/cluster\/osd-raw-disk\/flow\-series.*$/,
+            '/api/tenant/storage/cluster/monitors/summary':/\/api\/tenant\/storage\/cluster\/monitors\/summary.*$/
         };
 
         return regexUrlMap [url];

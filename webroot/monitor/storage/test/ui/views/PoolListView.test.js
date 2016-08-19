@@ -21,7 +21,7 @@ define([
         var routes = [];
 
         routes.push( {
-            url: '/api/tenant/storage/cluster/pools/summary',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/pools/summary').toString(),
             fnName: 'poolsMockData'
         });
         return routes;

@@ -25,31 +25,31 @@ define([
         var routes = [];
 
         routes.push( {
-            url: '/api/tenant/storage/cluster/status',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/status').toString(),
             fnName: 'clusterStatusMockData'
         });
         
         routes.push( {
-            url: '/api/tenant/storage/cluster/usage',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/usage').toString(),
             fnName: 'clusterUsageMockData'
         });
 
         routes.push( {
-            url: '/api/tenant/storage/cluster/pools/summary',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/pools/summary').toString(),
             fnName: 'clusterPoolSummaryMockData'
         });
 
         routes.push( {
-            url: '/api/tenant/storage/cluster/osd/status',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/osd/status').toString(),
             fnName: 'clusterOSDStatusMockData'
         });
    
         routes.push({
-            url: '/api/tenant/storage/cluster/ceph/activity',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/ceph/activity').toString(),
             fnName: 'flowSeriesForClusterOsdActivityMockData'
         });
         routes.push({
-            url: '/api/tenant/storage/cluster/raw/disk/activity',
+            url: stu.getRegExForUrl('/api/tenant/storage/cluster/raw/disk/activity').toString(),
             fnName: 'flowSeriesForClusterRawActivityMockData'
         });
 
