@@ -30,8 +30,8 @@ define([
                 expect(1);
                 //check basic view icon
 
-                equal($(el).find('.list-view .item-list .inline ').length,
-                    3, "Basic Cluster status display rows check");
+                equal($(el).find('.list-view .item-list li').length,
+                    5, "Basic Cluster status display rows check");
 
         }, cotc.SEVERITY_LOW));
 
