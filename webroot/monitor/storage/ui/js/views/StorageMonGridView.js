@@ -69,7 +69,8 @@ define([
                     detail: {
                         template: cowu.generateDetailTemplateHTML(getStorageMonsDetailsTemplateConfig(), cowc.APP_CONTRAIL_STORAGE, 'rawData')
                     },
-                    fixedRowHeight: 30
+                    fixedRowHeight: 30,
+                    lazyLoading: true
                 },
                 dataSource: {
                     remote: {
